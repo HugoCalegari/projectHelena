@@ -71,3 +71,21 @@ options(OutDec= ",")
 knitr::opts_chunk$set(fig.width=6, fig.height=3.5, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE)
 ```
 
+Pacote GEE/GEE pack no R. Este pacote integra a parte aleatória e temos uma inferência para a população.
+
+Observar que o modelo misto é usado para analisar somente o que está em estudo. Inferências mais gerais são obtias com a integração da parte aleatória (o que é feito difretamente com o GEE pack).
+
+
+Arrumar o conjunto de dados como: ID(deve-se numerar de 1 até n, ao invés de considerar a numeração de 1:10 para cada concentração diferente), conc, dia e comprimento; isto para se usar o pacote GEE.
+Para se plotar o gráfico dos comprimentos para cada concentração e réplica pode-se usar normalmente ID(de 1:10 para cada concentração).
+
+
+#Introdução
+
+#Objetivo
+
+#Metodologia
+
+#Análise descritiva e exploratória
+
+#Conclusão

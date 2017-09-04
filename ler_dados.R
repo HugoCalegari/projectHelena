@@ -5,69 +5,19 @@ setwd("~/Documentos/ME810/HELENA/projectHelena/")
 
 source("funcoes.R")
 
-controle <- read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "controle")
-t1 <- read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.006")
-t2 <- read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.0125")
-t3 <- read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.025")
-t4 <- read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.05")
-t5 <- read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.1")
+controle <- as.data.frame(read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "controle"))
+t1 <- as.data.frame(read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.006"))
+t2 <- as.data.frame(read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.0125"))
+t3 <- as.data.frame(read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.025"))
+t4 <- as.data.frame(read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.05"))
+t5 <- as.data.frame(read_excel("./dados/DADOS COMPRIMENTO NANO UNICAMP.xlsx", sheet = "t0.1"))
 
-controle <- as.data.frame(controle)
-t1 <- as.data.frame(t1)
-t2 <- as.data.frame(t2)
-t3 <- as.data.frame(t3)
-t4 <- as.data.frame(t4)
-t5 <- as.data.frame(t5)
-
-#Substitui os caracteres "Morta" por zero. Pretende-se assim, diminuir a perda de informação.
-
-for(i in 2:10){
-  for(j in 1:10){
-    if(controle[j,i] == "Morta"){
-      controle[j,i] = NA
-    }
-  }
-}
-
-for(i in 2:10){
-  for(j in 1:10){
-    if(t1[j,i] == "Morta"){
-      t1[j,i] = NA
-    }
-  }
-}
-
-for(i in 2:10){
-  for(j in 1:10){
-    if(t2[j,i] == "Morta"){
-      t2[j,i] = NA
-    }
-  }
-}
-
-for(i in 2:10){
-  for(j in 1:10){
-    if(t3[j,i] == "Morta"){
-      t3[j,i] = NA
-    }
-  }
-}
-
-for(i in 2:10){
-  for(j in 1:10){
-    if(t4[j,i] == "Morta"){
-      t4[j,i] = NA
-    }
-  }
-}
-
-for(i in 2:10){
-  for(j in 1:10){
-    if(t5[j,i] == "Morta"){
-      t5[j,i] = NA
-    }
-  }
-}
+#Substitui os caracteres "Morta" por "NA".
+controle$`8` <- gsub("Morta", "NA", controle$`8`)
+t2[3,] <- gsub("Morta", "NA", t2[3,])
+t3[9,] <- gsub("Morta", "NA", t3[9,])
+t5$`7` <- gsub("Morta", "NA", t5$`7`)
+t5$`8` <- gsub("Morta", "NA", t5$`8`)
 
 dados <- list(controle, t1, t2, t3, t4, t5)
 
