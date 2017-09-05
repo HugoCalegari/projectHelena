@@ -87,5 +87,3 @@ Para se plotar o gráfico dos comprimentos para cada concentração e réplica p
 #Metodologia
 
 #Análise descritiva e exploratória
-
-#Conclusão
