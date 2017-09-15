@@ -1,0 +1,264 @@
+---
+title: ''
+geometry: a4paper,left=3cm,right=2cm,top=3cm, bottom= 2cm
+header-includes:
+- \usepackage{setspace}
+- \usepackage{indentfirst}
+- \usepackage[utf8]{inputenc}
+- \usepackage{mathptmx}
+- \usepackage{enumerate}
+- \usepackage{url}
+- \usepackage{float}
+- \usepackage{lipsum}
+- \usepackage{multirow}
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{subcaption}
+output:
+  pdf_document: 
+  html_document: default
+  mainfont: Times New Roman
+  fig_caption: yes
+lang: pt-br
+setspace: doublespacing
+fontsize: 11pt
+---
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\begin{center}
+\begin{minipage}[s]{1.75cm}
+\includegraphics[width=40pt,height=45pt]{logoUnicamp.png} 
+\end{minipage}\begin{minipage}[s]{11.25cm}\noindent
+{\begin{center} {\Large Universidade Estadual de Campinas}\\
+{Instituto de Matemática, Estatística e Computação Científica}\\
+{\sc Departamento de Estatística}
+\end{center}}
+\end{minipage}
+\begin{minipage}[s]{0.5cm}
+\includegraphics[width=40pt,height=45pt]{logoimecc.png}
+\end{minipage}
+\end{center}
+\end{center}
+\vspace{3cm}
+\font\fontGrande=cmcsc10 scaled 2500
+\font\pessoal=cmr9 scaled 2500
+
+\begin{center}
+\vspace*{3.5cm}
+{\rule[0 ex]{16cm}{0.05cm}}
+{\huge \sc Relatório - Projeto Helena Viana\\[7pt]
+Nome do projeto}
+{\rule[0 ex]{16cm}{0.05cm}}
+\end{center}
+
+\begin{center}
+
+\normalsize \vspace{8mm}
+
+
+\vspace{4cm}
+
+{\sc {\bf Eliane Ramos de Siqueira   RA:155233}}\\
+{\sc {\bf Hugo Calegari   RA:155738}}\\
+{\sc {\bf Natalia Rodrigues   RA:156831}}\\
+
+\vspace{0.2cm}
+
+\bf{Disciplina:} ME710 - Acessoria Estatística\\
+\bf{Professor:} 
+\vspace{1cm}
+
+{\footnotesize{Campinas - SP \\ 15 de Setembro de 2017}}
+\end{center}
+\end{titlepage}
+
+
+\newpage
+
+```{r echo=FALSE}
+#mudando o separador decimal para resultados "printados"
+options(OutDec= ",")
+```
+
+```{r, echo=FALSE}
+#definindo opção padrões 
+knitr::opts_chunk$set(fig.width=8, fig.height=4.5, fig.path='Figs/', fig.align='center', echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+```{r, eval=F}
+#pacotes utilizados
+
+#install.packages("dplyr")
+#install.packages("ggplot2")
+library(dplyr)
+library(ggplot2)
+library(plyr)
+```
+
+```{r}
+#leitura dos dados_nano
+setwd(choose.dir())
+dados_nano=read.csv("nanoparticulas_dadosR.csv", sep=";",header = T, dec=",")
+dados_nano=dados_nano[,1:7]
+
+dados_sal=read.csv("saldezinco_dadosR.csv", sep=";",header = T, dec=",")
+```
+
+```{r}
+#graficos de linha para nanopartículas
+library(dplyr)
+controle=filter(dados_nano,Tratamento=="Controle")
+tratamento1=filter(dados_nano,Tratamento=="0,006")
+tratamento2=filter(dados_nano,Tratamento=="0,0125")
+tratamento3=filter(dados_nano,Tratamento=="0,025")
+tratamento4=filter(dados_nano,Tratamento=="0,05")
+tratamento5=filter(dados_nano,Tratamento=="0,1")
+
+```
+
+
+```{r}
+#graficos de linha para comprimento
+library(ggplot2)
+g_controle_nano<- ggplot(controle, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - Controle")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento1_nano<- ggplot(tratamento1, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.006")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento2_nano<- ggplot(tratamento2, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.0125")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento3_nano<- ggplot(tratamento3, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.025")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento4_nano<- ggplot(tratamento4, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.05")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento5_nano<- ggplot(tratamento5, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.1")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+```
+
+
+```{r}
+#numero medio de ovos por tratamento ao longo dos dias
+
+num_medio_ovos=aggregate(Numero_ovos~Dia+Tratamento, data = dados_nano, mean)
+names(num_medio_ovos)<-c("Dia", "Tratamento","Numero_medio_ovos")
+
+g_numeromedio_ovos= ggplot(num_medio_ovos, aes(x=Dia, y=Numero_medio_ovos, fill=Tratamento)) + geom_bar(stat="identity")+theme_bw()+ggtitle("Número médio de ovos por tratamento")+theme(plot.title = element_text(hjust = 0.5))+ylab("Número médio de ovos")+xlab("Dia")+facet_wrap(~Tratamento, ncol=3)
+
+```
+
+```{r}
+#Proporção de neonatos
+dados_nano=mutate(dados_nano,Proporcao_neonatos=Numero_neonatos/Numero_ovos_somados)
+teste=ggplot(dados_nano, aes(x=Dia,y=Numero_neonatos, color=Tratamento))+geom_line()+ geom_point(size=3)+theme_bw()+ggtitle("Proporçãp de neonatos por tratamento")+theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r}
+#graficos de linha para sal de zinco
+library(dplyr)
+controle_sal=filter(dados_sal,Tratamento=="Controle")
+tratamento1_sal=filter(dados_sal,Tratamento=="0,006")
+tratamento2_sal=filter(dados_sal,Tratamento=="0,0125")
+tratamento3_sal=filter(dados_sal,Tratamento=="0,025")
+tratamento4_sal=filter(dados_sal,Tratamento=="0,05")
+tratamento5_sal=filter(dados_sal,Tratamento=="0,1")
+
+```
+
+```{r}
+#graficos de linha para comprimento sal de zinco
+library(ggplot2)
+g_controle_sal<- ggplot(controle, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - Controle")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento1_sal<- ggplot(tratamento1, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.006")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento2_sal<- ggplot(tratamento2, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.0125")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento3_sal<- ggplot(tratamento3, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.025")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento4_sal<- ggplot(tratamento4, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.05")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento5_sal<- ggplot(tratamento5, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.1")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+```
+
+
+```{r}
+#numero medio de ovos por tratamento ao longo dos dias
+
+num_medio_ovos_sal=aggregate(Numero_ovos~Dia+Tratamento, data = dados_nano, mean)
+names(num_medio_ovos)<-c("Dia", "Tratamento","Numero_medio_ovos")
+
+g_numeromedio_ovos_sal= ggplot(num_medio_ovos, aes(x=Dia, y=Numero_medio_ovos, fill=Tratamento)) + geom_bar(stat="identity")+theme_bw()+ggtitle("Número médio de ovos por tratamento")+theme(plot.title = element_text(hjust = 0.5))+ylab("Número médio de ovos")+xlab("Dia")+facet_wrap(~Tratamento, ncol=3)
+
+```
+
+```{r}
+#Proporção de neonatos
+dados_sal=mutate(dados_nano,Proporcao_neonatos=Numero_neonatos/Numero_ovos_somados)
+teste=ggplot(dados_nano,aes(x=Dia,y=Numero_neonatos,color=Tratamento))+geom_line()+ geom_point(size=3)+theme_bw()+ggtitle("Proporçãp de neonatos por tratamento")+theme(plot.title = element_text(hjust = 0.5))
+```
+
+\setlength{\parindent}{3em}
+\onehalfspacing
+
+#Introdução
+ 
+A represa do Fazzari, localizada na cidade de São Carlos, (região com clima tropical), usada como depósito de dejetos químicos, teve sua composição natural alterada por estes. No processo, nanopartículas de óxido de zinco e sal de zinco são os principais componentes incorporados às águas fluviais.
+
+Um dos componentes da vida no - e do - rio são os microcrustáceos, animais parte do zooplâncton e a principal fonte de alimentação e transferência de energia para os níveis tróficos superiores do ambiente em questão. Em outras palavras, os microcrustáceos são microorganismos que servem como principal fonte de alimentação para X espécies, que, por sua vez, são a principal fonte de alimentação para outras Y espécies e, assim, sucessivamente, até que se complete a biodiversidade do rio. 
+
+#Objetivo
+
+Considerada a importância da existência regulada dos microcrustáceos, como base da cadeia alimentar, para a sustentabilidade da biodiversidade da represa do Fazzari, o presente trabalho tem por objetivo a análise do impacto das nanopartículas de óxido de zinco e do sal de zinco no:
+
+\begin{itemize}
+  \item Desenvolvimento - tamanho que os microorganismos em questão atingem
+  \item Fecundação - quantidade de zigotos formados por dia
+  \item Nascimento - quantidade de zigotos que se transformam em indivíduos adultos
+\end{itemize}
+
+Os impactos serão mensurados e analisados através da comparação entre 6 cenários, sendo estes a ausência dos componentes destacados na água e outras cinco concentrações dos mesmos. 
+
+
+#Descrição dos dados
+
+  O banco de dados considerado para as análises contém 1080 observações, de 120 microcrustáceos divididos em 12 grupos - com 10 microcrustáceos em cada - dos quais 6 foram expostos às nanopartículas e 6 ao sal de zinco. Para cada um dos 6 grupos submetidos a um dos materiais foram utilizadas 6 concentrações do mesmo (uma para cada grupo), sendo elas: 0.00(controle), 0.006, 0.01, 0.02, 0.04 e 0.09mg/L para a nanopartícula e 0.00(controle), 0.006, 0.0125, 0.025, 0.05 e 0.1mg/L para o sal e zinco.Os microcrustáceos foram observado durante 9 dias e para cada um foi tomada uma medida diária de seu comprimento (medido em milímetros), do número de ovos colocados no dia em questão e do número de neonatos nascidos neste dia.
+	
+  Durante a realização das análises foi criada uma nova variável chamada “proporção de neonatos” que se refere ao número de animais que nasceram naquele dia dividido pelo número de ovos existentes no dia anterior. Para os dias em que não haviam ovos no dia anterior, o valor atribuído a essa variável foi 0.
+
+
+#Anexos
+
+```{r, fig.cap="Número médio de ovos por tratamento ao longo dos dias - Nanopartículas"}
+g_numeromedio_ovos
+```
+
+```{r, fig.cap="Número médio de ovos por tratamento ao longo dos dias - Sal de zinco"}
+g_numeromedio_ovos_sal
+```
+
+###Gráficos para Nanopartículas
+
+```{r, fig.cap=c("Desenvolvimento do comprimento dos microcrustáceos do nível controle ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.006 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.0125 ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.025 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.05 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.1 ao longo dos 8 dias"), fig.height=18, fig.width=16}
+
+g_controle_nano
+g_tratamento1_nano
+g_tratamento2_nano
+g_tratamento3_nano
+g_tratamento4_nano
+g_tratamento5_nano
+```
+
+\newpage
+###Gráficos para Sal de Zinco
+
+```{r, fig.cap=c("Desenvolvimento do comprimento dos microcrustáceos do nível controle ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.006 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.0125 ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.025 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.05 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.1 ao longo dos 8 dias"), fig.height=18, fig.width=15}
+
+g_controle_sal
+g_tratamento1_sal
+g_tratamento2_sal
+g_tratamento3_sal
+g_tratamento4_sal
+g_tratamento5_sal
+```
+
