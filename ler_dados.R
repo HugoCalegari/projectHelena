@@ -69,11 +69,11 @@ suporte <- as.data.frame(cbind(rep(0:8, 6), c(lista1[[1]], lista1[[2]], lista1[[
 suporte$V1 <- as.factor(suporte$V1)
 
 
-plot(suporte$V2[1:8],axes=FALSE,ylim=c(0,0.9),cex.lab=1,xlab="Tempo",ylab="Comprimento médio")
+plot(suporte$V2[1:8],axes=FALSE,ylim=c(0,0.9),cex.lab=1,xlab="Tempo",ylab="Comprimento médio", main = "Gráfico de perfil médio do comprimento")
 
 axis(2,cex.axis=1)
 
-axis(1,1:9,c("0","1","2","3","4", "5", "6", "7", "8"),cex.axis=1)
+axis(1,0:8,c("0","1","2","3","4", "5", "6", "7", "8"),cex.axis=1)
 
 
 
