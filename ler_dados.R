@@ -99,3 +99,21 @@ lines(suporte$V2[37:45],lwd=1, col = 5)
 plotCI(suporte$V2[46:54],liw=1.96*suporte$V3[46:54]/sqrt(10),uiw=1.96*suporte$V3[46:54]/sqrt(10),pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 6,cex=1)
 
 lines(suporte$V2[46:54],lwd=1, col = 6)
+
+
+data_compact_nano <- as.data.frame(read_excel("./dados/nanoparticulas_dadosR.xlsx"))
+data_compact_nano$Tratamento <- as.factor(data_compact_nano$Tratamento)
+data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
+data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
+data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
+
+#o ajuste "lme" não funciona quando se tem NA's. O que foi feito? Usado a função "na.omit()" para retirar as linhas
+#que tenham os NA's. No total foram retiradas 16 linhas.
+
+data_compact_nano <- na.omit(data_compact_nano)
+
+library(nlme)
+fit1 <- lme(Comprimento ~ Tratamento, data = data_compact_nano, random = ~ 1| Repeticao)
+anova(fit1)
+
+
