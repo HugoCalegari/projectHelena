@@ -113,7 +113,28 @@ data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 data_compact_nano <- na.omit(data_compact_nano)
 
 library(nlme)
-fit1 <- lme(Comprimento ~ Tratamento, data = data_compact_nano, random = ~ 1| Repeticao)
+#Para o primeiro modelo considera-se que o crescimento é independente dos dias, mas isto de fato não ocorre
+fit1 <- lme(Comprimento ~ Tratamento , data = data_compact_nano, random = ~ 1| Repeticao) 
+plot(fit1)
+qqnorm(fit1$residuals)
 anova(fit1)
+intervals(fit1, which = "fixed")
 
+#############################################################################################
 
+#Pelo gráfico de perfil nota-se que existe interação entre o dia e comprimento, algo esperado, pois pelos próprios
+#dados nota-se o crescimento dos indivíduos
+
+interaction.plot(data_compact_nano$Dia, data_compact_nano$Tratamento, data_compact_nano$Comprimento, las = 1)
+fit2 <- lme(Comprimento ~ Tratamento*Dia , data = data_compact_nano, random = ~ 1| Repeticao) 
+plot(fit2)
+qqnorm(fit2)
+
+fit3 <- geeglm(Comprimento ~ Tratamento*Dia, id = Repeticao, data = data_compact_nano)
+#############################################################################################
+
+#Com a retirada dos NA's tem dados balanceados ou não ? Observar tabela abaixo. A parir dela observa-se que
+#com a retirada dos NA's tem-se dados não balanceados, ou seja, dentro de cada tratamento tem-se diferentes
+#valores para as réplicas.
+
+table(data_compact_nano$Tratamento, data_compact_nano$Repeticao)
