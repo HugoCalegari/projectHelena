@@ -191,3 +191,34 @@ qqp(data_compact_nano$Comprimento, "gamma", shape = gama$estimate[[1]], rate = g
 
 beta <- fitdistr(data_compact_nano$Comprimento, "beta", start = list(shape1=1,shape2=1))
 qqp(data_compact_nano$Comprimento, "beta", shape1 = beta$estimate[[1]], shape2 = beta$estimate[[2]])
+
+#Trabalhar com o número de ovos somados para cada indivíduo
+#Deve-se carregar os dados de novo, poque as linhas com NA's foram retiradas
+data_compact_nano <- as.data.frame(read_excel("./dados/nanoparticulas_dadosR.xlsx"))
+data_compact_nano$Tratamento <- as.factor(data_compact_nano$Tratamento)
+data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
+data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
+data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
+
+#A soma do número de ovos está localizada no dia 8
+num_sum_ovo <- as.data.frame(data_compact_nano %>% filter(Dia == 8))
+plot(density(num_sum_ovo$Numero_ovos_somados))
+
+#par(mfrow=c(1,2))
+Ps <- fitdistr(num_sum_ovo$Numero_ovos_somados, "Poisson")
+qqp(num_sum_ovo$Numero_ovos_somados, "pois", Ps$estimate)
+
+BN <- fitdistr(num_sum_ovo$Numero_ovos_somados, "Negative Binomial")
+qqp(num_sum_ovo$Numero_ovos_somados, "nbinom", size = BN$estimate[[1]], mu = BN$estimate[[2]])
+
+#A soma do número de neonatos está localizada no dia 8
+#Usar a variável num_sum_ovo no campo Num_neo_somados
+
+plot(num_sum_ovo$Num_neo_somados)
+
+par(mfrow=c(2,1))
+Ps_neo <- fitdistr(num_sum_ovo$Num_neo_somados, "Poisson")
+qqp(num_sum_ovo$Num_neo_somados, "pois", Ps_neo$estimate)
+
+BN_neo <- fitdistr(num_sum_ovo$Num_neo_somados, "Negative Binomial")
+qqp(num_sum_ovo$Num_neo_somados, "nbinom", size = BN_neo$estimate[[1]], mu = BN_neo$estimate[[2]])
