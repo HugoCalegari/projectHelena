@@ -46,20 +46,16 @@ data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 
 prop.table(table(is.na(data_compact_nano))) #quantidade de NA's geral
 
+data_compact_nano <- na.omit(data_compact_nano)
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento)) + geom_boxplot(outlier.colour = "red", outlier.shape = 1)
-
 
 #Tentativa de fazer o perfil médio por dia
 lista1 <- list(0,0,0,0,0,0)
-lista2 <- list(0,0,0,0,0,0)
-#which(is.na(data_compact_nano$Comprimento))
-data_compact_nano <- na.omit(data_compact_nano)
 
 for(i in 1:6){
   lista1[[i]] <- rep(0, 9)
   for(j in 1:9){
    lista1[[i]][j] <- mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento )
-   lista2[[i]][j] <- sd( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento )
   }
 }
 
@@ -76,27 +72,27 @@ axis(2,cex.axis=1)
 axis(1,1:9,c("1","2","3","4", "5", "6", "7", "8", "9"),cex.axis=1)
 
 
-plotCI(suporte$V2[1:9],liw=1.96*suporte$V3[1:9]/sqrt(10),uiw=1.96*suporte$V3[1:9]/sqrt(10),pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 1, cex=1)
+plotCI(suporte$V2[1:9],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 1, cex=1)
 
 lines(suporte$V2[1:9],lwd=1)
 
-plotCI(suporte$V2[10:18],liw=1.96*suporte$V3[10:18]/sqrt(10),uiw=1.96*suporte$V3[10:18]/sqrt(10),pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 2,cex=1)
+plotCI(suporte$V2[10:18],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 2,cex=1)
 
 lines(suporte$V2[10:18],lwd=1, col = 2)
 
-plotCI(suporte$V2[19:27],liw=1.96*suporte$V3[19:27]/sqrt(10),uiw=1.96*suporte$V3[19:27]/sqrt(10),pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 3, cex=1)
+plotCI(suporte$V2[19:27],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 3, cex=1)
 
 lines(suporte$V2[19:27],lwd=1, col = 3)
 
-plotCI(suporte$V2[28:36],liw=1.96*suporte$V3[28:36]/sqrt(10),uiw=1.96*suporte$V3[28:36]/sqrt(10),pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 4,cex=1)
+plotCI(suporte$V2[28:36],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 4,cex=1)
 
 lines(suporte$V2[28:36],lwd=1, col = 4)
 
-plotCI(suporte$V2[37:45],liw=1.96*suporte$V3[37:45]/sqrt(10),uiw=1.96*suporte$V3[37:45]/sqrt(10),pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 5,cex=1)
+plotCI(suporte$V2[37:45],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 5,cex=1)
 
 lines(suporte$V2[37:45],lwd=1, col = 5)
 
-plotCI(suporte$V2[46:54],liw=1.96*suporte$V3[46:54]/sqrt(10),uiw=1.96*suporte$V3[46:54]/sqrt(10),pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 6,cex=1)
+plotCI(suporte$V2[46:54],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 6,cex=1)
 
 lines(suporte$V2[46:54],lwd=1, col = 6)
 
@@ -169,6 +165,8 @@ qqline(teste2, col = 2, lwd=2)
 #############################################################################################
 library(geepack)
 fit3 <- geeglm(Comprimento ~ Tratamento*Dia, id = Repeticao, data = data_compact_nano)
+
+fit3 <- geeglm(Comprimento ~ Tratamento*Dia, family = Gamma(), id = Repeticao, data = data_compact_nano)
 #############################################################################################
 
 #Com a retirada dos NA's tem dados balanceados ou não ? Observar tabela abaixo. A parir dela observa-se que
@@ -186,11 +184,13 @@ par(mfrow=c(2,2))
 qqp(data_compact_nano$Comprimento, "norm")
 qqp(data_compact_nano$Comprimento, "lnorm")
 
-gama <- fitdistr(data_compact_nano$Comprimento, "gamma")
+gama <- fitdistr(data_compact_nano$Comprimento, "gamma") 
 qqp(data_compact_nano$Comprimento, "gamma", shape = gama$estimate[[1]], rate = gama$estimate[[2]])
 
 beta <- fitdistr(data_compact_nano$Comprimento, "beta", start = list(shape1=1,shape2=1))
 qqp(data_compact_nano$Comprimento, "beta", shape1 = beta$estimate[[1]], shape2 = beta$estimate[[2]])
+
+
 
 #Trabalhar com o número de ovos somados para cada indivíduo
 #Deve-se carregar os dados de novo, poque as linhas com NA's foram retiradas
@@ -202,7 +202,6 @@ data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 
 #A soma do número de ovos está localizada no dia 8
 num_sum_ovo <- as.data.frame(data_compact_nano %>% filter(Dia == 8))
-plot(density(num_sum_ovo$Numero_ovos_somados))
 
 #par(mfrow=c(1,2))
 Ps <- fitdistr(num_sum_ovo$Numero_ovos_somados, "Poisson")
