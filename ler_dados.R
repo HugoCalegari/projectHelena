@@ -53,7 +53,7 @@ ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento)) + geom_boxp
 lista1 <- list(0,0,0,0,0,0)
 lista2 <- list(0,0,0,0,0,0)
 #which(is.na(data_compact_nano$Comprimento))
-data_compact_nano$Comprimento[which(is.na(data_compact_nano$Comprimento))] <- 0
+data_compact_nano <- na.omit(data_compact_nano)
 
 for(i in 1:6){
   lista1[[i]] <- rep(0, 9)
@@ -130,6 +130,44 @@ fit2 <- lme(Comprimento ~ Tratamento*Dia , data = data_compact_nano, random = ~ 
 plot(fit2)
 qqnorm(fit2)
 
+#Arrumar a variância dos resíduos para o ajuste fit2; transformação da variável comprimento com o uso do log na
+#base 10
+
+data_compact_nano$Comprimento = log(data_compact_nano$Comprimento, base = 10)
+fit2_2 <- lme(Comprimento ~ Tratamento*Dia , data = data_compact_nano, random = ~ 1| Repeticao) 
+plot(fit2_2) #Os resíduos estão melhores que a variável resposta sem transformação
+hist(residuals(fit2_2), freq = F)
+
+#padronizar resíduos
+teste <- (residuals(fit2_2) - mean(residuals(fit2_2)))/sqrt(var(residuals(fit2_2)))
+hist(teste, freq = F)
+qqnorm(teste)
+qqline(teste, col = 2, lwd=2)
+
+
+#Sem padronização dos resíduos
+teste2 <- residuals(fit2_2)
+
+hist(teste2, freq = F)
+qqnorm(teste2)
+qqline(teste2, col = 2, lwd=2)
+
+#Identificação da posição do menor resíduo que se distancia da reta de referência nos gráficos de qqnorm e no histograma
+which(teste2 == min(teste2))
+teste2[which(teste2 == min(teste2))]
+
+#Verificar como ficam os resíduos ao se retirar o resíduo que distancia da reta de referência do Q-Q plot normal
+teste2 <- teste2[-which(teste2 == min(teste2))]
+
+hist(teste2, freq = F)
+qqnorm(teste2)
+qqline(teste2, col = 2, lwd=2)
+
+#A posição do menor resíduo que mais se distancia da reta de referência no Q-Q plot normal é o mesma para os valores
+#da variável resposta do log do comprimento e do próprio comprimento. VERIFICAR COMO FICA O AJUSTE SEM ESSE DADO
+
+#############################################################################################
+library(geepack)
 fit3 <- geeglm(Comprimento ~ Tratamento*Dia, id = Repeticao, data = data_compact_nano)
 #############################################################################################
 
@@ -138,3 +176,18 @@ fit3 <- geeglm(Comprimento ~ Tratamento*Dia, id = Repeticao, data = data_compact
 #valores para as réplicas.
 
 table(data_compact_nano$Tratamento, data_compact_nano$Repeticao)
+
+#############################################################################################
+#A variável resposta, que é o comprimento dos microcrustáceos é estritamente positiva;
+require(car)
+require(MASS)
+
+par(mfrow=c(2,2))
+qqp(data_compact_nano$Comprimento, "norm")
+qqp(data_compact_nano$Comprimento, "lnorm")
+
+gama <- fitdistr(data_compact_nano$Comprimento, "gamma")
+qqp(data_compact_nano$Comprimento, "gamma", shape = gama$estimate[[1]], rate = gama$estimate[[2]])
+
+beta <- fitdistr(data_compact_nano$Comprimento, "beta", start = list(shape1=1,shape2=1))
+qqp(data_compact_nano$Comprimento, "beta", shape1 = beta$estimate[[1]], shape2 = beta$estimate[[2]])
