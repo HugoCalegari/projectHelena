@@ -121,13 +121,20 @@ data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
 data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
 data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 
+data_compact_sal <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/saldezinco_dadosR.xlsx"))
+data_compact_sal$Tratamento <- as.factor(data_compact_sal$Tratamento)
+data_compact_sal$Comprimento <- as.numeric(data_compact_sal$Comprimento)
+data_compact_sal$Dia <- as.factor(data_compact_sal$Dia)
+data_compact_sal$Repetição <- as.factor(data_compact_sal$Repetição)
+
 #Omissão dos dados faltantes; estes dados faltantes são aqueles considerados como "Morta"
 data_compact_nano <- na.omit(data_compact_nano)
+data_compact_sal <- na.omit(data_compact_sal)
 ```
 
 ```{r legenda_graficos, echo=F}
-fig1 <- "Boxplot do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam; a variabilidade do comprimento é diferente para os dias."
-fig2 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para nanopartículas. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0.006mg/L, o tratamento 2 à 0.0125mg/L, o tratamento 3 à 0.025mg/L, o tratamento 4 à 0.05mg/L e o tratamento 5 à 0.1mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8, para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos."
+fig1 <- "Boxplot do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias."
+fig2 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para nanopartículas. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0.006mg/L, o tratamento 2 à 0.0125mg/L, o tratamento 3 à 0.025mg/L, o tratamento 4 à 0.05mg/L e o tratamento 5 à 0.1mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8, para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
 fig3 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que para o tratamento 2 (0.0125mg/L de nanopartículas) supera o comprimento médio dos demais tratamentos (3-5) a partir do 4 dia, abaixo somente do controle."
 ```
 
@@ -141,10 +148,9 @@ ggplot(data_compact_nano, aes(Dia, Comprimento)) +
 
 
 ```{r fig.cap=fig2, fig.pos='H', fig.align='center', echo=FALSE}
-#fig.asp = 0.75
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
-  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1) +
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3, shape = 1) +
   scale_fill_grey() + theme_classic() +
   ggtitle("Boxplot do comprimento para cada nível de tratamento nos dias", subtitle = "Nanopartículas")
 #ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
@@ -153,13 +159,23 @@ ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Trata
 ```
 
 ```{r fig.cap=fig3, fig.pos='H', fig.align='center', echo=FALSE}
-library(plotrix)
-lista1 <- list(0,0,0,0,0,0)
-
+lista1 <- list(0,0,0,0,0,0) #media
+lista2 <- list(0,0,0,0,0,0) #variância
+lista3 <- list(0,0,0,0,0,0) #mínimo
+lista4 <- list(0,0,0,0,0,0) #máximo
+lista5 <- list(0,0,0,0,0,0) #mediana
 for(i in 1:6){
   lista1[[i]] <- rep(0, 9)
+  lista2[[i]] <- rep(0,9)
+  lista3[[i]] <- rep(0,9)
+  lista4[[i]] <- rep(0,9)
+  lista5[[i]] <- rep(0,9)
   for(j in 1:9){
-   lista1[[i]][j] <- mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento )
+   lista1[[i]][j] <- round(mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista2[[i]][j] <- round(var( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista3[[i]][j] <- round(min( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista4[[i]][j] <- round(max( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista5[[i]][j] <- round(median( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
   }
 }
 
@@ -183,7 +199,133 @@ ggplot(suporte, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratament
 ```
 
 ```{r, echo=FALSE}
-num_sum_ovo <- as.data.frame(data_compact_nano %>% filter(Dia == 8))
-
+#library(xtable)
+tab <- as.data.frame(cbind(rep(0:8, 6),c(lista1[[1]], lista1[[2]], lista1[[3]], lista1[[4]], lista1[[5]], lista1[[6]]), c(lista2[[1]], lista2[[2]], lista2[[3]], lista2[[4]], lista2[[5]], lista2[[6]]), c(lista3[[1]], lista3[[2]], lista3[[3]], lista3[[4]], lista3[[5]], lista3[[6]]), c(lista4[[1]], lista4[[2]], lista4[[3]], lista4[[4]], lista4[[5]], lista4[[6]]), c(lista5[[1]], lista5[[2]], lista5[[3]], lista5[[4]], lista5[[5]], lista5[[6]])))
+tab <- cbind(t, tab)
+colnames(tab) <- c("Tratamento", "Dia", "Média", "Variância", "Mínimo", "Máximo", "Mediana")
+#xtable(tab)
 ```
 
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrrrrr}
+  \hline
+ Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
+  \hline
+  0 & 0 & 0,37 & 0,0002 & 0,34 & 0,40 & 0,37 \\ 
+  0 & 1 & 0,44 & 0,0002 & 0,42 & 0,46 & 0,45 \\ 
+  0 & 2 & 0,52 & 0,0012 & 0,43 & 0,55 & 0,52 \\ 
+  0 & 3 & 0,61 & 0,0025 & 0,48 & 0,67 & 0,61 \\ 
+  0 & 4 & 0,63 & 0,0014 & 0,55 & 0,69 & 0,63 \\ 
+  0 & 5 & 0,71 & 0,0026 & 0,58 & 0,75 & 0,71 \\ 
+  0 & 6 & 0,74 & 0,0014 & 0,67 & 0,81 & 0,74 \\ 
+  0 & 7 & 0,76 & 0,0016 & 0,67 & 0,81 & 0,76 \\ 
+  0 & 8 & 0,76 & 0,0016 & 0,67 & 0,82 & 0,76 \\ 
+  1 & 0 & 0,34 & 0,0004 & 0,31 & 0,39 & 0,34 \\ 
+  1 & 1 & 0,42 & 0,0010 & 0,37 & 0,49 & 0,42 \\ 
+  1 & 2 & 0,49 & 0,0005 & 0,46 & 0,52 & 0,49 \\ 
+  1 & 3 & 0,56 & 0,0023 & 0,49 & 0,64 & 0,56 \\ 
+  1 & 4 & 0,59 & 0,0018 & 0,52 & 0,67 & 0,60 \\ 
+  1 & 5 & 0,66 & 0,0030 & 0,58 & 0,75 & 0,67 \\ 
+  1 & 6 & 0,68 & 0,0017 & 0,61 & 0,75 & 0,69 \\ 
+  1 & 7 & 0,71 & 0,0015 & 0,66 & 0,76 & 0,70 \\ 
+  1 & 8 & 0,73 & 0,0012 & 0,66 & 0,76 & 0,75 \\ 
+  2 & 0 & 0,35 & 0,0004 & 0,33 & 0,39 & 0,35 \\ 
+  2 & 1 & 0,43 & 0,0004 & 0,39 & 0,46 & 0,42 \\ 
+  2 & 2 & 0,49 & 0,0004 & 0,45 & 0,52 & 0,49 \\ 
+  2 & 3 & 0,54 & 0,0062 & 0,36 & 0,60 & 0,58 \\ 
+  2 & 4 & 0,61 & 0,0013 & 0,56 & 0,67 & 0,60 \\ 
+  2 & 5 & 0,68 & 0,0007 & 0,63 & 0,73 & 0,67 \\ 
+  2 & 6 & 0,69 & 0,0005 & 0,66 & 0,72 & 0,69 \\ 
+  2 & 7 & 0,73 & 0,0003 & 0,70 & 0,75 & 0,73 \\ 
+  2 & 8 & 0,74 & 0,0001 & 0,72 & 0,75 & 0,75 \\ 
+  3 & 0 & 0,34 & 0,0002 & 0,33 & 0,37 & 0,34 \\ 
+  3 & 1 & 0,42 & 0,0002 & 0,40 & 0,45 & 0,42 \\ 
+  3 & 2 & 0,50 & 0,0002 & 0,48 & 0,52 & 0,50 \\ 
+  3 & 3 & 0,56 & 0,0021 & 0,49 & 0,61 & 0,57 \\ 
+  3 & 4 & 0,58 & 0,0006 & 0,54 & 0,61 & 0,58 \\ 
+  3 & 5 & 0,63 & 0,0016 & 0,54 & 0,67 & 0,63 \\ 
+  3 & 6 & 0,64 & 0,0006 & 0,61 & 0,67 & 0,64 \\ 
+  3 & 7 & 0,68 & 0,0013 & 0,64 & 0,73 & 0,67 \\ 
+  3 & 8 & 0,72 & 0,0009 & 0,66 & 0,76 & 0,73 \\ 
+  4 & 0 & 0,34 & 0,0005 & 0,31 & 0,37 & 0,34 \\ 
+  4 & 1 & 0,41 & 0,0004 & 0,39 & 0,45 & 0,41 \\ 
+  4 & 2 & 0,48 & 0,0005 & 0,45 & 0,52 & 0,48 \\ 
+  4 & 3 & 0,55 & 0,0024 & 0,48 & 0,61 & 0,56 \\ 
+  4 & 4 & 0,57 & 0,0006 & 0,55 & 0,61 & 0,57 \\ 
+  4 & 5 & 0,66 & 0,0009 & 0,60 & 0,70 & 0,66 \\ 
+  4 & 6 & 0,67 & 0,0004 & 0,64 & 0,70 & 0,67 \\ 
+  4 & 7 & 0,70 & 0,0008 & 0,67 & 0,75 & 0,69 \\ 
+  4 & 8 & 0,71 & 0,0012 & 0,67 & 0,76 & 0,70 \\ 
+  5 & 0 & 0,35 & 0,0003 & 0,31 & 0,37 & 0,36 \\ 
+  5 & 1 & 0,42 & 0,0003 & 0,39 & 0,45 & 0,42 \\ 
+  5 & 2 & 0,50 & 0,0002 & 0,48 & 0,52 & 0,50 \\ 
+  5 & 3 & 0,54 & 0,0016 & 0,49 & 0,60 & 0,56 \\ 
+  5 & 4 & 0,57 & 0,0003 & 0,55 & 0,60 & 0,57 \\ 
+  5 & 5 & 0,62 & 0,0015 & 0,55 & 0,67 & 0,64 \\ 
+  5 & 6 & 0,65 & 0,0010 & 0,60 & 0,70 & 0,67 \\ 
+  5 & 7 & 0,67 & 0,0010 & 0,61 & 0,70 & 0,67 \\ 
+  5 & 8 & 0,68 & 0,0025 & 0,61 & 0,75 & 0,67 \\ 
+   \hline
+\end{tabular}
+\caption{Tabela resumo dos valores do comprimento para os dias nos diferentes tratamentos.}
+\end{table}
+
+##Sal de zinco
+
+```{r fig.pos='H', fig.align='center', echo=FALSE}
+ggplot(data_compact_sal, aes(Dia, Comprimento)) + 
+  geom_boxplot() + geom_jitter() + theme_classic() +
+  ggtitle("Boxplot do comprimento para cada dia", subtitle = "Sal de zinco")
+```
+
+```{r fig.pos='H', fig.align='center', echo=FALSE}
+ggplot(data_compact_sal, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
+  geom_boxplot(colour = "1") + 
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3, shape = 1) +
+  scale_fill_grey() + theme_classic() +
+  ggtitle("Boxplot do comprimento para cada nível de tratamento nos dias", subtitle = "Sal de zinco")
+#ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
+#  geom_boxplot(colour = "1") + scale_fill_grey() +
+#  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1)
+```
+
+```{r}
+lista1_sal <- list(0,0,0,0,0,0) #media
+lista2_sal <- list(0,0,0,0,0,0) #variância
+lista3_sal <- list(0,0,0,0,0,0) #mínimo
+lista4_sal <- list(0,0,0,0,0,0) #máximo
+lista5_sal <- list(0,0,0,0,0,0) #mediana
+for(i in 1:6){
+  lista1_sal[[i]] <- rep(0, 9)
+  lista2_sal[[i]] <- rep(0,9)
+  lista3_sal[[i]] <- rep(0,9)
+  lista4_sal[[i]] <- rep(0,9)
+  lista5_sal[[i]] <- rep(0,9)
+  for(j in 1:9){
+   lista1_sal[[i]][j] <- round(mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista2_sal[[i]][j] <- round(var( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista3_sal[[i]][j] <- round(min( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista4_sal[[i]][j] <- round(max( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista5_sal[[i]][j] <- round(median( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+  }
+}
+
+
+suporte_sal <- as.data.frame(cbind(rep(0:8, 6), c(lista1_sal[[1]], lista1_sal[[2]], lista1_sal[[3]], lista1_sal[[4]], lista1_sal[[5]], lista1_sal[[6]])))
+suporte_sal$V1 <- as.factor(suporte_sal$V1)
+contr <- t(t(rep(0, 9)))
+t1 <- t(t(rep(1, 9)))
+t2 <- t(t(rep(2, 9)))
+t3 <- t(t(rep(3, 9)))
+t4 <- t(t(rep(4, 9)))
+t5 <- t(t(rep(5, 9)))
+
+t_sal <- as.factor(rbind(contr, t1, t2, t3, t4, t5))
+
+suporte_sal <- cbind(t_sal, suporte_sal)
+colnames(suporte_sal) <- c("Tratamento", "Dia", "Comprimento médio por dia")
+
+#c("0 = controle", "1 = 0.006mg/L", "2 = 0.0125mg/L", "3 = 0.025mg/L", "4 = 0.05mg/L", "5 = 0.1mg/L")
+ggplot(suporte_sal, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento médio") +theme_classic()
+```

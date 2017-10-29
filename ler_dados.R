@@ -241,35 +241,3 @@ qqp(num_sum_ovo$Num_neo_somados, "pois", Ps_neo$estimate)
 
 BN_neo <- fitdistr(num_sum_ovo$Num_neo_somados, "Negative Binomial")
 qqp(num_sum_ovo$Num_neo_somados, "nbinom", size = BN_neo$estimate[[1]], mu = BN_neo$estimate[[2]])
-##########################################################
-
-plot(suporte$V2[1:9],axes=FALSE,ylim=c(0,0.9),cex.lab=1,xlab="Dia",ylab="Comprimento médio", main = "Gráfico de perfil médio do comprimento", cex = 0.5)
-
-axis(2,cex.axis=0.7)
-#c("1","2","3","4", "5", "6", "7", "8", "9")
-axis(1,1:9,c("0","1","2","3","4", "5", "6", "7", "8"),cex.axis=0.7)
-
-
-plotCI(suporte$V2[1:9],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,lwd=1, col = 1, cex=0.5)
-
-lines(suporte$V2[1:9],lwd=2, lty = 1)
-
-plotCI(suporte$V2[10:18],liw=0,uiw=0,pch=2,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 2,cex=0.5)
-
-lines(suporte$V2[10:18],lwd=1, col = 2, lty = 5)
-
-plotCI(suporte$V2[19:27],liw=0,uiw=0,pch=3,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 12, cex=0.5)
-
-lines(suporte$V2[19:27],lwd=1, col = 12, lty = 4)
-
-plotCI(suporte$V2[28:36],liw=0,uiw=0,pch=4,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 8,cex=0.5)
-
-lines(suporte$V2[28:36],lwd=1, col = 8, lty = 2)
-
-plotCI(suporte$V2[37:45],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 5,cex=0.5)
-
-lines(suporte$V2[37:45],lwd=1, col = 5, lty = 3)
-
-plotCI(suporte$V2[46:54],liw=0,uiw=0,pch=19,add=TRUE,cex.lab=1,slty=1,lwd=2, col = 6,cex=0.5)
-
-lines(suporte$V2[46:54],lwd=1, col = 6, lty = 8)
