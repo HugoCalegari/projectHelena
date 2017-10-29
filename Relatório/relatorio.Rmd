@@ -90,38 +90,53 @@ knitr::opts_chunk$set(fig.width=8, fig.height=4.5, fig.path='Figs/', fig.align='
 ```{r, eval=F}
 #pacotes utilizados
 
-#install.packages("dplyr")
-#install.packages("ggplot2")
+#install.packages(c("dplyr", "plyr", "ggplot2", "knitr"))
+
 library(dplyr)
 library(ggplot2)
 library(plyr)
+library(knitr)
 ```
 
 ```{r}
-#leitura dos dados_nano
 setwd(choose.dir())
-dados_nano=read.csv("nanoparticulas_dadosR.csv", sep=";",header = T, dec=",")
-dados_nano=dados_nano[,1:7]
+dados_nano=read.csv("nanoparticulas.csv", sep=";", header = T, encoding = "UTF-8", dec = ",")
+dados_sal=read.csv("saldezinco.csv", sep=";", header = T, encoding = "UTF-8")
+```
 
-dados_sal=read.csv("saldezinco_dadosR.csv", sep=";",header = T, dec=",")
+```{r, nanoparticulas}
+#tabela numero médio de ovos e neonatos
+
+num_medio_ovos=round(aggregate(Num_ovos~Dia, data = dados_nano, mean),2)
+num_medio_neonatos=round(aggregate(Num_neonatos~Dia, data = dados_nano, mean),2)
+
+tabela_resumo_ovoseneonatos=cbind(num_medio_ovos,num_medio_neonatos[,2])
+
+names(tabela_resumo_ovoseneonatos)<-c("Dia", "Numero_Medio_de_Ovos", "Numero_Medio_de_Neonatos")
+
+``` 
+
+```{r}
+library(ggplot2)
+graf_comprimento<- ggplot(dados_nano, aes(x=Dia, y=Comprimento,group=Tratamento:Repeticao))+geom_line()+ geom_point()+theme_bw()+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8))+ggtitle("Desenvolvimento do Comprimento  por Tratamento ao longo dos 8 dias")+theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r}
 #graficos de linha para nanopartículas
 library(dplyr)
 controle=filter(dados_nano,Tratamento=="Controle")
-tratamento1=filter(dados_nano,Tratamento=="0,006")
-tratamento2=filter(dados_nano,Tratamento=="0,0125")
-tratamento3=filter(dados_nano,Tratamento=="0,025")
-tratamento4=filter(dados_nano,Tratamento=="0,05")
-tratamento5=filter(dados_nano,Tratamento=="0,1")
+tratamento1=filter(dados_nano,Tratamento=="0.006")
+tratamento2=filter(dados_nano,Tratamento=="0.0125")
+tratamento3=filter(dados_nano,Tratamento=="0.025")
+tratamento4=filter(dados_nano,Tratamento=="0.05")
+tratamento5=filter(dados_nano,Tratamento=="0.1")
 
 ```
 
 
 ```{r}
 #graficos de linha para comprimento
-library(ggplot2)
+
 g_controle_nano<- ggplot(controle, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - Controle")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
 
 g_tratamento1_nano<- ggplot(tratamento1, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.006")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
@@ -135,67 +150,86 @@ g_tratamento4_nano<- ggplot(tratamento4, aes(x=Dia, y=Comprimento, group=Tratame
 g_tratamento5_nano<- ggplot(tratamento5, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.1")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
 ```
 
-
 ```{r}
-#numero medio de ovos por tratamento ao longo dos dias
+library(ggplot2)
 
-num_medio_ovos=aggregate(Numero_ovos~Dia+Tratamento, data = dados_nano, mean)
-names(num_medio_ovos)<-c("Dia", "Tratamento","Numero_medio_ovos")
+#grafico de linha para numero medio de ovos
+graf_num_medio_ovos=ggplot(tabela_resumo_ovoseneonatos, aes(x=Dia, y=Numero_Medio_de_Ovos))+geom_line(colour="darkred")+geom_point(colour="darkred")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Ovos") + ggtitle("Número Médio de Ovos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5))
 
-g_numeromedio_ovos= ggplot(num_medio_ovos, aes(x=Dia, y=Numero_medio_ovos, fill=Tratamento)) + geom_bar(stat="identity")+theme_bw()+ggtitle("Número médio de ovos por tratamento")+theme(plot.title = element_text(hjust = 0.5))+ylab("Número médio de ovos")+xlab("Dia")+facet_wrap(~Tratamento, ncol=3)
+#grafico de linha para numero medio de ovos
+graf_num_medio_neonatos=ggplot(tabela_resumo_ovoseneonatos, aes(x=Dia, y=Numero_Medio_de_Neonatos))+geom_line(colour="darkred")+geom_point(colour="darkred")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Neonatos") + ggtitle("Número Médio de Neonatos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5))
+
+
+#grafico de barras para numero médio de ovos
+graf_num_medio_ovos_barras=ggplot(tabela_resumo_ovoseneonatos, aes(x=Dia, y=Numero_Medio_de_Ovos,fill=factor(Dia)))+geom_bar(stat="identity")+scale_fill_brewer(palette="Reds")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Ovos") + ggtitle("Número Médio de Ovos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5), legend.position="none")
+
+#grafico de barras para numero medio de neonatos
+graf_num_medio_neonatos_barras=ggplot(tabela_resumo_ovoseneonatos, aes(x=Dia, y=Numero_Medio_de_Neonatos,fill=factor(Dia)))+geom_bar(stat="identity")+scale_fill_brewer(palette="Reds")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Neonatos") + ggtitle("Número Médio de Neonatos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5), legend.position="none")
 
 ```
 
+```{r, sal de zinco}
+#tabela numero médio de ovos e neonatos sal de zinco
+
+num_medio_ovo_sal=round(aggregate(Num_ovos~Dia, data = dados_sal, mean),2)
+num_medio_neonatos_sal=round(aggregate(Num_neonatos~Dia, data = dados_sal, mean),2)
+
+tabela_resumo_ovoseneonatos_sal=cbind(num_medio_ovos,num_medio_neonatos[,2])
+
+names(tabela_resumo_ovoseneonatos_sal)<-c("Dia", "Numero_Medio_de_Ovos", "Numero_Medio_de_Neonatos")
+
+``` 
+
 ```{r}
-#Proporção de neonatos
-dados_nano=mutate(dados_nano,Proporcao_neonatos=Numero_neonatos/Numero_ovos_somados)
-teste=ggplot(dados_nano, aes(x=Dia,y=Numero_neonatos, color=Tratamento))+geom_line()+ geom_point(size=3)+theme_bw()+ggtitle("Proporçãp de neonatos por tratamento")+theme(plot.title = element_text(hjust = 0.5))
+library(ggplot2)
+graf_comprimento_sal<- ggplot(dados_sal, aes(x=Dia, y=Comprimento,group=Tratamento:Repeticao))+geom_line()+ geom_point()+theme_bw()+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8))+ggtitle("Desenvolvimento do Comprimento  por Tratamento ao longo dos 8 dias")+theme(plot.title = element_text(hjust = 0.5))
 ```
 
-
 ```{r}
-#graficos de linha para sal de zinco
+#graficos de linha para nanopartículas
 library(dplyr)
 controle_sal=filter(dados_sal,Tratamento=="Controle")
-tratamento1_sal=filter(dados_sal,Tratamento=="0,006")
-tratamento2_sal=filter(dados_sal,Tratamento=="0,0125")
-tratamento3_sal=filter(dados_sal,Tratamento=="0,025")
-tratamento4_sal=filter(dados_sal,Tratamento=="0,05")
-tratamento5_sal=filter(dados_sal,Tratamento=="0,1")
+tratamento1_sal=filter(dados_sal,Tratamento=="0.006")
+tratamento2_sal=filter(dados_sal,Tratamento=="0.01")
+tratamento3_sal=filter(dados_sal,Tratamento=="0.02")
+tratamento4_sal=filter(dados_sal,Tratamento=="0.04")
+tratamento5_sal=filter(dados_sal,Tratamento=="0.9")
 
 ```
 
+
 ```{r}
-#graficos de linha para comprimento sal de zinco
+#graficos de linha para comprimento
+
+g_controle_sal<- ggplot(controle_sal, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - Controle")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento1_sal<- ggplot(tratamento1_sal, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.006")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento2_sal<- ggplot(tratamento2_sal, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.0125")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento3_sal<- ggplot(tratamento3_sal, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.025")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento4_sal<- ggplot(tratamento4_sal, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.05")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+
+g_tratamento5_sal<- ggplot(tratamento5_sal, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.1")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+```
+
+```{r}
 library(ggplot2)
-g_controle_sal<- ggplot(controle, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - Controle")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
 
-g_tratamento1_sal<- ggplot(tratamento1, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.006")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
+#grafico de linha para numero medio de ovos
+graf_num_medio_ovos_sal=ggplot(tabela_resumo_ovoseneonatos_sal, aes(x=Dia, y=Numero_Medio_de_Ovos))+geom_line(colour="darkred")+geom_point(colour="darkred")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Ovos") + ggtitle("Número Médio de Ovos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5))
 
-g_tratamento2_sal<- ggplot(tratamento2, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.0125")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
-
-g_tratamento3_sal<- ggplot(tratamento3, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.025")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
-
-g_tratamento4_sal<- ggplot(tratamento4, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.05")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
-
-g_tratamento5_sal<- ggplot(tratamento5, aes(x=Dia, y=Comprimento, group=Tratamento:Repeticao,  color=Repeticao)) + geom_line() + geom_point(size=3)+theme_bw()+ggtitle("Desenvolvimento do Comprimento - 0.1")+theme(plot.title = element_text(hjust = 0.5))+facet_wrap(~Repeticao, ncol=2)
-```
+#grafico de linha para numero medio de ovos
+graf_num_medio_neonatos_sal=ggplot(tabela_resumo_ovoseneonatos_sal, aes(x=Dia, y=Numero_Medio_de_Neonatos))+geom_line(colour="darkred")+geom_point(colour="darkred")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Neonatos") + ggtitle("Número Médio de Neonatos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5))
 
 
-```{r}
-#numero medio de ovos por tratamento ao longo dos dias
+#grafico de barras para numero médio de ovos
+graf_num_medio_ovos_barras_sal=ggplot(tabela_resumo_ovoseneonatos_sal, aes(x=Dia, y=Numero_Medio_de_Ovos,fill=factor(Dia)))+geom_bar(stat="identity")+scale_fill_brewer(palette="Reds")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Ovos") + ggtitle("Número Médio de Ovos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5), legend.position="none")
 
-num_medio_ovos_sal=aggregate(Numero_ovos~Dia+Tratamento, data = dados_nano, mean)
-names(num_medio_ovos)<-c("Dia", "Tratamento","Numero_medio_ovos")
+#grafico de barras para numero medio de neonatos
+graf_num_medio_neonatos_barras_sal=ggplot(tabela_resumo_ovoseneonatos_sal, aes(x=Dia, y=Numero_Medio_de_Neonatos,fill=factor(Dia)))+geom_bar(stat="identity")+scale_fill_brewer(palette="Reds")+scale_x_continuous(name = "Dia",breaks = seq(0, 8, 1), limits=c(0, 8)) + ylab("Número Médio de Neonatos") + ggtitle("Número Médio de Neonatos por Dia") +theme_bw()+theme(plot.title = element_text(hjust = 0.5), legend.position="none")
 
-g_numeromedio_ovos_sal= ggplot(num_medio_ovos, aes(x=Dia, y=Numero_medio_ovos, fill=Tratamento)) + geom_bar(stat="identity")+theme_bw()+ggtitle("Número médio de ovos por tratamento")+theme(plot.title = element_text(hjust = 0.5))+ylab("Número médio de ovos")+xlab("Dia")+facet_wrap(~Tratamento, ncol=3)
-
-```
-
-```{r}
-#Proporção de neonatos
-dados_sal=mutate(dados_nano,Proporcao_neonatos=Numero_neonatos/Numero_ovos_somados)
-teste=ggplot(dados_nano,aes(x=Dia,y=Numero_neonatos,color=Tratamento))+geom_line()+ geom_point(size=3)+theme_bw()+ggtitle("Proporçãp de neonatos por tratamento")+theme(plot.title = element_text(hjust = 0.5))
 ```
 
 \setlength{\parindent}{3em}
@@ -226,16 +260,58 @@ Os impactos serão mensurados e analisados através da comparação entre 6 cen�
 	
   Durante a realização das análises foi criada uma nova variável chamada “proporção de neonatos” que se refere ao número de animais que nasceram naquele dia dividido pelo número de ovos existentes no dia anterior. Para os dias em que não haviam ovos no dia anterior, o valor atribuído a essa variável foi 0.
 
+\newpage
 
-#Anexos
+##Análise Descritiva
 
-```{r, fig.cap="Número médio de ovos por tratamento ao longo dos dias - Nanopartículas"}
-g_numeromedio_ovos
+###Nanopartículas
+
+```{r, fig.cap=c("Evolução do comprimento dos microcrustáceos ao longo dos 8 dias por repetição")}
+graf_comprimento
 ```
 
-```{r, fig.cap="Número médio de ovos por tratamento ao longo dos dias - Sal de zinco"}
-g_numeromedio_ovos_sal
+```{r, fig.cap=c("Tabela do número médio de ovos e neonatos para cada um dos 8 dias")}
+library(knitr)
+
+names(tabela_resumo_ovoseneonatos)<-c("Dia", "Numero Medio de Ovos", "Numero Medio de Neonatos")
+kable(tabela_resumo_ovoseneonatos)
 ```
+
+```{r, fig.cap=c("Número médio de ovos por dia","Número médio de ovos por dia")}
+graf_num_medio_ovos
+graf_num_medio_ovos_barras
+```
+
+```{r, fig.cap=c("Número médio de neonatos por dia","Número médio de neonatos por dia")}
+graf_num_medio_neonatos
+graf_num_medio_neonatos_barras
+```
+
+###Sal de Zinco
+
+```{r, fig.cap=c("Evolução do comprimento dos microcrustáceos ao longo dos 8 dias por repetição")}
+
+graf_comprimento_sal
+```
+
+```{r, fig.cap=c("Tabela do número médio de ovos e neonatos para cada um dos 8 dias")}
+library(knitr)
+
+names(tabela_resumo_ovoseneonatos_sal)<-c("Dia", "Numero Medio de Ovos", "Numero Medio de Neonatos")
+kable(tabela_resumo_ovoseneonatos_sal)
+```
+
+```{r, fig.cap=c("Número médio de ovos por dia","Número médio de ovos por dia")}
+graf_num_medio_ovos_sal
+graf_num_medio_ovos_barras_sal
+```
+
+```{r, fig.cap=c("Número médio de neonatos por dia","Número médio de neonatos por dia")}
+graf_num_medio_neonatos_sal
+graf_num_medio_neonatos_barras_sal
+```
+
+##Anexos
 
 ###Gráficos para Nanopartículas
 
@@ -249,10 +325,9 @@ g_tratamento4_nano
 g_tratamento5_nano
 ```
 
-\newpage
 ###Gráficos para Sal de Zinco
 
-```{r, fig.cap=c("Desenvolvimento do comprimento dos microcrustáceos do nível controle ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.006 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.0125 ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.025 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.05 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.1 ao longo dos 8 dias"), fig.height=18, fig.width=15}
+```{r, eval= FALSE, fig.cap=c("Desenvolvimento do comprimento dos microcrustáceos do nível controle ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.006 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.01 ao longo dos 8 dias", "Desenvolvimento do comprimento dos microcrustáceos do nível 0.02 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.04 ao longo dos 8 dias","Desenvolvimento do comprimento dos microcrustáceos do nível 0.9 ao longo dos 8 dias"), fig.height=18, fig.width=16}
 
 g_controle_sal
 g_tratamento1_sal
