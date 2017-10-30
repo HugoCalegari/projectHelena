@@ -94,7 +94,7 @@ Os impactos serão mensurados e analisados através da comparação entre 6 cen�
 
 #Banco de dados
 
-O banco de dados considerado para as análises contém 1080 observações, de 120 microcrustáceos divididos em 12 grupos - com 10 microcrustáceos em cada - dos quais 6 foram expostos às nanopartículas e 6 ao sal de zinco. Para cada um dos 6 grupos submetidos a um dos materiais foram utilizadas 6 concentrações do mesmo (uma para cada grupo), sendo elas: 0.00(controle), 0.006, 0.01, 0.02, 0.04 e 0.09mg/L para o sal de zinco e 0.00(controle), 0.006, 0.0125, 0.025, 0.05 e 0.1mg/L para nanopartículas.
+O banco de dados considerado para as análises contém 1080 observações, de 120 microcrustáceos divididos em 12 grupos - com 10 microcrustáceos em cada - dos quais 6 foram expostos às nanopartículas e 6 ao sal de zinco. Para cada um dos 6 grupos submetidos a um dos materiais foram utilizadas 6 concentrações do mesmo (uma para cada grupo), sendo elas: 0,00(controle), 0,006, 0,01, 0,02, 0,04 e 0,09mg/L para o sal de zinco e 0,00(controle), 0,006, 0,0125, 0,025, 0,05 e 0,1mg/L para nanopartículas.
 
 Os microcrustáceos foram observado durante 9 dias e para cada um foi tomada uma medida diária de seu comprimento (medido em milímetros), do número de ovos colocados no dia em questão e do número de neonatos nascidos neste dia.
 
@@ -102,13 +102,13 @@ Para avaliar o número de ovos e neonatos foram considerados a quantidade total 
 
 Linhas que possuem indivíduos que morreram em para qualquer que seja o dia foam retiradas. Isto fez com que as informações referentes ao dia foram diminuídas. (Poderia ser utilizada outra abordagem, como completar os dados faltantes por alguma técnica).
 
-Além disso, para o sal de zinco, na variável "Tratamento" foram consideradas: "0" para controle, "1" para a concentração 0.006mg/L, "2" para a concentração 0.01mg/L, "3" para a concentração 0.02mg/L, "4" para a concentração 0.04mg/L e "5" para a concentração 0.09mg/L. Ideia semelhante foi adotada para nanopartículas: "0" para controle, "1" para a concentração 0.006mg/L, "2" para a concentração 0.0125mg/L, "3" para a concentração 0.025mg/L, "4" para a concentração 0.05mg/L e "5" para a concentração 0.1mg/L.
+Além disso, para o sal de zinco, na variável "Tratamento" foram consideradas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,01mg/L, "3" para a concentração 0,02mg/L, "4" para a concentração 0,04mg/L e "5" para a concentração 0,09mg/L. Ideia semelhante foi adotada para nanopartículas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,0125mg/L, "3" para a concentração 0,025mg/L, "4" para a concentração 0,05mg/L e "5" para a concentração 0,1mg/L.
 
 #Análise descritiva e exploratória
 
 ##Nanopartículas
 
-De acordo com os boxplots do comprimento por dia e do gráfico de perfil médio, percebe-se que existe uma associação entre os valores do comprimento com o passar dos dias, ou seja, ao longo dos dias aumenta-se o comprimento dos microcrustáceos.
+De acordo com os boxplots do comprimento por dia (figura 1) e do gráfico de perfil médio (figura 3), percebe-se que existe uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, nota-se que os comprimentos têm uma característica de crescimento até uma possível estabilização que ocorre nos dias 7 e 8 (a variabilidade dos comprimentos nestes dois dias também é muito próxima).
 
 ```{r leitura_dados, echo=FALSE, message=FALSE}
 library(readxl)
@@ -132,9 +132,9 @@ data_compact_nano <- na.omit(data_compact_nano)
 data_compact_sal <- na.omit(data_compact_sal)
 ```
 
-```{r legenda_graficos, echo=F}
+```{r legenda_graficos_nanoparticulas, echo=F}
 fig1 <- "Boxplot do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias."
-fig2 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para nanopartículas. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0.006mg/L, o tratamento 2 à 0.0125mg/L, o tratamento 3 à 0.025mg/L, o tratamento 4 à 0.05mg/L e o tratamento 5 à 0.1mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8, para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
+fig2 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para nanopartículas. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0,006mg/L, o tratamento 2 à 0,0125mg/L, o tratamento 3 à 0,025mg/L, o tratamento 4 à 0,05mg/L e o tratamento 5 à 0,1mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8, para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
 fig3 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que para o tratamento 2 (0.0125mg/L de nanopartículas) supera o comprimento médio dos demais tratamentos (3-5) a partir do 4 dia, abaixo somente do controle."
 ```
 
@@ -145,7 +145,7 @@ ggplot(data_compact_nano, aes(Dia, Comprimento)) +
   ggtitle("Boxplot do comprimento para cada dia", subtitle = "Nanopartículas")
 ```
 
-
+Pela observação dos boxplots por dia e tratamento (figura 2) é possível destacar não somente o aumento do comprimento como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 2, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,1mg/L de nanopartículas).
 
 ```{r fig.cap=fig2, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
@@ -158,7 +158,7 @@ ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Trata
 #  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1)
 ```
 
-```{r fig.cap=fig3, fig.pos='H', fig.align='center', echo=FALSE}
+```{r calculo_medidas_resumo_nanoparticulas,fig.cap=fig3, fig.pos='H', fig.align='center', echo=FALSE}
 lista1 <- list(0,0,0,0,0,0) #media
 lista2 <- list(0,0,0,0,0,0) #variância
 lista3 <- list(0,0,0,0,0,0) #mínimo
@@ -198,7 +198,7 @@ colnames(suporte) <- c("Tratamento", "Dia", "Comprimento médio por dia")
 ggplot(suporte, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento médio") +theme_classic()
 ```
 
-```{r, echo=FALSE}
+```{r tabela_medidas_resumo_nanoparticulas, echo=FALSE}
 #library(xtable)
 tab <- as.data.frame(cbind(rep(0:8, 6),c(lista1[[1]], lista1[[2]], lista1[[3]], lista1[[4]], lista1[[5]], lista1[[6]]), c(lista2[[1]], lista2[[2]], lista2[[3]], lista2[[4]], lista2[[5]], lista2[[6]]), c(lista3[[1]], lista3[[2]], lista3[[3]], lista3[[4]], lista3[[5]], lista3[[6]]), c(lista4[[1]], lista4[[2]], lista4[[3]], lista4[[4]], lista4[[5]], lista4[[6]]), c(lista5[[1]], lista5[[2]], lista5[[3]], lista5[[4]], lista5[[5]], lista5[[6]])))
 tab <- cbind(t, tab)
@@ -268,18 +268,30 @@ colnames(tab) <- c("Tratamento", "Dia", "Média", "Variância", "Mínimo", "Máx
   5 & 8 & 0,68 & 0,0025 & 0,61 & 0,75 & 0,67 \\ 
    \hline
 \end{tabular}
-\caption{Tabela resumo dos valores do comprimento para os dias nos diferentes tratamentos.}
+\caption{Tabela resumo, para nanopartículas, dos valores do comprimento para os dias nos diferentes tratamentos.}
 \end{table}
 
 ##Sal de zinco
 
-```{r fig.pos='H', fig.align='center', echo=FALSE}
+Assim como no caso das nanopartículas, os boxplots do comprimento por dia (figura 4) e do gráfico de perfil médio (figura 6), exibem uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, também se verifica a característica de crescimento e possível estabilização do comprimento.
+
+
+```{r legenda_graficos_salzinco, echo=F}
+fig4 <- "Boxplot do comprimento para cada dia para sal de zinco. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Observa-se grande variabilidade a partir do dia 3 até o dia 8 (deve-se ter cuidado ao comparar com a figura 1, pois naquele caso as concentrações de nanopartículas são diferentes das do sal de zinco)."
+fig5 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para sal de zinco. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0,006mg/L, o tratamento 2 à 0,01mg/L, o tratamento 3 à 0,02mg/L, o tratamento 4 à 0,04mg/L e o tratamento 5 à 0,09mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de sal de zinco. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
+fig6 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que o tratamento 5 (0,09mg/L de sal de zinco) supera o comprimento médio dos demais tratamentos (1-4) a partir do 4 dia, abaixo somente do controle. Além disso, observe que o tratamento 2 (0,01 mg/L de sal de zinco) no decorrer dos dias possui o menor comprimento médio."
+```
+
+
+```{r fig.pos='H', fig.cap= fig4, fig.align='center', echo=FALSE}
 ggplot(data_compact_sal, aes(Dia, Comprimento)) + 
   geom_boxplot() + geom_jitter() + theme_classic() +
   ggtitle("Boxplot do comprimento para cada dia", subtitle = "Sal de zinco")
 ```
 
-```{r fig.pos='H', fig.align='center', echo=FALSE}
+Pela observação dos boxplots por dia e tratamento (figura 5) é possível destacar não somente o aumento do comprimento como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 5, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,09mg/L de sal de zinco).
+
+```{r fig.pos='H', fig.cap= fig5, fig.align='center', echo=FALSE}
 ggplot(data_compact_sal, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
   geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3, shape = 1) +
@@ -290,7 +302,7 @@ ggplot(data_compact_sal, aes(Dia, Comprimento, color = Tratamento, fill = Tratam
 #  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1)
 ```
 
-```{r}
+```{r calculo_medidas_resumo_salzinco, fig.pos='H', fig.cap=fig6, fig.align='center',echo=FALSE}
 lista1_sal <- list(0,0,0,0,0,0) #media
 lista2_sal <- list(0,0,0,0,0,0) #variância
 lista3_sal <- list(0,0,0,0,0,0) #mínimo
@@ -303,11 +315,11 @@ for(i in 1:6){
   lista4_sal[[i]] <- rep(0,9)
   lista5_sal[[i]] <- rep(0,9)
   for(j in 1:9){
-   lista1_sal[[i]][j] <- round(mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
-   lista2_sal[[i]][j] <- round(var( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
-   lista3_sal[[i]][j] <- round(min( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
-   lista4_sal[[i]][j] <- round(max( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
-   lista5_sal[[i]][j] <- round(median( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista1_sal[[i]][j] <- round(mean( as.data.frame(data_compact_sal %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista2_sal[[i]][j] <- round(var( as.data.frame(data_compact_sal %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista3_sal[[i]][j] <- round(min( as.data.frame(data_compact_sal %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista4_sal[[i]][j] <- round(max( as.data.frame(data_compact_sal %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
+   lista5_sal[[i]][j] <- round(median( as.data.frame(data_compact_sal %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Comprimento ), 4)
   }
 }
 
@@ -327,5 +339,78 @@ suporte_sal <- cbind(t_sal, suporte_sal)
 colnames(suporte_sal) <- c("Tratamento", "Dia", "Comprimento médio por dia")
 
 #c("0 = controle", "1 = 0.006mg/L", "2 = 0.0125mg/L", "3 = 0.025mg/L", "4 = 0.05mg/L", "5 = 0.1mg/L")
-ggplot(suporte_sal, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento médio") +theme_classic()
+ggplot(suporte_sal, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Sal de zinco") + scale_y_continuous("Comprimento médio") +theme_classic()
 ```
+
+```{r tabela_medidas_resumo_salzinco, echo=FALSE}
+#library(xtable)
+tab_sal <- as.data.frame(cbind(rep(0:8, 6),c(lista1_sal[[1]], lista1_sal[[2]], lista1_sal[[3]], lista1_sal[[4]], lista1_sal[[5]], lista1_sal[[6]]), c(lista2_sal[[1]], lista2_sal[[2]], lista2_sal[[3]], lista2_sal[[4]], lista2_sal[[5]], lista2_sal[[6]]), c(lista3_sal[[1]], lista3_sal[[2]], lista3_sal[[3]], lista3_sal[[4]], lista3_sal[[5]], lista3_sal[[6]]), c(lista4_sal[[1]], lista4_sal[[2]], lista4_sal[[3]], lista4_sal[[4]], lista4_sal[[5]], lista4_sal[[6]]), c(lista5_sal[[1]], lista5_sal[[2]], lista5_sal[[3]], lista5_sal[[4]], lista5_sal[[5]], lista5_sal[[6]])))
+tab_sal <- cbind(t, tab_sal)
+colnames(tab_sal) <- c("Tratamento", "Dia", "Média", "Variância", "Mínimo", "Máximo", "Mediana")
+#xtable(tab_sal)
+```
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrrrrr}
+  \hline
+ Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
+  \hline
+ 0 & 0 & 0.34 & 0.0002 & 0.31 & 0.36 & 0.34 \\ 
+ 0 & 1 & 0.43 & 0.0003 & 0.40 & 0.45 & 0.43 \\ 
+ 0 & 2 & 0.53 & 0.0002 & 0.52 & 0.55 & 0.53 \\ 
+ 0 & 3 & 0.61 & 0.0005 & 0.57 & 0.64 & 0.61 \\ 
+ 0 & 4 & 0.63 & 0.0005 & 0.60 & 0.67 & 0.63 \\ 
+ 0 & 5 & 0.68 & 0.0011 & 0.64 & 0.75 & 0.67 \\ 
+ 0 & 6 & 0.70 & 0.0005 & 0.67 & 0.72 & 0.72 \\ 
+ 0 & 7 & 0.72 & 0.0007 & 0.67 & 0.75 & 0.72 \\ 
+ 0 & 8 & 0.73 & 0.0006 & 0.69 & 0.76 & 0.73 \\ 
+ 1 & 0 & 0.34 & 0.0002 & 0.33 & 0.36 & 0.34 \\ 
+ 1 & 1 & 0.41 & 0.0004 & 0.39 & 0.45 & 0.42 \\ 
+ 1 & 2 & 0.51 & 0.0007 & 0.45 & 0.54 & 0.51 \\ 
+ 1 & 3 & 0.58 & 0.0046 & 0.40 & 0.63 & 0.60 \\ 
+ 1 & 4 & 0.59 & 0.0045 & 0.40 & 0.63 & 0.60 \\ 
+ 1 & 5 & 0.65 & 0.0029 & 0.51 & 0.69 & 0.66 \\ 
+ 1 & 6 & 0.67 & 0.0038 & 0.52 & 0.72 & 0.69 \\ 
+ 1 & 7 & 0.67 & 0.0028 & 0.54 & 0.72 & 0.69 \\ 
+ 1 & 8 & 0.68 & 0.0036 & 0.54 & 0.73 & 0.69 \\ 
+ 2 & 0 & 0.33 & 0.0001 & 0.31 & 0.34 & 0.34 \\ 
+ 2 & 1 & 0.42 & 0.0003 & 0.40 & 0.45 & 0.42 \\ 
+ 2 & 2 & 0.49 & 0.0011 & 0.45 & 0.54 & 0.47 \\ 
+ 2 & 3 & 0.57 & 0.0052 & 0.45 & 0.64 & 0.60 \\ 
+ 2 & 4 & 0.57 & 0.0048 & 0.45 & 0.67 & 0.60 \\ 
+ 2 & 5 & 0.60 & 0.0049 & 0.51 & 0.67 & 0.64 \\ 
+ 2 & 6 & 0.63 & 0.0062 & 0.52 & 0.70 & 0.67 \\ 
+ 2 & 7 & 0.65 & 0.0076 & 0.52 & 0.75 & 0.70 \\ 
+ 2 & 8 & 0.66 & 0.0092 & 0.52 & 0.75 & 0.72 \\ 
+ 3 & 0 & 0.33 & 0.0001 & 0.31 & 0.34 & 0.33 \\ 
+ 3 & 1 & 0.41 & 0.0003 & 0.40 & 0.45 & 0.40 \\ 
+ 3 & 2 & 0.51 & 0.0004 & 0.48 & 0.55 & 0.52 \\ 
+ 3 & 3 & 0.59 & 0.0004 & 0.55 & 0.61 & 0.60 \\ 
+ 3 & 4 & 0.59 & 0.0004 & 0.55 & 0.61 & 0.60 \\ 
+ 3 & 5 & 0.64 & 0.0005 & 0.60 & 0.67 & 0.66 \\ 
+ 3 & 6 & 0.65 & 0.0006 & 0.60 & 0.67 & 0.66 \\ 
+ 3 & 7 & 0.66 & 0.0003 & 0.63 & 0.69 & 0.67 \\ 
+ 3 & 8 & 0.68 & 0.0001 & 0.67 & 0.69 & 0.67 \\ 
+ 4 & 0 & 0.32 & 0.0002 & 0.31 & 0.34 & 0.32 \\ 
+ 4 & 1 & 0.42 & 0.0005 & 0.39 & 0.45 & 0.42 \\ 
+ 4 & 2 & 0.51 & 0.0007 & 0.46 & 0.55 & 0.52 \\ 
+ 4 & 3 & 0.59 & 0.0013 & 0.51 & 0.64 & 0.60 \\ 
+ 4 & 4 & 0.59 & 0.0008 & 0.54 & 0.64 & 0.60 \\ 
+ 4 & 5 & 0.64 & 0.0021 & 0.54 & 0.67 & 0.66 \\ 
+ 4 & 6 & 0.65 & 0.0015 & 0.58 & 0.70 & 0.67 \\ 
+ 4 & 7 & 0.66 & 0.0017 & 0.58 & 0.72 & 0.67 \\ 
+ 4 & 8 & 0.67 & 0.0027 & 0.58 & 0.75 & 0.67 \\ 
+ 5 & 0 & 0.33 & 0.0002 & 0.31 & 0.34 & 0.34 \\ 
+ 5 & 1 & 0.41 & 0.0002 & 0.39 & 0.43 & 0.42 \\ 
+ 5 & 2 & 0.50 & 0.0008 & 0.46 & 0.54 & 0.52 \\ 
+ 5 & 3 & 0.57 & 0.0031 & 0.46 & 0.61 & 0.60 \\ 
+ 5 & 4 & 0.61 & 0.0008 & 0.58 & 0.67 & 0.60 \\ 
+ 5 & 5 & 0.66 & 0.0007 & 0.60 & 0.69 & 0.66 \\ 
+ 5 & 6 & 0.67 & 0.0004 & 0.66 & 0.72 & 0.67 \\ 
+ 5 & 7 & 0.69 & 0.0004 & 0.66 & 0.72 & 0.69 \\ 
+ 5 & 8 & 0.70 & 0.0005 & 0.67 & 0.72 & 0.70 \\ 
+   \hline
+\end{tabular}
+\caption{Tabela resumo, para o sal de zinco, dos valores do comprimento para os dias nos diferentes tratamentos.}
+\end{table}
