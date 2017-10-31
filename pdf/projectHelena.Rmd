@@ -75,32 +75,32 @@ knitr::opts_chunk$set(fig.width=6, fig.height=3.5, fig.align='center', echo=FALS
 
 #Introdução
 
-A represa do Fazzari, localizada na cidade de São Carlos, (região com clima tropical), usada como depósito de dejetos químicos, teve sua composição natural alterada por estes. No processo, nanopartículas de óxido de zinco e sal de zinco são os principais componentes incorporados às águas fluviais.
+A represa do Fazzari, localizada na cidade de São Carlos de clima tropical, usada como depósito de dejetos químicos, teve sua composição natural alterada por estes. No processo, nanopartículas de óxido de zinco e sal de zinco são os principais componentes incorporados às águas fluviais.
 
-Um dos componentes da vida no - e do - rio são os microcrustáceos, animais parte do zooplâncton e a principal fonte de alimentação e transferência de energia para os níveis tróficos superiores do ambiente em questão. Em outras palavras, os microcrustáceos são microorganismos que servem como principal fonte de alimentação para X espécies, que, por sua vez, são a principal fonte de alimentação para outras Y espécies e, assim, sucessivamente, até que se complete a biodiversidade do rio. 
+Um dos componentes da vida no rio são os microcrustáceos, animais que fazem parte do zooplâncton e a principal fonte de alimentação e transferência de energia para os níveis tróficos superiores do ambiente em questão. Em outras palavras, os microcrustáceos são microorganismos que servem como principal fonte de alimentação para outras espécies, que, por sua vez, são a principal fonte de alimentação para outras espécies e, assim, sucessivamente, até que se complete a biodiversidade do rio. 
 
 
 #Objetivo
 
-Considerada a importância da existência regulada dos microcrustáceos, como base da cadeia alimentar, para a sustentabilidade da biodiversidade da represa do Fazzari, o presente trabalho tem por objetivo a análise do impacto das nanopartículas de óxido de zinco e do sal de zinco no:
+Considerada a importância da existência regulada dos microcrustáceos como base da cadeia alimentar, para a sustentabilidade da biodiversidade da represa do Fazzari, o presente trabalho tem por objetivo a análise do impacto das nanopartículas de óxido de zinco e do sal de zinco no:
 
-1) desenvolvimento - tamanho que os microorganismos em questão atingem;
+1) desenvolvimento - tamanho (comprimento em milímetros) que os microorganismos em questão atingem;
 
 2) fecundação - quantidade de zigotos formados por dia;
 
 3) nascimento - quantidade de zigotos que se transformam em indivíduos adultos;
 
-Os impactos serão mensurados e analisados através da comparação entre 6 cenários, sendo estes a ausência dos componentes destacados na água e outras cinco concentrações dos mesmos. 
+Os impactos serão mensurados e analisados através da comparação entre 6 cenários, caracterizados pela ausência dos componentes destacados na água e outras cinco concentrações dos mesmos. 
 
 #Banco de dados
 
-O banco de dados considerado para as análises contém 1080 observações, de 120 microcrustáceos divididos em 12 grupos - com 10 microcrustáceos em cada - dos quais 6 foram expostos às nanopartículas e 6 ao sal de zinco. Para cada um dos 6 grupos submetidos a um dos materiais foram utilizadas 6 concentrações do mesmo (uma para cada grupo), sendo elas: 0,00(controle), 0,006, 0,01, 0,02, 0,04 e 0,09mg/L para o sal de zinco e 0,00(controle), 0,006, 0,0125, 0,025, 0,05 e 0,1mg/L para nanopartículas.
+O banco de dados considerado para as análises contém 1080 observações, de 120 microcrustáceos divididos em 12 grupos - com 10 microcrustáceos em cada - dos quais 6 foram expostos às nanopartículas e 6 ao sal de zinco. Para cada um dos 6 grupos submetidos a um dos materiais foram utilizadas 6 concentrações do mesmo (uma para cada grupo): 0,00 (controle), 0,006mg/L, 0,01mg/L, 0,02mg/L, 0,04mg/L e 0,09mg/L para o sal de zinco e 0,00 (controle), 0,006mg/L, 0,0125mg/L, 0,025mg/L, 0,05mg/L e 0,1mg/L para nanopartículas.
 
-Os microcrustáceos foram observado durante 9 dias e para cada um foi tomada uma medida diária de seu comprimento (medido em milímetros), do número de ovos colocados no dia em questão e do número de neonatos nascidos neste dia.
+Os microcrustáceos foram observado durante 9 dias nos quais uma medida diária de seu comprimento (medido em milímetros), do número de ovos colocados no dia em questão e do número de neonatos nascidos neste dia.
 
 Para avaliar o número de ovos e neonatos foram considerados a quantidade total de ovos e neonatos por replicação. Deseja-se verificar, assim, as possíveis diferenças nestes totais para os diferentes níves de concentração para nanopartículas e sal de zinco.
 
-Linhas que possuem indivíduos que morreram em para qualquer que seja o dia foam retiradas. Isto fez com que as informações referentes ao dia foram diminuídas. (Poderia ser utilizada outra abordagem, como completar os dados faltantes por alguma técnica).
+Linhas (replicações) que possuem microcrustáceos que morreram para qualquer que seja o dia foram retiradas. Isto fez com que as informações referentes ao dia diminuíssem para algumas concentrações nas quais isso ocorreu. (Poderia ser utilizada outra abordagem, como completar os dados faltantes por alguma técnica).
 
 Além disso, para o sal de zinco, na variável "Tratamento" foram consideradas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,01mg/L, "3" para a concentração 0,02mg/L, "4" para a concentração 0,04mg/L e "5" para a concentração 0,09mg/L. Ideia semelhante foi adotada para nanopartículas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,0125mg/L, "3" para a concentração 0,025mg/L, "4" para a concentração 0,05mg/L e "5" para a concentração 0,1mg/L.
 
@@ -141,7 +141,7 @@ fig3 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se 
 
 ```{r fig.cap=fig1, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(data_compact_nano, aes(Dia, Comprimento)) + 
-  geom_boxplot() + geom_jitter() + theme_classic() +
+  geom_boxplot(outlier.colour = "red", outlier.shape = 1, outlier.size = 2) + geom_point(shape = 1)+theme_classic() +
   ggtitle("Boxplot do comprimento para cada dia", subtitle = "Nanopartículas")
 ```
 
@@ -150,9 +150,7 @@ Pela observação dos boxplots por dia e tratamento (figura 2) é possível dest
 ```{r fig.cap=fig2, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
-  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3, shape = 1) +
-  scale_fill_grey() + theme_classic() +
-  ggtitle("Boxplot do comprimento para cada nível de tratamento nos dias", subtitle = "Nanopartículas")
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) + scale_fill_grey() + theme_classic() + ggtitle("Boxplot do comprimento para cada nível de tratamento nos dias", subtitle = "Nanopartículas")
 #ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
 #  geom_boxplot(colour = "1") + scale_fill_grey() +
 #  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1)
@@ -268,7 +266,7 @@ colnames(tab) <- c("Tratamento", "Dia", "Média", "Variância", "Mínimo", "Máx
   5 & 8 & 0,68 & 0,0025 & 0,61 & 0,75 & 0,67 \\ 
    \hline
 \end{tabular}
-\caption{Tabela resumo, para nanopartículas, dos valores do comprimento para os dias nos diferentes tratamentos.}
+\caption{Tabela resumo, para nanopartículas, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 3.}
 \end{table}
 
 ##Sal de zinco
@@ -285,8 +283,9 @@ fig6 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se 
 
 ```{r fig.pos='H', fig.cap= fig4, fig.align='center', echo=FALSE}
 ggplot(data_compact_sal, aes(Dia, Comprimento)) + 
-  geom_boxplot() + geom_jitter() + theme_classic() +
+  geom_boxplot(outlier.colour = "red", outlier.shape = 1, outlier.size = 2) + geom_point(shape = 1) + theme_classic() +
   ggtitle("Boxplot do comprimento para cada dia", subtitle = "Sal de zinco")
+#geom_jitter()
 ```
 
 Pela observação dos boxplots por dia e tratamento (figura 5) é possível destacar não somente o aumento do comprimento como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 5, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,09mg/L de sal de zinco).
@@ -294,7 +293,7 @@ Pela observação dos boxplots por dia e tratamento (figura 5) é possível dest
 ```{r fig.pos='H', fig.cap= fig5, fig.align='center', echo=FALSE}
 ggplot(data_compact_sal, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
-  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3, shape = 1) +
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) +
   scale_fill_grey() + theme_classic() +
   ggtitle("Boxplot do comprimento para cada nível de tratamento nos dias", subtitle = "Sal de zinco")
 #ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
@@ -412,5 +411,5 @@ colnames(tab_sal) <- c("Tratamento", "Dia", "Média", "Variância", "Mínimo", "
  5 & 8 & 0.70 & 0.0005 & 0.67 & 0.72 & 0.70 \\ 
    \hline
 \end{tabular}
-\caption{Tabela resumo, para o sal de zinco, dos valores do comprimento para os dias nos diferentes tratamentos.}
+\caption{Tabela resumo, para o sal de zinco, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 6.}
 \end{table}

@@ -38,7 +38,7 @@ dados[[6]]$`8` <- as.numeric(dados[[6]]$`8`)
 
 ###################################################################### 2º forma
 # 0 = controle, 1 = t0.006, 2 = t0.0125, 3 = t0.025, 4 = t0.05 e 5 = t0.1
-data_compact_nano <- as.data.frame(read_excel("./dados/nanoparticulas_dadosR.xlsx"))
+data_compact_nano <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/nanoparticulas_dadosR.xlsx"))
 data_compact_nano$Tratamento <- as.factor(data_compact_nano$Tratamento)
 data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
 data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
@@ -47,12 +47,22 @@ data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 prop.table(table(is.na(data_compact_nano))) #quantidade de NA's geral
 
 data_compact_nano <- na.omit(data_compact_nano)
+
+ggplot(data_compact_nano, aes(Dia, Comprimento)) + 
+  geom_boxplot() + geom_jitter() + theme_classic() +
+  ggtitle("Boxplot do comprimento para cada dia", subtitle = "Nanopartículas")
+
+
+ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento)) + 
+  geom_boxplot(outlier.colour = "red", outlier.shape = 1) +
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))+ 
+  geom_smooth(method = "loess", aes(group = Tratamento), se = F)
+
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento)) + 
   geom_boxplot(outlier.colour = "red", outlier.shape = 1) +
   geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75)) +
-  smooth.spline()
+  geom_smooth(method = "loess", aes(group = Dia), se = F)
 
-#+ geom_jitter()
 
 #Tentativa de fazer o perfil médio por dia
 lista1 <- list(0,0,0,0,0,0)
