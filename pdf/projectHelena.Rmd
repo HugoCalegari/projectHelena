@@ -133,15 +133,15 @@ data_compact_sal <- na.omit(data_compact_sal)
 ```
 
 ```{r legenda_graficos_nanoparticulas, echo=F}
-fig1 <- "Boxplot do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias."
+fig1 <- "Boxplot do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Como as medidas dos comprimentos são muito próximas, caso os pontos nos boxplots fosses localizados no centro haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o crescimento nos dias independente do tratamento."
 fig2 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para nanopartículas. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0,006mg/L, o tratamento 2 à 0,0125mg/L, o tratamento 3 à 0,025mg/L, o tratamento 4 à 0,05mg/L e o tratamento 5 à 0,1mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8, para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
 fig3 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que para o tratamento 2 (0.0125mg/L de nanopartículas) supera o comprimento médio dos demais tratamentos (3-5) a partir do 4 dia, abaixo somente do controle."
 ```
 
 
 ```{r fig.cap=fig1, fig.pos='H', fig.align='center', echo=FALSE}
-ggplot(data_compact_nano, aes(Dia, Comprimento)) + 
-  geom_boxplot(outlier.colour = "red", outlier.shape = 1, outlier.size = 2) + geom_point(shape = 1)+theme_classic() +
+ggplot(data_compact_nano, aes(Dia, Comprimento, group = Dia)) + 
+  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))+theme_classic() +
   ggtitle("Boxplot do comprimento para cada dia", subtitle = "Nanopartículas")
 ```
 
@@ -275,17 +275,15 @@ Assim como no caso das nanopartículas, os boxplots do comprimento por dia (figu
 
 
 ```{r legenda_graficos_salzinco, echo=F}
-fig4 <- "Boxplot do comprimento para cada dia para sal de zinco. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Observa-se grande variabilidade a partir do dia 3 até o dia 8 (deve-se ter cuidado ao comparar com a figura 1, pois naquele caso as concentrações de nanopartículas são diferentes das do sal de zinco)."
+fig4 <- "Boxplot do comprimento para cada dia para sal de zinco. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Observa-se grande variabilidade a partir do dia 3 até o dia 8 (deve-se ter cuidado ao comparar com a figura 1, pois naquele caso as concentrações de nanopartículas são diferentes das do sal de zinco). Assim como anteriormente, as medidas dos comprimentos são muito próximas. Caso os pontos nos boxplots fosses localizados no centro haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o crescimento nos dias independente do tratamento."
 fig5 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para sal de zinco. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0,006mg/L, o tratamento 2 à 0,01mg/L, o tratamento 3 à 0,02mg/L, o tratamento 4 à 0,04mg/L e o tratamento 5 à 0,09mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de sal de zinco. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
 fig6 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que o tratamento 5 (0,09mg/L de sal de zinco) supera o comprimento médio dos demais tratamentos (1-4) a partir do 4 dia, abaixo somente do controle. Além disso, observe que o tratamento 2 (0,01 mg/L de sal de zinco) no decorrer dos dias possui o menor comprimento médio."
 ```
 
 
 ```{r fig.pos='H', fig.cap= fig4, fig.align='center', echo=FALSE}
-ggplot(data_compact_sal, aes(Dia, Comprimento)) + 
-  geom_boxplot(outlier.colour = "red", outlier.shape = 1, outlier.size = 2) + geom_point(shape = 1) + theme_classic() +
-  ggtitle("Boxplot do comprimento para cada dia", subtitle = "Sal de zinco")
-#geom_jitter()
+ggplot(data_compact_sal, aes(Dia, Comprimento, group = Dia)) + 
+  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75)) + theme_classic() + ggtitle("Boxplot do comprimento para cada dia", subtitle = "Sal de zinco")
 ```
 
 Pela observação dos boxplots por dia e tratamento (figura 5) é possível destacar não somente o aumento do comprimento como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 5, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,09mg/L de sal de zinco).

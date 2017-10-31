@@ -49,19 +49,18 @@ prop.table(table(is.na(data_compact_nano))) #quantidade de NA's geral
 data_compact_nano <- na.omit(data_compact_nano)
 
 ggplot(data_compact_nano, aes(Dia, Comprimento)) + 
-  geom_boxplot() + geom_jitter() + theme_classic() +
-  ggtitle("Boxplot do comprimento para cada dia", subtitle = "Nanopartículas")
+  geom_boxplot() + geom_point() + theme_classic() +
+  ggtitle("Boxplot do comprimento para cada dia", subtitle = "Nanopartículas") 
 
+
+ggplot(data_compact_nano, aes(Dia, Comprimento, group = Dia)) + 
+  geom_boxplot(outlier.colour = NA) +
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))
 
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento)) + 
   geom_boxplot(outlier.colour = "red", outlier.shape = 1) +
-  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))+ 
-  geom_smooth(method = "loess", aes(group = Tratamento), se = F)
-
-ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento)) + 
-  geom_boxplot(outlier.colour = "red", outlier.shape = 1) +
-  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75)) +
-  geom_smooth(method = "loess", aes(group = Dia), se = F)
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))+
+  geom_smooth(aes(x = Dia , y = Comprimento), se = F)
 
 
 #Tentativa de fazer o perfil médio por dia
@@ -232,6 +231,8 @@ data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 
 #A soma do número de ovos está localizada no dia 8
 num_sum_ovo <- as.data.frame(data_compact_nano %>% filter(Dia == 8))
+ggplot(num_sum_ovo, aes(x = Repeticao, y = Numero_ovos_somados, group = Tratamento)) + geom_line(aes(linetype = Tratamento))+
+ geom_point(aes(shape = Tratamento))
 
 #par(mfrow=c(1,2))
 Ps <- fitdistr(num_sum_ovo$Numero_ovos_somados, "Poisson")
