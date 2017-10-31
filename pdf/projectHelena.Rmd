@@ -136,6 +136,8 @@ data_compact_sal <- na.omit(data_compact_sal)
 fig1 <- "Boxplot do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Como as medidas dos comprimentos são muito próximas, caso os pontos nos boxplots fosses localizados no centro haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o crescimento nos dias independente do tratamento."
 fig2 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para nanopartículas. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0,006mg/L, o tratamento 2 à 0,0125mg/L, o tratamento 3 à 0,025mg/L, o tratamento 4 à 0,05mg/L e o tratamento 5 à 0,1mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8, para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
 fig3 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que para o tratamento 2 (0.0125mg/L de nanopartículas) supera o comprimento médio dos demais tratamentos (3-5) a partir do 4 dia, abaixo somente do controle."
+fig7 <- "lala"
+fig8 <- "lala"
 ```
 
 
@@ -202,6 +204,32 @@ tab <- as.data.frame(cbind(rep(0:8, 6),c(lista1[[1]], lista1[[2]], lista1[[3]], 
 tab <- cbind(t, tab)
 colnames(tab) <- c("Tratamento", "Dia", "Média", "Variância", "Mínimo", "Máximo", "Mediana")
 #xtable(tab)
+
+#Número médio de ovos e neonatos para nanopartículas
+lista1_ovos_neo <- list(0,0,0,0,0,0) 
+lista2_neo_neo <- list(0,0,0,0,0,0) 
+
+for(i in 1:6){
+  lista1_ovos_neo[[i]] <- rep(0, 9)
+  lista2_neo_neo[[i]] <- rep(0,9)
+  for(j in 1:9){
+   lista1_ovos_neo[[i]][j] <- round(mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Numero_ovos ), 4)
+   lista2_neo_neo[[i]][j] <- round(mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Numero_neonatos ), 4)
+  }
+}
+
+suporte_ovo_neo <- as.data.frame(cbind(rep(0:8, 6), c(lista1_ovos_neo[[1]], lista1_ovos_neo[[2]], lista1_ovos_neo[[3]], lista1_ovos_neo[[4]], lista1_ovos_neo[[5]], lista1_ovos_neo[[6]]), c(lista2_neo_neo[[1]], lista2_neo_neo[[2]], lista2_neo_neo[[3]], lista2_neo_neo[[4]], lista2_neo_neo[[5]], lista2_neo_neo[[6]])))
+
+suporte_ovo_neo <- cbind(t, suporte_ovo_neo)
+colnames(suporte_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "Número médio de neonatos")
+```
+
+```{r grafico_numero_medio_ovos, fig.cap=fig7, fig.pos='H', fig.align='center', echo=FALSE}
+ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de ovos") +theme_classic()
+```
+
+```{r grafico_numero_medio_neonatos, fig.cap=fig8, fig.pos='H', fig.align='center', echo=FALSE}
+ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de neonatos") +theme_classic()
 ```
 
 \begin{table}[ht]
@@ -278,6 +306,8 @@ Assim como no caso das nanopartículas, os boxplots do comprimento por dia (figu
 fig4 <- "Boxplot do comprimento para cada dia para sal de zinco. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Observa-se grande variabilidade a partir do dia 3 até o dia 8 (deve-se ter cuidado ao comparar com a figura 1, pois naquele caso as concentrações de nanopartículas são diferentes das do sal de zinco). Assim como anteriormente, as medidas dos comprimentos são muito próximas. Caso os pontos nos boxplots fosses localizados no centro haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o crescimento nos dias independente do tratamento."
 fig5 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para sal de zinco. Assim como mencionado na descrição do banco de dados, na seção anterior, o tratamento 0 refere-se ao controle, o tratamento 1 refere-se à concentração 0,006mg/L, o tratamento 2 à 0,01mg/L, o tratamento 3 à 0,02mg/L, o tratamento 4 à 0,04mg/L e o tratamento 5 à 0,09mg/L. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de sal de zinco. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos e isso percorre ao longo dos dias."
 fig6 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que o tratamento 5 (0,09mg/L de sal de zinco) supera o comprimento médio dos demais tratamentos (1-4) a partir do 4 dia, abaixo somente do controle. Além disso, observe que o tratamento 2 (0,01 mg/L de sal de zinco) no decorrer dos dias possui o menor comprimento médio."
+fig9 <- "lala"
+fig10 <- "lala"
 ```
 
 
@@ -345,6 +375,33 @@ tab_sal <- as.data.frame(cbind(rep(0:8, 6),c(lista1_sal[[1]], lista1_sal[[2]], l
 tab_sal <- cbind(t, tab_sal)
 colnames(tab_sal) <- c("Tratamento", "Dia", "Média", "Variância", "Mínimo", "Máximo", "Mediana")
 #xtable(tab_sal)
+
+#Número médio de ovos e neonatos para sal de zinco
+lista11_ovos_neo <- list(0,0,0,0,0,0) 
+lista22_neo_neo <- list(0,0,0,0,0,0) 
+
+for(i in 1:6){
+  lista11_ovos_neo[[i]] <- rep(0, 9)
+  lista22_neo_neo[[i]] <- rep(0,9)
+  for(j in 1:9){
+   lista11_ovos_neo[[i]][j] <- round(mean( as.data.frame(data_compact_sal %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Numero_ovos ), 4)
+   lista22_neo_neo[[i]][j] <- round(mean( as.data.frame(data_compact_sal %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$Numero_neonatos ), 4)
+  }
+}
+
+suporte1_ovo_neo <- as.data.frame(cbind(rep(0:8, 6), c(lista11_ovos_neo[[1]], lista11_ovos_neo[[2]], lista11_ovos_neo[[3]], lista11_ovos_neo[[4]], lista11_ovos_neo[[5]], lista11_ovos_neo[[6]]), c(lista22_neo_neo[[1]], lista22_neo_neo[[2]], lista22_neo_neo[[3]], lista22_neo_neo[[4]], lista22_neo_neo[[5]], lista22_neo_neo[[6]])))
+
+suporte1_ovo_neo <- cbind(t, suporte1_ovo_neo)
+colnames(suporte1_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "Número médio de neonatos")
+```
+
+```{r grafico_numero_medio_ovos_salzinco, fig.cap=fig9, fig.pos='H', fig.align='center', echo=FALSE}
+ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de ovos") +theme_classic()
+```
+
+
+```{r grafico_numero_medio_neonatos_salzinco, fig.cap=fig10, fig.pos='H', fig.align='center', echo=FALSE}
+ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de neonatos") +theme_classic()
 ```
 
 \begin{table}[ht]
