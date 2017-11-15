@@ -75,7 +75,7 @@ knitr::opts_chunk$set(fig.width=6, fig.height=3.5, fig.align='center', echo=FALS
 
 #Introdução
 
-A represa do Fazzari, localizada na cidade de São Carlos de clima tropical, usada como depósito de dejetos químicos, teve sua composição natural alterada por estes. No processo, nanopartículas de óxido de zinco e sal de zinco são os principais componentes incorporados às águas fluviais.
+A represa do Fazzari, localizada na cidade de São Carlos de clima tropical, teve sua composição natural alterada devido aos dejetos químicos. No processo, nanopartículas de óxido de zinco e sal de zinco são os principais componentes incorporados às águas fluviais.
 
 Um dos componentes da vida no rio são os microcrustáceos, animais que fazem parte do zooplâncton e a principal fonte de alimentação e transferência de energia para os níveis tróficos superiores do ambiente em questão. Em outras palavras, os microcrustáceos são microorganismos que servem como principal fonte de alimentação para outras espécies, que, por sua vez, são a principal fonte de alimentação para outras espécies e, assim, sucessivamente, até que se complete a biodiversidade do rio. 
 
@@ -98,9 +98,7 @@ O banco de dados considerado para as análises contém 1080 observações, de 12
 
 Os microcrustáceos foram observado durante 9 dias nos quais uma medida diária de seu comprimento (medido em milímetros), do número de ovos colocados no dia em questão e do número de neonatos nascidos neste dia.
 
-Para avaliar o número de ovos e neonatos foram considerados a quantidade total de ovos e neonatos por replicação. Deseja-se verificar, assim, as possíveis diferenças nestes totais para os diferentes níves de concentração para nanopartículas e sal de zinco.
-
-Linhas (replicações) que possuem microcrustáceos que morreram para qualquer que seja o dia foram retiradas. Isto fez com que as informações referentes ao dia diminuíssem para algumas concentrações nas quais isso ocorreu. (Poderia ser utilizada outra abordagem, como completar os dados faltantes por alguma técnica).
+Dados que faziam referência a morte do microcrustáceo foram retirados. Por exemplo, se no dia 8, a replicação 1 (microcrustáceo) morreu, este dado é desconsiderado. Isto fez com que as informações referentes ao dia diminuíssem para algumas concentrações nas quais isso ocorreu. (Poderia ser utilizada outra abordagem, como completar os dados faltantes por alguma técnica).
 
 Além disso, para o sal de zinco, na variável "Tratamento" foram consideradas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,01mg/L, "3" para a concentração 0,02mg/L, "4" para a concentração 0,04mg/L e "5" para a concentração 0,09mg/L. Ideia semelhante foi adotada para nanopartículas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,0125mg/L, "3" para a concentração 0,025mg/L, "4" para a concentração 0,05mg/L e "5" para a concentração 0,1mg/L.
 
@@ -108,12 +106,12 @@ Além disso, para o sal de zinco, na variável "Tratamento" foram consideradas: 
 
 A seguir foram avaliadas as variáveis comprimento, número de ovos e nenonatos, de acordo com as informações dos 9 dias para nanopartículas e sal de zinco.
 
-Conforme a descrição do banco de dados, entre as diferentes concentrações de nanopartículas e sal de zinco, somente uma coincide que é a concentração 0,006mg/L (definida como tratamento 1). Neste caso, uma breve avaliação foi feita.
+Conforme a descrição do banco de dados, entre as diferentes concentrações de nanopartículas e sal de zinco, somente uma coincide que é a concentração 0,006mg/L (definida como tratamento 1). Neste caso, uma breve avaliação foi feita em um tópico a parte.
 
 
 ##Comprimento para nanopartículas
 
-De acordo com os boxplots do comprimento por dia (figura 1) e do gráfico de perfil médio (figura 3), percebe-se que existe uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, nota-se que os comprimentos têm uma característica de crescimento até uma possível estabilização que ocorre nos dias 7 e 8 (a variabilidade dos comprimentos nestes dois dias também é muito próxima).
+De acordo com o diagrama de dispersão do comprimento por dia (figura 1) e do gráfico de perfil médio (figura 3), percebe-se que existe uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, nota-se que os comprimentos têm uma característica de crescimento até uma possível estabilização que ocorre nos dias 7 e 8 (a variabilidade dos comprimentos nestes dois dias também é muito próxima).
 
 ```{r leitura_dados, echo=FALSE, message=FALSE}
 library(readxl)
@@ -138,8 +136,8 @@ data_compact_sal <- na.omit(data_compact_sal)
 ```
 
 ```{r legenda_graficos_nanoparticulas, echo=F}
-fig1 <- "Boxplot do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Como as medidas dos comprimentos são muito próximas, caso os pontos nos boxplots fossem centralizadas haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o comportamento do comprimento nos dias independente do tratamento."
-fig2 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para nanopartículas. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8 (note a característica decrescente do comprimento para o mesmo dia entre os tratamentos), para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos. Assim como o gráfico anterior, a estrutura de variabilidade entre os dias é diferente e observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos. É perceptível também que a taxa de crescimento do comprimento, para os diferentes tratamentos, é diferente."
+fig1 <- "Diagrama de dispersão do comprimento para cada dia para nanopartículas. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Como as medidas dos comprimentos são muito próximas, caso os pontos nos diagramas de dispersão fossem centralizadas haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o comportamento do comprimento nos dias independente do tratamento."
+fig2 <- "Diagrama de dispersão do comprimento para os níveis de tratamentos nos dias para nanopartículas. As cores na escala cinza dos indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de nanopartículas. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. O comprimento dos microcrustáceos nos dias de 5-8 (note a característica decrescente do comprimento para o mesmo dia entre os tratamentos), para os tratamentos de 1-5, é mais diferenciável em comparação com os dias 0-4 para os mesmos tratamentos. Assim como o gráfico anterior, a estrutura de variabilidade entre os dias é diferente e observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos. É perceptível também que a taxa de crescimento do comprimento, para os diferentes tratamentos, é diferente."
 fig3 <- "Gráfico de perfil médio do comprimento para nanopartículas. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que para o tratamento 2 (0.0125mg/L de nanopartículas) supera o comprimento médio dos demais tratamentos (3-5) a partir do 4 dia, abaixo somente do controle."
 fig7 <- "Gráfico do número médio de ovos por dia para nanopartículas. É possivel notar, de imediato, que o tratamento 0 (controle) se destaca dos demais em relação ao número médio de ovos por dia, com igual valor ou acima de todos os outros tratamentos em 7 dos 9 dias observados, e perde apenas no dia 4, no qual a média é menor que um para esse grupo e no dia 6, no qual os tratamentos 1 (0,006mg/L), 2 (0,0125mg/L) e 3 (0,025mg/L) tiveram uma média maior. Além disso, nota-se que para os outros tratamentos nao existe um que se destaca, uma vez que nenhum deles se mantêm predominantemente acima ou abaixo dos demais. É possivel notar também que existe uma tendência de que nos dias 3, 4 e 7 o número médio de ovos seja maior para todos os tratamentos."
 fig8 <- "Gráfico do número médio de neonatos para nanopartículas. Assim como acontece para o número de ovos, pode-se observar que o tratamento 0 (controle) se destaca dos demais em relação ao número médio de neonatos por dia, com igual valor ou acima de todos os outros tratamentos em 7 dos 9 dias observados, e perde apenas no dia 4, no qual a média é zero para esse grupo e no dia 6, no qual o tratamento 2 (0,0125mg/L) teve uma média maior. Além disso, nota-se que para os outros tratamentos nao existe um que se destaca, uma vez que nenhum deles se mantêm predominantemente acima ou abaixo dos demais. É possível notar também que a partir do dia 6 os grupos 0 (controle), 2 (0,0125mg/L) e 3 (0,025mg/L) seguem uma tendência crescente no número médio de neonatos, enquanto nos outros grupos esse número cresce no dia 7, mas cai novamente no dia 8. 
@@ -150,16 +148,16 @@ fig8 <- "Gráfico do número médio de neonatos para nanopartículas. Assim como
 ```{r fig.cap=fig1, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(data_compact_nano, aes(Dia, Comprimento, group = Dia)) + 
   geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))+theme_classic() +
-  ggtitle("Boxplots do comprimento para cada dia", subtitle = "Nanopartículas") +
+  ggtitle("Diagrama de dispersão do comprimento para cada dia", subtitle = "Nanopartículas") +
   scale_y_continuous("Comprimento (mm)")
 ```
 
-Pela observação dos boxplots por dia e tratamento (figura 2) é possível destacar não somente o aumento do comprimento, como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 2, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,1mg/L de nanopartículas).
+Pela observação dos diagramas de dispersão por dia e tratamento (figura 2) é possível destacar não somente o aumento do comprimento, como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 2, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,1mg/L de nanopartículas).
 
 ```{r fig.cap=fig2, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
-  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) + scale_fill_grey() + theme_classic() + ggtitle("Boxplots do comprimento para cada nível de tratamento nos dias", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento (mm)")
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) + scale_fill_grey() + theme_classic() + ggtitle("Diagramas de dispersão do comprimento para cada nível de tratamento nos dias", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento (mm)")
 #ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
 #  geom_boxplot(colour = "1") + scale_fill_grey() +
 #  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1)
@@ -233,7 +231,7 @@ colnames(suporte_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "N
 
 ##Número de ovos e neonatos para nanopartículas
 
-Observe nos gráficos a seguir (isto deve ser levado em consideração para o sal de zinco também), que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes.
+Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes.
 
 ```{r grafico_numero_medio_ovos, fig.cap=fig7, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de ovos") +theme_classic()
@@ -310,12 +308,12 @@ ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = T
 
 ##Comprimento para sal de zinco
 
-Assim como no caso das nanopartículas, os boxplots do comprimento por dia (figura 6) e do gráfico de perfil médio (figura 8), exibem uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, também se verifica a característica de crescimento e possível estabilização do comprimento.
+Assim como no caso das nanopartículas, os diagramas de dispersão do comprimento por dia (figura 6) e do gráfico de perfil médio (figura 8), exibem uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, também se verifica a característica de crescimento e possível estabilização do comprimento.
 
 
 ```{r legenda_graficos_salzinco, echo=F}
-fig4 <- "Boxplot do comprimento para cada dia para sal de zinco. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Observa-se grande variabilidade a partir do dia 3 até o dia 8 (deve-se ter cuidado ao comparar com a figura 1, pois naquele caso as concentrações de nanopartículas são diferentes das do sal de zinco). Assim como anteriormente, as medidas dos comprimentos são muito próximas. Caso os pontos nos boxplots fosses localizados no centro haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o crescimento com o decorrer dos dias independente do tratamento."
-fig5 <- "Boxplot do comprimento para os níveis de tratamentos nos dias para sal de zinco. As cores na escala cinza dos boxplots indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de sal de zinco. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos. Observe, além disso, que a taxa de crescimento do comprimento, para os diferentes tratamentos, são diferentes."
+fig4 <- "Diagrama de dispersão do comprimento para cada dia para sal de zinco. De imediato, nota-se as seguintes características: à medida em que se passam os dias o comprimento dos microcrustáceos aumentam e a variabilidade do comprimento é diferente entre os dias. Observa-se grande variabilidade a partir do dia 3 até o dia 8 (deve-se ter cuidado ao comparar com a figura 1, pois naquele caso as concentrações de nanopartículas são diferentes das do sal de zinco). Assim como anteriormente, as medidas dos comprimentos são muito próximas. Caso os pontos nos diagramas de dispersão fossem localizados no centro haveria a sobreposição destes e poderia gerar algum confundimento. Note que neste caso, o interesse é simplesmente avaliar o crescimento com o decorrer dos dias independente do tratamento."
+fig5 <- "Diagrama de dispersão do comprimento para os níveis de tratamentos nos dias para sal de zinco. As cores na escala cinza indicam, do mais escuro (controle) ao mais claro (maior concentração), as diferentes concentrações de sal de zinco. Em geral, o comprimento do grupo controle é maior dentro de cada dia e no decorrer dos dias. Assim como o gráfico anterior, não só a estrutura de variabilidade entre os dias é diferente, mas também observa-se que para o mesmo dia há variação do comprimento para os diferentes tratamentos. Observe, além disso, que a taxa de crescimento do comprimento, para os diferentes tratamentos, são diferentes."
 fig6 <- "Gráfico de perfil médio do comprimento para sal de zinco. Nota-se que para o controle, referido como tratamento 0, o comprimento médio para os diferentes dias é superior quando comparado com os diferentes tratamentos. Observe que o tratamento 5 (0,09mg/L de sal de zinco) supera o comprimento médio dos demais tratamentos (1-4) a partir do 4 dia, abaixo somente do controle. Além disso, observe que o tratamento 2 (0,01 mg/L de sal de zinco) no decorrer dos dias possui o menor comprimento médio."
 fig9 <- "Gráfico do número médio de ovos por  dia para sal de zinco. Assim como para as nanopartículas, neste gráfico pode-se observar que o tratamento 0 (controle) se destaca dos demais em relação ao número médio de ovos por dia, com igual valor ou acima de todos os outros tratamentos em 8 dos 9 dias observados, e perde apenas no dia 7, no qual a média é zero para esse grupo. Além disso, nota-se que para os outros tratamentos nao existe um que se destaca, uma vez que nenhum deles se mantêm predominantemente acima ou abaixo dos demais.
 "
@@ -325,17 +323,17 @@ fig10 <- " Gráfico do número médio de neonatos por dia para sal de zinco. Mai
 
 ```{r fig.pos='H', fig.cap= fig4, fig.align='center', echo=FALSE}
 ggplot(data_compact_sal, aes(Dia, Comprimento, group = Dia)) + 
-  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75)) + theme_classic() + ggtitle("Boxplots do comprimento para cada dia", subtitle = "Sal de zinco") + scale_y_continuous("Comprimento (mm)")
+  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75)) + theme_classic() + ggtitle("Diagrama de dispersão do comprimento para cada dia", subtitle = "Sal de zinco") + scale_y_continuous("Comprimento (mm)")
 ```
 
-Pela observação dos boxplots por dia e tratamento (figura 7) é possível destacar não somente o aumento do comprimento como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 5, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,09mg/L de sal de zinco).
+Pela observação dos diagramas de dispersão por dia e tratamento (figura 7) é possível destacar não somente o aumento do comprimento como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 5, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,09mg/L de sal de zinco).
 
 ```{r fig.pos='H', fig.cap= fig5, fig.align='center', echo=FALSE}
 ggplot(data_compact_sal, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
   geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) +
   scale_fill_grey() + theme_classic() +
-  ggtitle("Boxplots do comprimento para cada nível de tratamento nos dias", subtitle = "Sal de zinco")+
+  ggtitle("Diagramas de dispersão do comprimento para cada nível de tratamento nos dias", subtitle = "Sal de zinco")+
   scale_y_continuous("Comprimento (mm)")
 #ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
 #  geom_boxplot(colour = "1") + scale_fill_grey() +
@@ -409,6 +407,9 @@ colnames(suporte1_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "
 ```
 
 ##Número de ovos e neonatos para sal de zinco
+
+Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes (assim como no caso para nanopartículas).
+
 
 ```{r grafico_numero_medio_ovos_salzinco, fig.cap=fig9, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de ovos") +theme_classic()
@@ -486,10 +487,10 @@ ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = 
 
 ##Avaliação da concentração 0,006mg/L para nanopatículas e sal de zinco
 
-Os gráficos a seguir representam os comportamentos diários do comprimento, do comprimento médio, do número médio de ovos e neonatos para o tratamento 1 (concentração 0,006mg/L) para nanopartículas e sal de zinco. Deseja-se verificar possíveis diferenças e similaridades na mesma concentração para as diferentes partículas.
+Os gráficos a seguir representam os comportamentos diários do comprimento, do comprimento médio (por dia), do número médio de ovos e neonatos para o tratamento 1 (concentração 0,006mg/L) para nanopartículas e sal de zinco. Deseja-se verificar possíveis diferenças e similaridades na mesma concentração para as diferentes partículas.
 
 ```{r legendas_tratamento1, echo=FALSE}
-fig1_t1 <- "Como observado anteriormento, com o passar dos dias o comprimento dos microcrustáceos tem uma característica crescente. Nos dias 0 e 1, a variabilidade do comprimento para sal de zinco é menor quando comparada com nanopartículas e a partir do dia 2 torna-se maior. Veja que, a partir do dia 3 até o dia 8, existem pontos que se destacam para o sal de zinco. A menos destes pontos, percebe-se que a estrutura de variabilidade se reduz inclusive quando comparado com nanopartículas."
+fig1_t1 <- "Como observado anteriormento, com o passar dos dias o comprimento dos microcrustáceos tem uma característica crescente. Nos dias 0 e 1, a variabilidade do comprimento para sal de zinco é menor quando comparada com nanopartículas e a partir do dia 2 torna-se maior. Veja que, a partir do dia 3 até o dia 8, existem pontos que se destacam para o sal de zinco. A menos destes pontos, percebe-se que a estrutura de variabilidade se reduz, e inclusive, é menor quando comparado com nanopartículas."
 fig2_t1 <- "Nota-se que o comprimento médio para sal de zinco só é superior para os dias 2 e 3 em relação à nanopartículas. Além disso, em geral as diferenças entre os valores do comprimento médio são pequenas ao longo dos dias, com maior valor para o dia 8. Embora sejam partículas diferentes, na mesma concentração, a relação com o comprimento médio não é muito diferente."
 fig3_t1 <- "O número médio de ovos para sal de zinco é superior somente para os dias 3, 6 e 8 em relação à nanopartículas. A partir do terceiro dia há variação do número de ovos, para ambas as partículas."
 fig4_t1 <- "Ao contrário do número médio de ovos, no gráfico anterior, o número médio de neonatos para nanopartículas somente é superior nos dias 7 e 8, comparado com sal de zinco. A partir do quarto dia há variação do número médio de neonatos (para ambas as partículas) e veja a tendência crescente para sal de zinco até o dia 6."
@@ -517,7 +518,7 @@ ggplot(t1_comp, aes(Dia, Comprimento, color = Indicadora)) +
   geom_boxplot(colour = "1", outlier.colour = NA) + 
   geom_point(aes(y=Comprimento, group=Indicadora), position = position_dodge(width=0.75), size = 1.3) +
   theme_classic() +
-  ggtitle("Boxplots do comprimento para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas")+
+  ggtitle("Diagramas de dispersão do comprimento para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas")+
   scale_y_continuous("Comprimento (mm)") + scale_color_discrete(name = "Nanop./sal", breaks=c("0", "1"), labels=c("Nanopartículas", "Sal de zinco"))
 ```
 
@@ -562,3 +563,75 @@ ggplot(neon, aes(x = Dia, y = `Número médio de neonatos`, group = `Nanop./sal`
 
 ```
 
+
+#Avaliação de possíveis modelos
+
+
+
+```{r modelos_nanoparticulas, echo=FALSE}
+library(geepack)
+library(lattice)
+library(car)
+#fit1 <- geeglm(Comprimento ~ Tratamento*Dia, family = Gamma("identity"), id = Repeticao, corstr = "unstructured", data = data_compact_nano)
+
+#fit1 <- geeglm(Comprimento ~ Tratamento*Dia, family = Gamma("identity"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+
+#fit1 <- geeglm(Comprimento ~ Tratamento*Dia, family = Gamma("inverse"), id = Repeticao, corstr = "unstructured", data = data_compact_nano)
+
+#fit2 <- geeglm(Comprimento ~ Tratamento*Dia, family = Gamma("inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+
+#fit3 <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(), id = Repeticao, corstr = "unstructured", data = data_compact_nano)
+
+#fit4 <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+
+#fit5 <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian("inverse"), id = Repeticao, corstr = "unstructured", data = data_compact_nano)
+
+fit6 <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+
+
+#bwplot(data_compact_nano$Tratamento ~ fit1$residuals)
+
+#bwplot(data_compact_nano$Dia ~ fit1$residuals)
+
+#hist(fit1$residuals, freq = F)
+#plot(density(fit1$residuals))
+
+
+#bwplot(data_compact_nano$Tratamento ~ fit1$fitted.values)
+#bwplot(data_compact_nano$Tratamento ~ data_compact_nano$Comprimento)
+
+#summary(fit1)
+#par(mfrow=c(2,2))
+#qqPlot(fit3$residuals, ylab = "Modelo 3", xlab = "Quantil normal")
+#qqPlot(fit4$residuals, ylab = "Modelo 4", xlab = "Quantil normal")
+#qqPlot(fit5$residuals, ylab = "Modelo 5", xlab = "Quantil normal")
+qqPlot(fit6$residuals, ylab = "Modelo 6", xlab = "Quantil normal")#possivelmente o melhor ajuste
+```
+
+```{r densidade_residuos, fig.cap="teste00" , fig.pos='H', fig.align='center', echo=FALSE}
+plot(fit6$fitted.values, fit6$residuals, ylab = "Resíduos", xlab = "Valores ajustados")
+```
+
+
+```{r residuos_grafico0, fig.cap="teste0" , fig.pos='H', fig.align='center', echo=FALSE}
+hist(fit6$residuals, freq = F, main = "Modelo 6")
+#plot(density(fit6$residuals))
+```
+
+
+
+```{r residuos_grafico1, fig.cap="teste1" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Tratamento ~ fit6$residuals, xlab = "Modelo 6")
+```
+
+```{r residuos_grafico2, fig.cap="teste2" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Dia ~ fit6$residuals, xlab = "Modelo 6")
+```
+
+```{r residuos_grafico3, fig.cap="teste3" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Tratamento ~ fit6$fitted.values, xlab = "Modelo6")
+```
+
+```{r residuos_grafico4, fig.cap="teste4" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Tratamento ~ data_compact_nano$Comprimento, xlab = "Valores observados do comprimento")
+```

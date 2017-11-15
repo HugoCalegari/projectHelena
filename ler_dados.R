@@ -180,7 +180,7 @@ library(geepack)
 library(plotly)
 fit <- geeglm(Comprimento ~ Tratamento*Dia, id = Repeticao, data = data_compact_nano)
 
-fit3 <- geeglm(Comprimento ~ Tratamento*Dia, family = Gamma(), id = Repeticao, data = data_compact_nano)
+fit3 <- geeglm(Comprimento ~ Tratamento*Dia, family = Gamma("identity"), id = Repeticao, data = data_compact_nano)
 
 Indice <- c(rep(0, length(fit3$fitted.values)), rep(1, length(fit3$fitted.values)))
 sup <- c(data_compact_nano$Comprimento, fit3$fitted.values)
@@ -252,3 +252,36 @@ qqp(num_sum_ovo$Num_neo_somados, "pois", Ps_neo$estimate)
 
 BN_neo <- fitdistr(num_sum_ovo$Num_neo_somados, "Negative Binomial")
 qqp(num_sum_ovo$Num_neo_somados, "nbinom", size = BN_neo$estimate[[1]], mu = BN_neo$estimate[[2]])
+#######################################################################################################
+#Determinação dos coeficientes angulares para nanopartículas, ao se considerar os valores de comprimentos médios por dia
+
+O objetivo de se obter as diferenças entre os comprimentos médios é encontrar os coeficientes angulares para cada dois pontos consecutivos, e isto implica para dias consecutivos. Com isso, pode-se ter uma ideia de como é a taxa de variação do crescimento para os diferentes tratamentos no decorrer de dias consecutivos.
+
+De fato, matematicamente considerou-se a seguinte ideia: dada uma reta com coeficientes \underline{a} e \underline{b}, $y = a + bx$, foi calculado os diferentes valores de \underline{b} como $b = \frac{\Delta y}{\Delta x}$, dado que os possíveis valores de $y$ são os comprimentos médios e $x$ os dias de 0 até 8. Dessa forma, como leva-se em conta dias consecutivos, tem-se que o valor assumido por $\Delta x = x_{i+1} - x_{i} = 1$ para todos os valores de $i \in \{0, 1, ..., 7\}$, com $x_{0} = 0$, $x_{1} = 1$, ..., $x_{8} = 8$. Logo, temos que $b = \Delta y$.
+
+```{r diferenca_entre_comprimentos_medios,fig.cap="Gráfico que representa as diferenças consecutivas entre os valores dos comprimentos médios. Observe que o eixo x (Dia) representa o dia no qual a diferença foi obtida. Por exemplo, o valor 1 indica a diferença entre os valores dos comprimentos médios do dia 1 em relação ao dia 0; o valor 2 refere-se a diferença entre os valores dos comprimentos médios do dia 2 em relação ao dia 1 e assim para os outros valores. Assim como mencionado anteriormente, essas diferenças representam os coeficientes angulares das retas que passam por dois diferentes pontos do comprimento médio, em dias consecutivos. É possível perceber uma tendência decrescente dos coeficientes para os diferentes tratamentos o que sugere uma possível estabilização do comprimento. Note que somente para o grupo controle o último valor é menor que zero e isto revela, pelo seu valor, que houve dminuição do comprimento médio do dia 7 para o dia 8.", fig.pos='H', fig.align='center', echo=FALSE}
+dif_lista1 <- list(0,0,0,0,0,0)
+
+for(i in 1:length(dif_lista1)){
+  dif_lista1[[i]] <- diff(lista1[[i]])
+}
+
+suport_dif <- as.data.frame(cbind(rep(1:8, 6), c(dif_lista1[[1]], dif_lista1[[2]], dif_lista1[[3]], dif_lista1[[4]], dif_lista1[[5]], dif_lista1[[6]])))
+
+suport_dif$V1 <- as.factor(suport_dif$V1)
+
+contr_dif <- t(t(rep(0, 8)))
+t1_dif <- t(t(rep(1, 8)))
+t2_dif <- t(t(rep(2, 8)))
+t3_dif <- t(t(rep(3, 8)))
+t4_dif <- t(t(rep(4, 8)))
+t5_dif <- t(t(rep(5, 8)))
+
+t_dif <- as.factor(rbind(contr_dif, t1_dif, t2_dif, t3_dif, t4_dif, t5_dif))
+
+suport_dif <- cbind(t_dif, suport_dif)
+colnames(suport_dif) <- c("Tratamento", "Dia", "Diferença consecutiva entre os comprimentos médios")
+
+ggplot(suport_dif, aes(Dia, `Diferença consecutiva entre os comprimentos médios`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico da diferença consecutiva entre os comprimentos médios", subtitle = "Nanopartículas") + scale_y_continuous("Coeficiente angular para comprimento médio") + theme_classic()
+```
+
