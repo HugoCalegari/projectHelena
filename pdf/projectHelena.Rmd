@@ -563,12 +563,28 @@ ggplot(neon, aes(x = Dia, y = `Número médio de neonatos`, group = `Nanop./sal`
 
 ```
 
+#Considerações sobre a modelagem
 
-#Avaliação de possíveis modelos
+De acordo com as informações obtidas sobre o projeto, as variáveis dia e concentração (para nanopartículas e sal de zinco) são bem conhecidas, enquanto que as replicações (microcrustáceos) são obtidas de uma maneira aleatória. Com isso, a utilização de modelos mistos, que apresentam tanto fatores de efeitos fixos (dia e concentração) quanto aleatórios (replicações), foi a linha de raciocínio utilizada para o estudo.
 
+#Modelagem para a variável comprimento
 
+##Nanopartículas
 
-```{r modelos_nanoparticulas, echo=FALSE}
+Depois de avaliado diferentes propostas de modelos, com diferentes distribuições dos erros, diferentes funções de ligação e estrutura de variância, dois deles foram destacados. Nestes, de acordo com a análise descritiva, consideram a interação entre as variáveis de efeito fixo (dia e tratamento (diferentes concentrações de nanopartículas)) e os erros foram considerados normais com diferentes funções de ligação, a inversa (modelo 1) e a logarítmica (modelo 2). 
+
+Para avaliar o modelo foram considerados os gráficos de quantil dos resíduos pelo quantil teórico da normal padrão. Espera-se que grande parte dos resíduos estejam próximo da linha de referência vermelha e também dentro da linha tracejada vermelha (referida como banda de confiança).
+
+Para o modelo 1 é possível ver que nos extremos, os resíduos não estão próximos da linha de referência e não estão dentro da banda de confiança (figura 15). Para o modelo 2, nota-se que os pontos estão mais próximos da linha de referência e dentro da banda de confiança para o extremo superior (observar figura 16 e comparar com a figura 15). No extremo inferior mais pontos estão fora da banda de confiança e mais distante da linha de referência quando comparado com o modelo 1 (observar figuras 16 e 15). Isto, por fim, nos indica que as caudas para a distribuição dos resíduos são pesadas para o modelo 1, enquanto que para o modelo 2, a cauda esquerda é a mais pesada.
+
+```{r legendas_diagnostico, echo=FALSE}
+leg1 <- "Gráfico de quantil dos resíduos pelo quantil teórico da distribuição normal padrão para o modelo 1. Os resíduos foram obtidos a partir do modelo que considerou os erros normalmente distribuídos e com a função de ligação inversa. Nota-se que muitos dos pontos localizados nos extremos estão fora da banda de confiança."
+leg2 <- "Gráfico de quantil dos resíduos pelo quantil teórico da distribuição normal padrão para o modelo 2. Os resíduos foram obtidos a partir do modelo que considerou os erros normalmente distribuídos e com a função de ligação logarítmo. Neste caso, muitos dos pontos localizados no extremo inferior estão fora da banda de confiança, enquanto houve uma melhora no extremo superior, onde os resíduos ficatam mais próximos da banda de confiança quando comparado com o modelo anterior."
+leg3 <- "Gráficos dos resíduos pelos valores ajustados do modelo 1. Note que à medida em que os valores ajustados aumentam a variabilidade dos resíduos diminui. Isto representa a não uniformidade dos resíduos."
+leg4 <- "Gráficos dos resíduos pelos valores ajustados do modelo 2. Neste caso a variabilidade dos resíduos aparenta ser mais uniforme e menor que a do modelo1. Além disso, os valores dos resíduos são menores quando comparado com o modelo 1."
+```
+
+```{r modelos_nanoparticulas, fig.cap= leg1, fig.pos='H', fig.align='center', echo=FALSE}
 library(geepack)
 library(lattice)
 library(car)
@@ -586,8 +602,7 @@ library(car)
 
 #fit5 <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian("inverse"), id = Repeticao, corstr = "unstructured", data = data_compact_nano)
 
-fit6 <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
-
+fit <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
 
 #bwplot(data_compact_nano$Tratamento ~ fit1$residuals)
 
@@ -605,33 +620,75 @@ fit6 <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "inverse")
 #qqPlot(fit3$residuals, ylab = "Modelo 3", xlab = "Quantil normal")
 #qqPlot(fit4$residuals, ylab = "Modelo 4", xlab = "Quantil normal")
 #qqPlot(fit5$residuals, ylab = "Modelo 5", xlab = "Quantil normal")
-qqPlot(fit6$residuals, ylab = "Modelo 6", xlab = "Quantil normal")#possivelmente o melhor ajuste
-```
-
-```{r densidade_residuos, fig.cap="teste00" , fig.pos='H', fig.align='center', echo=FALSE}
-plot(fit6$fitted.values, fit6$residuals, ylab = "Resíduos", xlab = "Valores ajustados")
+qqPlot(fit$residuals,ylab = "Quantil dos resíduos", xlab = "Quantil normal", main = "Gráfico de quantil residual e quantil teórico normal modelo 1", grid = F)#possivelmente o melhor ajuste
 ```
 
 
-```{r residuos_grafico0, fig.cap="teste0" , fig.pos='H', fig.align='center', echo=FALSE}
-hist(fit6$residuals, freq = F, main = "Modelo 6")
-#plot(density(fit6$residuals))
+```{r modelo_com_interecao_link_log, fig.cap= leg2, fig.pos='H', fig.align='center', echo=FALSE}
+#fit_new <- geeglm(Comprimento ~ Tratamento + Dia, family = gaussian(link = "log"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+
+#fit_new <- geeglm(Comprimento ~ Tratamento + Dia, family = gaussian(link = "inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+
+fit_log <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "log"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+
+qqPlot(fit_log$residuals,ylab = "Quantil dos resíduos", xlab = "Quantil normal", main = "Gráfico de quantil residual e quantil teórico normal modelo 2",grid = F)
+```
+
+Com o objetivo de analisar a variabilidade dos resíduos os gráficos de resíduos por valores ajustados foram considerados e pode-se perceber a não uniformidade da variância residual para o modelo 1 (e maior quando comparada com o modelo 2), enquanto que para o modelo 2 a variabilidade do resíduo é uniforme. Verifica-se também a concentração dos resíduos do modelo 1 em um intervalo aproximado de ($-0,4$; $0,4$) e do modelo 2 ($-0,2$;$0,2$).
+
+```{r inf1_modelo_com_interacao_link_inversa, echo=FALSE}
+#summary(fit)
+```
+
+```{r inf2_modelo_com_interacao_link_log, echo=FALSE}
+#summary(fit_log)
 ```
 
 
-
-```{r residuos_grafico1, fig.cap="teste1" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Tratamento ~ fit6$residuals, xlab = "Modelo 6")
+```{r ajustados_por_residuos1, fig.cap=leg3 , fig.pos='H', fig.align='center', echo=FALSE}
+plot(fit$fitted.values, fit$residuals, ylab = "Resíduos modelo 1", xlab = "Valores ajustados", ylim = c(-0.5, 0.7), main = "Resíduos x valores ajustados")
 ```
 
-```{r residuos_grafico2, fig.cap="teste2" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Dia ~ fit6$residuals, xlab = "Modelo 6")
+```{r ajustados_por_residuos2, fig.cap=leg4 , fig.pos='H', fig.align='center', echo=FALSE}
+plot(fit_log$fitted.values, fit_log$residuals, ylab = "Resíduos modelo 2", xlab = "Valores ajustados", ylim = c(-0.5, 0.7), main = "Resíduos x valores ajustados")
 ```
 
-```{r residuos_grafico3, fig.cap="teste3" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Tratamento ~ fit6$fitted.values, xlab = "Modelo6")
+
+```{r residuos_grafico1, fig.cap="teste0" , fig.pos='H', fig.align='center', echo=FALSE}
+hist(fit$residuals, freq = F, main = "Histograma dos resíduos modelo 1", xlab = "Resíduos", ylab = "Densidade")
 ```
 
-```{r residuos_grafico4, fig.cap="teste4" , fig.pos='H', fig.align='center', echo=FALSE}
+```{r residuos_grafico2, fig.cap="teste0" , fig.pos='H', fig.align='center', echo=FALSE}
+hist(fit_log$residuals, freq = F, main = "Histograma dos resíduos modelo 2", xlab = "Resíduos", ylab = "Densidade")
+```
+
+
+```{r residuos_por_tratamento1, fig.cap="teste1" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Tratamento ~ fit$residuals, xlab = "Modelo 1")
+```
+
+```{r residuos_por_tratamento2, fig.cap="teste1" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Tratamento ~ fit_log$residuals, xlab = "Modelo 2")
+```
+
+
+```{r residuos_por_dia1, fig.cap="teste2" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Dia ~ fit$residuals, xlab = "Modelo 1")
+```
+
+```{r residuos_por_dia2, fig.cap="teste2" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Dia ~ fit_log$residuals, xlab = "Modelo 2")
+```
+
+```{r valores_ajustados_por_tratamento1, fig.cap="teste3" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Tratamento ~ fit$fitted.values, xlab = "Modelo 1")
+```
+
+```{r valores_ajustados_por_tratamento2, fig.cap="teste3" , fig.pos='H', fig.align='center', echo=FALSE}
+bwplot(data_compact_nano$Tratamento ~ fit_log$fitted.values, xlab = "Modelo 2")
+```
+
+
+```{r valores_observados_por_tratamento, fig.cap="teste4" , fig.pos='H', fig.align='center', echo=FALSE}
 bwplot(data_compact_nano$Tratamento ~ data_compact_nano$Comprimento, xlab = "Valores observados do comprimento")
 ```
