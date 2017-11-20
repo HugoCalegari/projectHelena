@@ -285,3 +285,62 @@ colnames(suport_dif) <- c("Tratamento", "Dia", "Diferença consecutiva entre os 
 ggplot(suport_dif, aes(Dia, `Diferença consecutiva entre os comprimentos médios`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico da diferença consecutiva entre os comprimentos médios", subtitle = "Nanopartículas") + scale_y_continuous("Coeficiente angular para comprimento médio") + theme_classic()
 ```
 
+#####################################################################################################
+ajuste <- fit$fitted.values
+data_compact_nano <- cbind(data_compact_nano, ajuste)
+data_compact_nano <- data_compact_nano %>% mutate(dif = Comprimento - ajuste)
+
+ajuste_log <- fit_log$fitted.values
+data_compact_nano <- cbind(data_compact_nano, ajuste_log)
+data_compact_nano <- data_compact_nano %>% mutate(dif_log = Comprimento - ajuste_log)
+
+
+f <- rbind(t(t(data_compact_nano$dif)), t(t(data_compact_nano$dif_log)))
+t <- rbind(t(t(rep(0, 524))), t(t(rep(1, 524))))
+
+f <- cbind(t, f)
+f <- as.data.frame(f)
+f$V1 <- as.factor(f$V1)
+
+ggplot(f, aes(V1, V2)) + geom_boxplot(outlier.colour = NA) 
+
+
+data_compact_nano$dif[which(data_compact_nano$dif != data_compact_nano$dif_log)]
+data_compact_nano$dif_log[which(data_compact_nano$dif != data_compact_nano$dif_log)]
+
+f <- rbind(t(t(data_compact_nano$dif[which(data_compact_nano$dif != data_compact_nano$dif_log)])), t(t(data_compact_nano$dif_log[which(data_compact_nano$dif != data_compact_nano$dif_log)])))
+t <- rbind(t(t(rep(0, 284))), t(t(rep(1, 284))))
+
+f <- cbind(t, f)
+f <- as.data.frame(f)
+f$V1 <- as.factor(f$V1)
+
+ggplot(f, aes(V1, V2)) + geom_boxplot() 
+
+
+lista1 <- list(0,0,0,0,0,0) #media
+
+for(i in 1:6){
+  lista1[[i]] <- rep(0, 9)
+  for(j in 1:9){
+    lista1[[i]][j] <- round(mean( as.data.frame(data_compact_nano %>% filter(Tratamento == paste0(i-1) & Dia==paste0(j-1)))$ajuste), 4)
+  }
+}
+
+
+suporte <- as.data.frame(cbind(rep(0:8, 6), c(lista1[[1]], lista1[[2]], lista1[[3]], lista1[[4]], lista1[[5]], lista1[[6]])))
+suporte$V1 <- as.factor(suporte$V1)
+contr <- t(t(rep(0, 9)))
+t1 <- t(t(rep(1, 9)))
+t2 <- t(t(rep(2, 9)))
+t3 <- t(t(rep(3, 9)))
+t4 <- t(t(rep(4, 9)))
+t5 <- t(t(rep(5, 9)))
+
+t <- as.factor(rbind(contr, t1, t2, t3, t4, t5))
+
+suporte <- cbind(t, suporte)
+colnames(suporte) <- c("Tratamento", "Dia", "Comprimento médio por dia")
+
+#c("0 = controle", "1 = 0.006mg/L", "2 = 0.0125mg/L", "3 = 0.025mg/L", "4 = 0.05mg/L", "5 = 0.1mg/L")
+ggplot(suporte, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento médio (mm)") +theme_classic()

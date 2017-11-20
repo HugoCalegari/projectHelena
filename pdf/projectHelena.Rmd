@@ -1,7 +1,6 @@
 ---
-title: ""
+title: ''
 geometry: textwidth=18cm,textheight=24cm
-lang: pt-br
 header-includes:
 - \usepackage{setspace}
 - \usepackage{indentfirst}
@@ -14,10 +13,12 @@ header-includes:
 - \usepackage{caption}
 - \usepackage{subcaption}
 output:
-  pdf_document:
-  html_document: default
-  fig_caption: yes
+  pdf_document: default
+  html_document: null
   mainfont: Times New Roman
+  fig_caption: yes
+  word_document: null
+lang: pt-br
 fontsize: 10bp
 ---
 
@@ -63,6 +64,7 @@ Hugo Calegari  RA:155738 \break
 \onehalfspacing
 \newpage
 
+
 ```{r echo=FALSE}
 #mudando o separador decimal para resultados "printados"
 options(OutDec= ",")
@@ -70,7 +72,7 @@ options(OutDec= ",")
 
 ```{r, echo=FALSE}
 #definindo opções padrões dos chunks
-knitr::opts_chunk$set(fig.width=6, fig.height=3.5, fig.align='center', echo=FALSE, warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(fig.width=6, fig.height=3.5, fig.path='Figs/', fig.align='center', echo=FALSE, warning=FALSE, message=FALSE)
 ```
 
 #Introdução
@@ -101,6 +103,15 @@ Os microcrustáceos foram observado durante 9 dias nos quais uma medida diária 
 Dados que faziam referência a morte do microcrustáceo foram retirados. Por exemplo, se no dia 8, a replicação 1 (microcrustáceo) morreu, este dado é desconsiderado. Isto fez com que as informações referentes ao dia diminuíssem para algumas concentrações nas quais isso ocorreu. (Poderia ser utilizada outra abordagem, como completar os dados faltantes por alguma técnica).
 
 Além disso, para o sal de zinco, na variável "Tratamento" foram consideradas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,01mg/L, "3" para a concentração 0,02mg/L, "4" para a concentração 0,04mg/L e "5" para a concentração 0,09mg/L. Ideia semelhante foi adotada para nanopartículas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,0125mg/L, "3" para a concentração 0,025mg/L, "4" para a concentração 0,05mg/L e "5" para a concentração 0,1mg/L.
+
+
+#Metodologia
+
+Trata-se de um experimento com medições ao longo do tempo (nove dias, dados longitudinais) para microcrustáceos, das características comprimento, número de ovos e neonatos. Com isso, a teoria de modelos mistos foi utilizada para o entendimento das variáveis em relação ao controle e entre os tratamentos. 
+
+De maneira geral, modelos de efeitos mistos permitem que os coeficientes da regressão variem entre os indivíduos. Estes modelos têm dois componentes: um intra individual (mudança longitudinal intra individual é descrita pelo modelo de regressão com um intercepto e inclinação populacional) e outro entre indivíduos (variação no intercepto e inclinação individual).
+
+As informações ou medidas dos indivíduos (no caso, microcrustáceos) não precisam ser igualmente espaçadas (no caso, tem-se medidas diárias, ou seja, de igual espaçamento) e balanceadas (tem-se a mesma quantidade de observação/replicação para cada tratamento, isto é, dados balanceados) e as análises podem ser conduzidas com os dados de indivíduos que foram perdidos de seguimento (pessoas que abandonaram o estudo, por exemplo) ou que apresentam ausência de informação em algum momento do estudo (no caso, microcrustáceos que morreram em algum dia para algum tratamento).
 
 #Análise descritiva e exploratória
 
@@ -241,71 +252,6 @@ ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Trata
 ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de neonatos") +theme_classic()
 ```
 
-\begin{table}[ht]
-\centering
-\begin{tabular}{rlrrrrrr}
-  \hline
- Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
-  \hline
-  0 & 0 & 0,37 & 0,0002 & 0,34 & 0,40 & 0,37 \\ 
-  0 & 1 & 0,44 & 0,0002 & 0,42 & 0,46 & 0,45 \\ 
-  0 & 2 & 0,52 & 0,0012 & 0,43 & 0,55 & 0,52 \\ 
-  0 & 3 & 0,61 & 0,0025 & 0,48 & 0,67 & 0,61 \\ 
-  0 & 4 & 0,63 & 0,0014 & 0,55 & 0,69 & 0,63 \\ 
-  0 & 5 & 0,71 & 0,0026 & 0,58 & 0,75 & 0,71 \\ 
-  0 & 6 & 0,74 & 0,0014 & 0,67 & 0,81 & 0,74 \\ 
-  0 & 7 & 0,76 & 0,0016 & 0,67 & 0,81 & 0,76 \\ 
-  0 & 8 & 0,76 & 0,0016 & 0,67 & 0,82 & 0,76 \\ 
-  1 & 0 & 0,34 & 0,0004 & 0,31 & 0,39 & 0,34 \\ 
-  1 & 1 & 0,42 & 0,0010 & 0,37 & 0,49 & 0,42 \\ 
-  1 & 2 & 0,49 & 0,0005 & 0,46 & 0,52 & 0,49 \\ 
-  1 & 3 & 0,56 & 0,0023 & 0,49 & 0,64 & 0,56 \\ 
-  1 & 4 & 0,59 & 0,0018 & 0,52 & 0,67 & 0,60 \\ 
-  1 & 5 & 0,66 & 0,0030 & 0,58 & 0,75 & 0,67 \\ 
-  1 & 6 & 0,68 & 0,0017 & 0,61 & 0,75 & 0,69 \\ 
-  1 & 7 & 0,71 & 0,0015 & 0,66 & 0,76 & 0,70 \\ 
-  1 & 8 & 0,73 & 0,0012 & 0,66 & 0,76 & 0,75 \\ 
-  2 & 0 & 0,35 & 0,0004 & 0,33 & 0,39 & 0,35 \\ 
-  2 & 1 & 0,43 & 0,0004 & 0,39 & 0,46 & 0,42 \\ 
-  2 & 2 & 0,49 & 0,0004 & 0,45 & 0,52 & 0,49 \\ 
-  2 & 3 & 0,54 & 0,0062 & 0,36 & 0,60 & 0,58 \\ 
-  2 & 4 & 0,61 & 0,0013 & 0,56 & 0,67 & 0,60 \\ 
-  2 & 5 & 0,68 & 0,0007 & 0,63 & 0,73 & 0,67 \\ 
-  2 & 6 & 0,69 & 0,0005 & 0,66 & 0,72 & 0,69 \\ 
-  2 & 7 & 0,73 & 0,0003 & 0,70 & 0,75 & 0,73 \\ 
-  2 & 8 & 0,74 & 0,0001 & 0,72 & 0,75 & 0,75 \\ 
-  3 & 0 & 0,34 & 0,0002 & 0,33 & 0,37 & 0,34 \\ 
-  3 & 1 & 0,42 & 0,0002 & 0,40 & 0,45 & 0,42 \\ 
-  3 & 2 & 0,50 & 0,0002 & 0,48 & 0,52 & 0,50 \\ 
-  3 & 3 & 0,56 & 0,0021 & 0,49 & 0,61 & 0,57 \\ 
-  3 & 4 & 0,58 & 0,0006 & 0,54 & 0,61 & 0,58 \\ 
-  3 & 5 & 0,63 & 0,0016 & 0,54 & 0,67 & 0,63 \\ 
-  3 & 6 & 0,64 & 0,0006 & 0,61 & 0,67 & 0,64 \\ 
-  3 & 7 & 0,68 & 0,0013 & 0,64 & 0,73 & 0,67 \\ 
-  3 & 8 & 0,72 & 0,0009 & 0,66 & 0,76 & 0,73 \\ 
-  4 & 0 & 0,34 & 0,0005 & 0,31 & 0,37 & 0,34 \\ 
-  4 & 1 & 0,41 & 0,0004 & 0,39 & 0,45 & 0,41 \\ 
-  4 & 2 & 0,48 & 0,0005 & 0,45 & 0,52 & 0,48 \\ 
-  4 & 3 & 0,55 & 0,0024 & 0,48 & 0,61 & 0,56 \\ 
-  4 & 4 & 0,57 & 0,0006 & 0,55 & 0,61 & 0,57 \\ 
-  4 & 5 & 0,66 & 0,0009 & 0,60 & 0,70 & 0,66 \\ 
-  4 & 6 & 0,67 & 0,0004 & 0,64 & 0,70 & 0,67 \\ 
-  4 & 7 & 0,70 & 0,0008 & 0,67 & 0,75 & 0,69 \\ 
-  4 & 8 & 0,71 & 0,0012 & 0,67 & 0,76 & 0,70 \\ 
-  5 & 0 & 0,35 & 0,0003 & 0,31 & 0,37 & 0,36 \\ 
-  5 & 1 & 0,42 & 0,0003 & 0,39 & 0,45 & 0,42 \\ 
-  5 & 2 & 0,50 & 0,0002 & 0,48 & 0,52 & 0,50 \\ 
-  5 & 3 & 0,54 & 0,0016 & 0,49 & 0,60 & 0,56 \\ 
-  5 & 4 & 0,57 & 0,0003 & 0,55 & 0,60 & 0,57 \\ 
-  5 & 5 & 0,62 & 0,0015 & 0,55 & 0,67 & 0,64 \\ 
-  5 & 6 & 0,65 & 0,0010 & 0,60 & 0,70 & 0,67 \\ 
-  5 & 7 & 0,67 & 0,0010 & 0,61 & 0,70 & 0,67 \\ 
-  5 & 8 & 0,68 & 0,0025 & 0,61 & 0,75 & 0,67 \\ 
-   \hline
-\end{tabular}
-\caption{Tabela resumo, para nanopartículas, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 3.}
-\end{table}
-
 ##Comprimento para sal de zinco
 
 Assim como no caso das nanopartículas, os diagramas de dispersão do comprimento por dia (figura 6) e do gráfico de perfil médio (figura 8), exibem uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, também se verifica a característica de crescimento e possível estabilização do comprimento.
@@ -420,71 +366,6 @@ ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Trat
 ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de neonatos") +theme_classic()
 ```
 
-\begin{table}[ht]
-\centering
-\begin{tabular}{rlrrrrrr}
-  \hline
- Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
-  \hline
- 0 & 0 & 0.34 & 0.0002 & 0.31 & 0.36 & 0.34 \\ 
- 0 & 1 & 0.43 & 0.0003 & 0.40 & 0.45 & 0.43 \\ 
- 0 & 2 & 0.53 & 0.0002 & 0.52 & 0.55 & 0.53 \\ 
- 0 & 3 & 0.61 & 0.0005 & 0.57 & 0.64 & 0.61 \\ 
- 0 & 4 & 0.63 & 0.0005 & 0.60 & 0.67 & 0.63 \\ 
- 0 & 5 & 0.68 & 0.0011 & 0.64 & 0.75 & 0.67 \\ 
- 0 & 6 & 0.70 & 0.0005 & 0.67 & 0.72 & 0.72 \\ 
- 0 & 7 & 0.72 & 0.0007 & 0.67 & 0.75 & 0.72 \\ 
- 0 & 8 & 0.73 & 0.0006 & 0.69 & 0.76 & 0.73 \\ 
- 1 & 0 & 0.34 & 0.0002 & 0.33 & 0.36 & 0.34 \\ 
- 1 & 1 & 0.41 & 0.0004 & 0.39 & 0.45 & 0.42 \\ 
- 1 & 2 & 0.51 & 0.0007 & 0.45 & 0.54 & 0.51 \\ 
- 1 & 3 & 0.58 & 0.0046 & 0.40 & 0.63 & 0.60 \\ 
- 1 & 4 & 0.59 & 0.0045 & 0.40 & 0.63 & 0.60 \\ 
- 1 & 5 & 0.65 & 0.0029 & 0.51 & 0.69 & 0.66 \\ 
- 1 & 6 & 0.67 & 0.0038 & 0.52 & 0.72 & 0.69 \\ 
- 1 & 7 & 0.67 & 0.0028 & 0.54 & 0.72 & 0.69 \\ 
- 1 & 8 & 0.68 & 0.0036 & 0.54 & 0.73 & 0.69 \\ 
- 2 & 0 & 0.33 & 0.0001 & 0.31 & 0.34 & 0.34 \\ 
- 2 & 1 & 0.42 & 0.0003 & 0.40 & 0.45 & 0.42 \\ 
- 2 & 2 & 0.49 & 0.0011 & 0.45 & 0.54 & 0.47 \\ 
- 2 & 3 & 0.57 & 0.0052 & 0.45 & 0.64 & 0.60 \\ 
- 2 & 4 & 0.57 & 0.0048 & 0.45 & 0.67 & 0.60 \\ 
- 2 & 5 & 0.60 & 0.0049 & 0.51 & 0.67 & 0.64 \\ 
- 2 & 6 & 0.63 & 0.0062 & 0.52 & 0.70 & 0.67 \\ 
- 2 & 7 & 0.65 & 0.0076 & 0.52 & 0.75 & 0.70 \\ 
- 2 & 8 & 0.66 & 0.0092 & 0.52 & 0.75 & 0.72 \\ 
- 3 & 0 & 0.33 & 0.0001 & 0.31 & 0.34 & 0.33 \\ 
- 3 & 1 & 0.41 & 0.0003 & 0.40 & 0.45 & 0.40 \\ 
- 3 & 2 & 0.51 & 0.0004 & 0.48 & 0.55 & 0.52 \\ 
- 3 & 3 & 0.59 & 0.0004 & 0.55 & 0.61 & 0.60 \\ 
- 3 & 4 & 0.59 & 0.0004 & 0.55 & 0.61 & 0.60 \\ 
- 3 & 5 & 0.64 & 0.0005 & 0.60 & 0.67 & 0.66 \\ 
- 3 & 6 & 0.65 & 0.0006 & 0.60 & 0.67 & 0.66 \\ 
- 3 & 7 & 0.66 & 0.0003 & 0.63 & 0.69 & 0.67 \\ 
- 3 & 8 & 0.68 & 0.0001 & 0.67 & 0.69 & 0.67 \\ 
- 4 & 0 & 0.32 & 0.0002 & 0.31 & 0.34 & 0.32 \\ 
- 4 & 1 & 0.42 & 0.0005 & 0.39 & 0.45 & 0.42 \\ 
- 4 & 2 & 0.51 & 0.0007 & 0.46 & 0.55 & 0.52 \\ 
- 4 & 3 & 0.59 & 0.0013 & 0.51 & 0.64 & 0.60 \\ 
- 4 & 4 & 0.59 & 0.0008 & 0.54 & 0.64 & 0.60 \\ 
- 4 & 5 & 0.64 & 0.0021 & 0.54 & 0.67 & 0.66 \\ 
- 4 & 6 & 0.65 & 0.0015 & 0.58 & 0.70 & 0.67 \\ 
- 4 & 7 & 0.66 & 0.0017 & 0.58 & 0.72 & 0.67 \\ 
- 4 & 8 & 0.67 & 0.0027 & 0.58 & 0.75 & 0.67 \\ 
- 5 & 0 & 0.33 & 0.0002 & 0.31 & 0.34 & 0.34 \\ 
- 5 & 1 & 0.41 & 0.0002 & 0.39 & 0.43 & 0.42 \\ 
- 5 & 2 & 0.50 & 0.0008 & 0.46 & 0.54 & 0.52 \\ 
- 5 & 3 & 0.57 & 0.0031 & 0.46 & 0.61 & 0.60 \\ 
- 5 & 4 & 0.61 & 0.0008 & 0.58 & 0.67 & 0.60 \\ 
- 5 & 5 & 0.66 & 0.0007 & 0.60 & 0.69 & 0.66 \\ 
- 5 & 6 & 0.67 & 0.0004 & 0.66 & 0.72 & 0.67 \\ 
- 5 & 7 & 0.69 & 0.0004 & 0.66 & 0.72 & 0.69 \\ 
- 5 & 8 & 0.70 & 0.0005 & 0.67 & 0.72 & 0.70 \\ 
-   \hline
-\end{tabular}
-\caption{Tabela resumo, para o sal de zinco, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 6.}
-\end{table}
-
 ##Avaliação da concentração 0,006mg/L para nanopatículas e sal de zinco
 
 Os gráficos a seguir representam os comportamentos diários do comprimento, do comprimento médio (por dia), do número médio de ovos e neonatos para o tratamento 1 (concentração 0,006mg/L) para nanopartículas e sal de zinco. Deseja-se verificar possíveis diferenças e similaridades na mesma concentração para as diferentes partículas.
@@ -567,7 +448,7 @@ ggplot(neon, aes(x = Dia, y = `Número médio de neonatos`, group = `Nanop./sal`
 
 De acordo com as informações obtidas sobre o projeto, as variáveis dia e concentração (para nanopartículas e sal de zinco) são bem conhecidas, enquanto que as replicações (microcrustáceos) são obtidas de uma maneira aleatória. Com isso, a utilização de modelos mistos, que apresentam tanto fatores de efeitos fixos (dia e concentração) quanto aleatórios (replicações), foi a linha de raciocínio utilizada para o estudo.
 
-#Modelagem para a variável comprimento
+##Modelagem para a variável comprimento
 
 ##Nanopartículas
 
@@ -582,6 +463,10 @@ leg1 <- "Gráfico de quantil dos resíduos pelo quantil teórico da distribuiç�
 leg2 <- "Gráfico de quantil dos resíduos pelo quantil teórico da distribuição normal padrão para o modelo 2. Os resíduos foram obtidos a partir do modelo que considerou os erros normalmente distribuídos e com a função de ligação logarítmo. Neste caso, muitos dos pontos localizados no extremo inferior estão fora da banda de confiança, enquanto houve uma melhora no extremo superior, onde os resíduos ficatam mais próximos da banda de confiança quando comparado com o modelo anterior."
 leg3 <- "Gráficos dos resíduos pelos valores ajustados do modelo 1. Note que à medida em que os valores ajustados aumentam a variabilidade dos resíduos diminui. Isto representa a não uniformidade dos resíduos."
 leg4 <- "Gráficos dos resíduos pelos valores ajustados do modelo 2. Neste caso a variabilidade dos resíduos aparenta ser mais uniforme e menor que a do modelo1. Além disso, os valores dos resíduos são menores quando comparado com o modelo 1."
+leg5 <- "Histograma dos resíduos para o modelo 1. Nota-se uma simetria ao redor de zero com caudas pesadas, um relfexo do gráfico de quantil da figura 15."
+leg6 <- "Histograma dos resíduos para o modelo 2. Nota-se uma simetria ao redor de zero com cauda pesada à esquerda, um relfexo do gráfico de quantil da figura 16."
+leg7 <- "Diagramas de dispersão dos valores residuais para os diferentes tratamentos, com destaque para o tratamento 0 (controle)."
+leg8 <- "Diferentemente do modelo 1, neste caso para os tratamentos 4 e 5 pode-se verificar que não existe pontos extremos. Nos demais casos tais pontos estão presentes, mas em menor quantidade em relação com o modelo 1. Possivelmente isto indica um melhor ajuste do modelo 2."
 ```
 
 ```{r modelos_nanoparticulas, fig.cap= leg1, fig.pos='H', fig.align='center', echo=FALSE}
@@ -640,10 +525,6 @@ Com o objetivo de analisar a variabilidade dos resíduos os gráficos de resídu
 #summary(fit)
 ```
 
-```{r inf2_modelo_com_interacao_link_log, echo=FALSE}
-#summary(fit_log)
-```
-
 
 ```{r ajustados_por_residuos1, fig.cap=leg3 , fig.pos='H', fig.align='center', echo=FALSE}
 plot(fit$fitted.values, fit$residuals, ylab = "Resíduos modelo 1", xlab = "Valores ajustados", ylim = c(-0.5, 0.7), main = "Resíduos x valores ajustados")
@@ -653,42 +534,261 @@ plot(fit$fitted.values, fit$residuals, ylab = "Resíduos modelo 1", xlab = "Valo
 plot(fit_log$fitted.values, fit_log$residuals, ylab = "Resíduos modelo 2", xlab = "Valores ajustados", ylim = c(-0.5, 0.7), main = "Resíduos x valores ajustados")
 ```
 
+Nos histogramas a seguir, é possível observar uma característica simétrica dos resíduos ao redor do zero, para ambos os modelos, no entanto, a simetria só não é mais destacada, porque existem pontos residuais que são mais extremos em relação ao zero. Isto é o reflexo dos gráficos de quantis nas figuras 15 e 16. Como alguns resíduos estão fora da banda de confiança nos extremos, as caudas são pesadas.
 
-```{r residuos_grafico1, fig.cap="teste0" , fig.pos='H', fig.align='center', echo=FALSE}
+```{r residuos_grafico1, fig.cap=leg5 , fig.pos='H', fig.align='center', echo=FALSE}
 hist(fit$residuals, freq = F, main = "Histograma dos resíduos modelo 1", xlab = "Resíduos", ylab = "Densidade")
 ```
 
-```{r residuos_grafico2, fig.cap="teste0" , fig.pos='H', fig.align='center', echo=FALSE}
+```{r residuos_grafico2, fig.cap=leg6 , fig.pos='H', fig.align='center', echo=FALSE}
 hist(fit_log$residuals, freq = F, main = "Histograma dos resíduos modelo 2", xlab = "Resíduos", ylab = "Densidade")
 ```
 
+Pelos histogramas anteriores é possível avaliar o comportamento geral dos resíduos. Pode-se, mais do que isso, verificar o comportamento residual para os diferentes tratamentos e para os dias, para cada modelo. Nas figuras 21 e 22 avaliou-se os resíduos dentro de cada tratamento para os modelos 1 e 2, respectivamente. Nas figuras 23 e 24 verificou-se os resíduos para os dias para os modelos 1 e 2.
 
-```{r residuos_por_tratamento1, fig.cap="teste1" , fig.pos='H', fig.align='center', echo=FALSE}
+
+```{r residuos_por_tratamento1, fig.cap=leg7, fig.pos='H', fig.align='center', echo=FALSE}
 bwplot(data_compact_nano$Tratamento ~ fit$residuals, xlab = "Modelo 1")
 ```
 
-```{r residuos_por_tratamento2, fig.cap="teste1" , fig.pos='H', fig.align='center', echo=FALSE}
+```{r residuos_por_tratamento2, fig.cap=leg8 , fig.pos='H', fig.align='center', echo=FALSE}
 bwplot(data_compact_nano$Tratamento ~ fit_log$residuals, xlab = "Modelo 2")
 ```
 
 
-```{r residuos_por_dia1, fig.cap="teste2" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Dia ~ fit$residuals, xlab = "Modelo 1")
-```
+```{r residuos_por_dia1, echo=FALSE}
+#bwplot(data_compact_nano$Dia ~ fit$residuals, xlab = "Modelo 1")
+#bwplot(data_compact_nano$Dia ~ fit_log$residuals, xlab = "Modelo 2")
 
-```{r residuos_por_dia2, fig.cap="teste2" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Dia ~ fit_log$residuals, xlab = "Modelo 2")
-```
-
-```{r valores_ajustados_por_tratamento1, fig.cap="teste3" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Tratamento ~ fit$fitted.values, xlab = "Modelo 1")
-```
-
-```{r valores_ajustados_por_tratamento2, fig.cap="teste3" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Tratamento ~ fit_log$fitted.values, xlab = "Modelo 2")
+#Valores ajustados muito próximos dos observados para cada tratamento nos diferentes modelos
+#bwplot(data_compact_nano$Tratamento ~ fit$fitted.values, xlab = "Modelo 1")
+#bwplot(data_compact_nano$Tratamento ~ fit_log$fitted.values, xlab = "Modelo 2")
+#bwplot(data_compact_nano$Tratamento ~ data_compact_nano$Comprimento, xlab = "Valores observados do comprimento")
 ```
 
 
-```{r valores_observados_por_tratamento, fig.cap="teste4" , fig.pos='H', fig.align='center', echo=FALSE}
-bwplot(data_compact_nano$Tratamento ~ data_compact_nano$Comprimento, xlab = "Valores observados do comprimento")
+Pôde-se perceber, através das características residuais, que o modelo 2 (com função de ligação logarítmica) é o que melhor se ajustou aos dados. Com isso, direcionou-se para a parte inferencial e algumas conclusões que podem ser tiradas a partir dele. A seguir está a tabela dos valores das estimativas, dos erros padrões, da estatística de Wald e o p-valor associado à ela.
+
+
+```{r inf2_modelo_com_interacao_link_log, echo=FALSE}
+summary(fit_log)
+#xtable(coef(summary(fit_log)))
 ```
+
+\begin{table}[H]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimativa & Erro padrão & estatística de Wald & p-valor \\ 
+  \hline
+(Intercepto) & -1,00 & 0,01 & 6733,06 & 0,00 \\ 
+  Tratamento1 & -0,07 & 0,02 & 10,20 & 0,00 \\ 
+  Tratamento2 & -0,05 & 0,02 & 5,59 & 0,02 \\ 
+  Tratamento3 & -0,07 & 0,02 & 17,61 & 0,00 \\ 
+  Tratamento4 & -0,07 & 0,02 & 10,78 & 0,00 \\ 
+  Tratamento5 & -0,04 & 0,02 & 4,97 & 0,03 \\ 
+  Dia1 & 0,19 & 0,01 & 284,47 & 0,00 \\ 
+  Dia2 & 0,35 & 0,02 & 255,49 & 0,00 \\ 
+  Dia3 & 0,51 & 0,02 & 417,04 & 0,00 \\ 
+  Dia4 & 0,54 & 0,02 & 947,73 & 0,00 \\ 
+  Dia5 & 0,66 & 0,02 & 824,72 & 0,00 \\ 
+  Dia6 & 0,70 & 0,01 & 3557,76 & 0,00 \\ 
+  Dia7 & 0,73 & 0,02 & 1997,36 & 0,00 \\ 
+  Dia8 & 0,73 & 0,02 & 2091,48 & 0,00 \\ 
+  Tratamento1:Dia1 & 0,01 & 0,02 & 0,36 & 0,55 \\ 
+  Tratamento2:Dia1 & 0,02 & 0,02 & 0,98 & 0,32 \\ 
+  Tratamento3:Dia1 & 0,01 & 0,02 & 0,46 & 0,50 \\ 
+  Tratamento4:Dia1 & -0,00 & 0,02 & 0,01 & 0,94 \\ 
+  Tratamento5:Dia1 & -0,01 & 0,02 & 0,66 & 0,42 \\ 
+  Tratamento1:Dia2 & 0,02 & 0,03 & 0,33 & 0,57 \\ 
+  Tratamento2:Dia2 & -0,00 & 0,03 & 0,01 & 0,93 \\ 
+  Tratamento3:Dia2 & 0,03 & 0,03 & 1,57 & 0,21 \\ 
+  Tratamento4:Dia2 & -0,01 & 0,03 & 0,04 & 0,84 \\ 
+  Tratamento5:Dia2 & 0,01 & 0,03 & 0,08 & 0,77 \\ 
+  Tratamento1:Dia3 & -0,02 & 0,04 & 0,25 & 0,62 \\ 
+  Tratamento2:Dia3 & -0,06 & 0,06 & 1,22 & 0,27 \\ 
+  Tratamento3:Dia3 & -0,02 & 0,03 & 0,26 & 0,61 \\ 
+  Tratamento4:Dia3 & -0,02 & 0,03 & 0,51 & 0,47 \\ 
+  Tratamento5:Dia3 & -0,07 & 0,03 & 6,00 & 0,01 \\ 
+  Tratamento1:Dia4 & 0,01 & 0,02 & 0,17 & 0,68 \\ 
+  Tratamento2:Dia4 & 0,01 & 0,02 & 0,36 & 0,55 \\ 
+  Tratamento3:Dia4 & -0,01 & 0,02 & 0,38 & 0,54 \\ 
+  Tratamento4:Dia4 & -0,02 & 0,02 & 0,61 & 0,44 \\ 
+  Tratamento5:Dia4 & -0,06 & 0,02 & 5,22 & 0,02 \\ 
+  Tratamento1:Dia5 & -0,00 & 0,03 & 0,02 & 0,90 \\ 
+  Tratamento2:Dia5 & 0,01 & 0,03 & 0,03 & 0,87 \\ 
+  Tratamento3:Dia5 & -0,06 & 0,03 & 3,88 & 0,05 \\ 
+  Tratamento4:Dia5 & 0,00 & 0,03 & 0,00 & 0,96 \\ 
+  Tratamento5:Dia5 & -0,08 & 0,03 & 9,84 & 0,00 \\ 
+  Tratamento1:Dia6 & -0,01 & 0,02 & 0,05 & 0,82 \\ 
+  Tratamento2:Dia6 & -0,01 & 0,02 & 0,16 & 0,69 \\ 
+  Tratamento3:Dia6 & -0,08 & 0,02 & 15,97 & 0,00 \\ 
+  Tratamento4:Dia6 & -0,02 & 0,02 & 1,59 & 0,21 \\ 
+  Tratamento5:Dia6 & -0,08 & 0,02 & 10,06 & 0,00 \\ 
+  Tratamento1:Dia7 & 0,00 & 0,02 & 0,00 & 0,96 \\ 
+  Tratamento2:Dia7 & 0,01 & 0,03 & 0,16 & 0,69 \\ 
+  Tratamento3:Dia7 & -0,04 & 0,02 & 2,46 & 0,12 \\ 
+  Tratamento4:Dia7 & -0,01 & 0,03 & 0,32 & 0,57 \\ 
+  Tratamento5:Dia7 & -0,09 & 0,03 & 11,31 & 0,00 \\ 
+  Tratamento1:Dia8 & 0,03 & 0,02 & 1,07 & 0,30 \\ 
+  Tratamento2:Dia8 & 0,02 & 0,02 & 0,91 & 0,34 \\ 
+  Tratamento3:Dia8 & 0,01 & 0,02 & 0,34 & 0,56 \\ 
+  Tratamento4:Dia8 & 0,00 & 0,02 & 0,04 & 0,85 \\ 
+  Tratamento5:Dia8 & -0,06 & 0,03 & 3,95 & 0,05 \\ 
+   \hline
+\end{tabular}
+\captionof{Tabela que destaca as estimativas dos efeitos principais e das interações, seus erros padrões e significância. No intercepto tem-se a referência para o tatamento 0 (controle) e dia 0. Além disso, é possível destacar que as interações tratamento 5 e dia, e tratamento 3 e dia são as interações que são estatisticamente significantes, a um nível de significância de 0,05. Observe que estes valores são aqueles obtidos para o preditor linear.}
+\end{table}
+
+
+Os efeitos principais referentes aos tratamentos e dias são estatisticamente significativos, a um nível de significância de 0,05. Com isso existe diferença entre os tratamentos (1,2,3,4,5) e o tratamento 0 (controle) com relação ao dia 0 e entre os diferentes dias (de 1 até 8). Nota-se que muitos termos da interação entre tratamento e dia são não significativos, com exceção do tratamento 5 com alguns dias e tratamento 3 com alguns dias, no entanto foi mantido todas as interações. 
+
+
+Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos médios (em milímetros): dia 0 e tratamento 0 (controle): 0,367; dia 1 e tratamento 0 (controle): 0,444; dia 2 e tratamento 0 (controle): 0,52; dia 3 e tratamento 0 (controle): 0,61; dia 4 e tratamento 0 (controle): 0,631; dia 5 e tratamento 0 (controle): 0,708; dia 6 e tratamento 0 (controle): 0,737; dia 7 e tratamento 0 (controle): 0,762; dia 8 e tratamento 0 (controle): 0,762; dia 0 e tratamento 1: 0,342; dia 1 e tratamento 1: 0,418; dia 2 tratamento 1: 0,492; dia 3 tratamento 1: 0,558; dia 4 tratamento 1: 0,594; dia 5 e tratamento 1: 0,657; dia 6 tratamento 1: 0,683; dia 7 e tratamento 1: 0,711; dia 8 e tratamento 1: 0,728; dia 0 e tratamento 2: 0,349; dia 1 e tratamento 2: 0,429; dia 2 e tratamento 2: 0,493; dia 3 e tratamento 2: 0,544; dia 4 e tratamento 2: 0,609; dia 5 e tratamento 2: 0,677; dia 6 e tratamento 2: 0,694; dia 7 e tratamento 2: 0,733; dia 8 e tratamento 2: 0,741; dia 0 e tratamento 3: 0,342; dia 1 e tratamento 3: 0,418; dia 2 e tratamento 3: 0,5; dia 3 e tratamento 3: 0,559; dia 4 e tratamento 3: 0,581; dia 5 e tratamento 3: 0,624; dia 6 e tratamento 3: 0,637; dia 7 e tratamento 3: 0,683; dia 8 e tratamento 3: 0,719; dia 0 e tratamento 4: 0,341; dia 1 e tratamento 4: 0,412; dia 2 e tratamento 4: 0,48; dia 3 e tratamento 4: 0,553; dia 4 e tratamento 4: 0,575; dia 5 e tratamento 4: 0,659; dia 6 e tratamento 4: 0,668; dia 7 e tratamento 4: 0,698; dia 8 e tratamento 4: 0,711; dia 0 e tratamento 5: 0,351; dia 1 e tratamento 5: 0,419; dia 2 e tratamento 5: 0,501; dia 3 e tratamento 5: 0,543; dia 4 e tratamento 5: 0,57; dia 5 e tratamento 5: 0,622; dia 6 e tratamento 5: 0,652; dia 7 e tratamento 5: 0,668; dia 8 e tratamento 5: 0,684;
+
+Pode-se perceber que os valores dos comprimentos médios são muito parecidos com os gráficos de perfis médios construídos para nanopartículas e com a coluna do comprimento médio da tabela resumo em Anexo.
+
+##Sal de zinco
+
+```{r modelos_sal_de_zinco, echo=FALSE}
+fit_sal <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "inverse"), id = Repetição, corstr = "ar1", data = data_compact_sal)
+
+qqPlot(fit_sal$residuals,ylab = "Quantil dos resíduos", xlab = "Quantil normal", main = "Gráfico de quantil residual e quantil teórico normal modelo",grid = F)
+
+#plot(density(fit_sal$residuals))
+summary(fit_sal)
+
+```
+
+
+#Anexos
+
+\begin{table}[H]
+\centering
+\begin{tabular}{rlrrrrrr}
+  \hline
+ Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
+  \hline
+ 0 & 0 & 0.34 & 0.0002 & 0.31 & 0.36 & 0.34 \\ 
+ 0 & 1 & 0.43 & 0.0003 & 0.40 & 0.45 & 0.43 \\ 
+ 0 & 2 & 0.53 & 0.0002 & 0.52 & 0.55 & 0.53 \\ 
+ 0 & 3 & 0.61 & 0.0005 & 0.57 & 0.64 & 0.61 \\ 
+ 0 & 4 & 0.63 & 0.0005 & 0.60 & 0.67 & 0.63 \\ 
+ 0 & 5 & 0.68 & 0.0011 & 0.64 & 0.75 & 0.67 \\ 
+ 0 & 6 & 0.70 & 0.0005 & 0.67 & 0.72 & 0.72 \\ 
+ 0 & 7 & 0.72 & 0.0007 & 0.67 & 0.75 & 0.72 \\ 
+ 0 & 8 & 0.73 & 0.0006 & 0.69 & 0.76 & 0.73 \\ 
+ 1 & 0 & 0.34 & 0.0002 & 0.33 & 0.36 & 0.34 \\ 
+ 1 & 1 & 0.41 & 0.0004 & 0.39 & 0.45 & 0.42 \\ 
+ 1 & 2 & 0.51 & 0.0007 & 0.45 & 0.54 & 0.51 \\ 
+ 1 & 3 & 0.58 & 0.0046 & 0.40 & 0.63 & 0.60 \\ 
+ 1 & 4 & 0.59 & 0.0045 & 0.40 & 0.63 & 0.60 \\ 
+ 1 & 5 & 0.65 & 0.0029 & 0.51 & 0.69 & 0.66 \\ 
+ 1 & 6 & 0.67 & 0.0038 & 0.52 & 0.72 & 0.69 \\ 
+ 1 & 7 & 0.67 & 0.0028 & 0.54 & 0.72 & 0.69 \\ 
+ 1 & 8 & 0.68 & 0.0036 & 0.54 & 0.73 & 0.69 \\ 
+ 2 & 0 & 0.33 & 0.0001 & 0.31 & 0.34 & 0.34 \\ 
+ 2 & 1 & 0.42 & 0.0003 & 0.40 & 0.45 & 0.42 \\ 
+ 2 & 2 & 0.49 & 0.0011 & 0.45 & 0.54 & 0.47 \\ 
+ 2 & 3 & 0.57 & 0.0052 & 0.45 & 0.64 & 0.60 \\ 
+ 2 & 4 & 0.57 & 0.0048 & 0.45 & 0.67 & 0.60 \\ 
+ 2 & 5 & 0.60 & 0.0049 & 0.51 & 0.67 & 0.64 \\ 
+ 2 & 6 & 0.63 & 0.0062 & 0.52 & 0.70 & 0.67 \\ 
+ 2 & 7 & 0.65 & 0.0076 & 0.52 & 0.75 & 0.70 \\ 
+ 2 & 8 & 0.66 & 0.0092 & 0.52 & 0.75 & 0.72 \\ 
+ 3 & 0 & 0.33 & 0.0001 & 0.31 & 0.34 & 0.33 \\ 
+ 3 & 1 & 0.41 & 0.0003 & 0.40 & 0.45 & 0.40 \\ 
+ 3 & 2 & 0.51 & 0.0004 & 0.48 & 0.55 & 0.52 \\ 
+ 3 & 3 & 0.59 & 0.0004 & 0.55 & 0.61 & 0.60 \\ 
+ 3 & 4 & 0.59 & 0.0004 & 0.55 & 0.61 & 0.60 \\ 
+ 3 & 5 & 0.64 & 0.0005 & 0.60 & 0.67 & 0.66 \\ 
+ 3 & 6 & 0.65 & 0.0006 & 0.60 & 0.67 & 0.66 \\ 
+ 3 & 7 & 0.66 & 0.0003 & 0.63 & 0.69 & 0.67 \\ 
+ 3 & 8 & 0.68 & 0.0001 & 0.67 & 0.69 & 0.67 \\ 
+ 4 & 0 & 0.32 & 0.0002 & 0.31 & 0.34 & 0.32 \\ 
+ 4 & 1 & 0.42 & 0.0005 & 0.39 & 0.45 & 0.42 \\ 
+ 4 & 2 & 0.51 & 0.0007 & 0.46 & 0.55 & 0.52 \\ 
+ 4 & 3 & 0.59 & 0.0013 & 0.51 & 0.64 & 0.60 \\ 
+ 4 & 4 & 0.59 & 0.0008 & 0.54 & 0.64 & 0.60 \\ 
+ 4 & 5 & 0.64 & 0.0021 & 0.54 & 0.67 & 0.66 \\ 
+ 4 & 6 & 0.65 & 0.0015 & 0.58 & 0.70 & 0.67 \\ 
+ 4 & 7 & 0.66 & 0.0017 & 0.58 & 0.72 & 0.67 \\ 
+ 4 & 8 & 0.67 & 0.0027 & 0.58 & 0.75 & 0.67 \\ 
+ 5 & 0 & 0.33 & 0.0002 & 0.31 & 0.34 & 0.34 \\ 
+ 5 & 1 & 0.41 & 0.0002 & 0.39 & 0.43 & 0.42 \\ 
+ 5 & 2 & 0.50 & 0.0008 & 0.46 & 0.54 & 0.52 \\ 
+ 5 & 3 & 0.57 & 0.0031 & 0.46 & 0.61 & 0.60 \\ 
+ 5 & 4 & 0.61 & 0.0008 & 0.58 & 0.67 & 0.60 \\ 
+ 5 & 5 & 0.66 & 0.0007 & 0.60 & 0.69 & 0.66 \\ 
+ 5 & 6 & 0.67 & 0.0004 & 0.66 & 0.72 & 0.67 \\ 
+ 5 & 7 & 0.69 & 0.0004 & 0.66 & 0.72 & 0.69 \\ 
+ 5 & 8 & 0.70 & 0.0005 & 0.67 & 0.72 & 0.70 \\ 
+   \hline
+\end{tabular}
+\caption{Tabela resumo, para o sal de zinco, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 6.}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{rlrrrrrr}
+  \hline
+ Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
+  \hline
+  0 & 0 & 0,37 & 0,0002 & 0,34 & 0,40 & 0,37 \\ 
+  0 & 1 & 0,44 & 0,0002 & 0,42 & 0,46 & 0,45 \\ 
+  0 & 2 & 0,52 & 0,0012 & 0,43 & 0,55 & 0,52 \\ 
+  0 & 3 & 0,61 & 0,0025 & 0,48 & 0,67 & 0,61 \\ 
+  0 & 4 & 0,63 & 0,0014 & 0,55 & 0,69 & 0,63 \\ 
+  0 & 5 & 0,71 & 0,0026 & 0,58 & 0,75 & 0,71 \\ 
+  0 & 6 & 0,74 & 0,0014 & 0,67 & 0,81 & 0,74 \\ 
+  0 & 7 & 0,76 & 0,0016 & 0,67 & 0,81 & 0,76 \\ 
+  0 & 8 & 0,76 & 0,0016 & 0,67 & 0,82 & 0,76 \\ 
+  1 & 0 & 0,34 & 0,0004 & 0,31 & 0,39 & 0,34 \\ 
+  1 & 1 & 0,42 & 0,0010 & 0,37 & 0,49 & 0,42 \\ 
+  1 & 2 & 0,49 & 0,0005 & 0,46 & 0,52 & 0,49 \\ 
+  1 & 3 & 0,56 & 0,0023 & 0,49 & 0,64 & 0,56 \\ 
+  1 & 4 & 0,59 & 0,0018 & 0,52 & 0,67 & 0,60 \\ 
+  1 & 5 & 0,66 & 0,0030 & 0,58 & 0,75 & 0,67 \\ 
+  1 & 6 & 0,68 & 0,0017 & 0,61 & 0,75 & 0,69 \\ 
+  1 & 7 & 0,71 & 0,0015 & 0,66 & 0,76 & 0,70 \\ 
+  1 & 8 & 0,73 & 0,0012 & 0,66 & 0,76 & 0,75 \\ 
+  2 & 0 & 0,35 & 0,0004 & 0,33 & 0,39 & 0,35 \\ 
+  2 & 1 & 0,43 & 0,0004 & 0,39 & 0,46 & 0,42 \\ 
+  2 & 2 & 0,49 & 0,0004 & 0,45 & 0,52 & 0,49 \\ 
+  2 & 3 & 0,54 & 0,0062 & 0,36 & 0,60 & 0,58 \\ 
+  2 & 4 & 0,61 & 0,0013 & 0,56 & 0,67 & 0,60 \\ 
+  2 & 5 & 0,68 & 0,0007 & 0,63 & 0,73 & 0,67 \\ 
+  2 & 6 & 0,69 & 0,0005 & 0,66 & 0,72 & 0,69 \\ 
+  2 & 7 & 0,73 & 0,0003 & 0,70 & 0,75 & 0,73 \\ 
+  2 & 8 & 0,74 & 0,0001 & 0,72 & 0,75 & 0,75 \\ 
+  3 & 0 & 0,34 & 0,0002 & 0,33 & 0,37 & 0,34 \\ 
+  3 & 1 & 0,42 & 0,0002 & 0,40 & 0,45 & 0,42 \\ 
+  3 & 2 & 0,50 & 0,0002 & 0,48 & 0,52 & 0,50 \\ 
+  3 & 3 & 0,56 & 0,0021 & 0,49 & 0,61 & 0,57 \\ 
+  3 & 4 & 0,58 & 0,0006 & 0,54 & 0,61 & 0,58 \\ 
+  3 & 5 & 0,63 & 0,0016 & 0,54 & 0,67 & 0,63 \\ 
+  3 & 6 & 0,64 & 0,0006 & 0,61 & 0,67 & 0,64 \\ 
+  3 & 7 & 0,68 & 0,0013 & 0,64 & 0,73 & 0,67 \\ 
+  3 & 8 & 0,72 & 0,0009 & 0,66 & 0,76 & 0,73 \\ 
+  4 & 0 & 0,34 & 0,0005 & 0,31 & 0,37 & 0,34 \\ 
+  4 & 1 & 0,41 & 0,0004 & 0,39 & 0,45 & 0,41 \\ 
+  4 & 2 & 0,48 & 0,0005 & 0,45 & 0,52 & 0,48 \\ 
+  4 & 3 & 0,55 & 0,0024 & 0,48 & 0,61 & 0,56 \\ 
+  4 & 4 & 0,57 & 0,0006 & 0,55 & 0,61 & 0,57 \\ 
+  4 & 5 & 0,66 & 0,0009 & 0,60 & 0,70 & 0,66 \\ 
+  4 & 6 & 0,67 & 0,0004 & 0,64 & 0,70 & 0,67 \\ 
+  4 & 7 & 0,70 & 0,0008 & 0,67 & 0,75 & 0,69 \\ 
+  4 & 8 & 0,71 & 0,0012 & 0,67 & 0,76 & 0,70 \\ 
+  5 & 0 & 0,35 & 0,0003 & 0,31 & 0,37 & 0,36 \\ 
+  5 & 1 & 0,42 & 0,0003 & 0,39 & 0,45 & 0,42 \\ 
+  5 & 2 & 0,50 & 0,0002 & 0,48 & 0,52 & 0,50 \\ 
+  5 & 3 & 0,54 & 0,0016 & 0,49 & 0,60 & 0,56 \\ 
+  5 & 4 & 0,57 & 0,0003 & 0,55 & 0,60 & 0,57 \\ 
+  5 & 5 & 0,62 & 0,0015 & 0,55 & 0,67 & 0,64 \\ 
+  5 & 6 & 0,65 & 0,0010 & 0,60 & 0,70 & 0,67 \\ 
+  5 & 7 & 0,67 & 0,0010 & 0,61 & 0,70 & 0,67 \\ 
+  5 & 8 & 0,68 & 0,0025 & 0,61 & 0,75 & 0,67 \\ 
+   \hline
+\end{tabular}
+\caption{Tabela resumo, para nanopartículas, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 3.}
+\end{table}
