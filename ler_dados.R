@@ -344,3 +344,29 @@ colnames(suporte) <- c("Tratamento", "Dia", "Comprimento médio por dia")
 
 #c("0 = controle", "1 = 0.006mg/L", "2 = 0.0125mg/L", "3 = 0.025mg/L", "4 = 0.05mg/L", "5 = 0.1mg/L")
 ggplot(suporte, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento médio (mm)") +theme_classic()
+
+---
+  title: ''
+header-includes:
+  - \usepackage{setspace}
+- \usepackage{indentfirst}
+- \usepackage[utf8]{inputenc}
+- \usepackage{mathptmx}
+- \usepackage{enumerate}
+- \usepackage{float}
+- \usepackage{url}
+- \usepackage{lipsum}
+- \usepackage{caption}
+- \usepackage{subcaption}
+fontsize: 10bp
+geometry: textwidth=18cm,textheight=24cm
+output:
+  pdf_document: default
+html_document:
+  smart: no
+lang: pt-br
+mainfont: Times New Roman
+
+fig_caption: yes
+---
+  
