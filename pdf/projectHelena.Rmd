@@ -201,7 +201,7 @@ colnames(suporte_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "N
 
 \subsection{Número de ovos e neonatos para nanopartículas}
 
-Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes.
+Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes. Pelos gráficos é possível notar uma característica geral ou tendência de crescimento, com o decorrer dos dias, do número de ovos e neonatos. Apesar disso, não é perceptível uma associação entre os dias e tais variáveis.
 
 ```{r grafico_numero_medio_ovos, fig.cap=fig7, fig.pos='H', fig.align='center', echo=FALSE}
 ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de ovos") +theme_classic()
@@ -313,7 +313,7 @@ colnames(suporte1_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "
 
 \subsection{Número de ovos e neonatos para sal de zinco}
 
-Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes (assim como no caso para nanopartículas).
+Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes (assim como no caso para nanopartículas). Observe que algo muito parecido acontece com o sal de zinco e nanopartículas. Ou seja, nota-se uma característica geral ou tendência de crescimento, com o decorrer dos dias, do número de ovos e neonatos. Apesar disso, não é perceptível uma associação entre os dias e tais variáveis.
 
 
 ```{r grafico_numero_medio_ovos_salzinco, fig.cap=fig9, fig.pos='H', fig.align='center', echo=FALSE}
@@ -617,7 +617,7 @@ Os efeitos principais referentes aos tratamentos e dias são estatisticamente si
 
 Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos médios (em milímetros): dia 0 e tratamento 0 (controle): 0,367; dia 1 e tratamento 0 (controle): 0,444; dia 2 e tratamento 0 (controle): 0,52; dia 3 e tratamento 0 (controle): 0,61; dia 4 e tratamento 0 (controle): 0,631; dia 5 e tratamento 0 (controle): 0,708; dia 6 e tratamento 0 (controle): 0,737; dia 7 e tratamento 0 (controle): 0,762; dia 8 e tratamento 0 (controle): 0,762; dia 0 e tratamento 1: 0,342; dia 1 e tratamento 1: 0,418; dia 2 tratamento 1: 0,492; dia 3 tratamento 1: 0,558; dia 4 tratamento 1: 0,594; dia 5 e tratamento 1: 0,657; dia 6 tratamento 1: 0,683; dia 7 e tratamento 1: 0,711; dia 8 e tratamento 1: 0,728; dia 0 e tratamento 2: 0,349; dia 1 e tratamento 2: 0,429; dia 2 e tratamento 2: 0,493; dia 3 e tratamento 2: 0,544; dia 4 e tratamento 2: 0,609; dia 5 e tratamento 2: 0,677; dia 6 e tratamento 2: 0,694; dia 7 e tratamento 2: 0,733; dia 8 e tratamento 2: 0,741; dia 0 e tratamento 3: 0,342; dia 1 e tratamento 3: 0,418; dia 2 e tratamento 3: 0,5; dia 3 e tratamento 3: 0,559; dia 4 e tratamento 3: 0,581; dia 5 e tratamento 3: 0,624; dia 6 e tratamento 3: 0,637; dia 7 e tratamento 3: 0,683; dia 8 e tratamento 3: 0,719; dia 0 e tratamento 4: 0,341; dia 1 e tratamento 4: 0,412; dia 2 e tratamento 4: 0,48; dia 3 e tratamento 4: 0,553; dia 4 e tratamento 4: 0,575; dia 5 e tratamento 4: 0,659; dia 6 e tratamento 4: 0,668; dia 7 e tratamento 4: 0,698; dia 8 e tratamento 4: 0,711; dia 0 e tratamento 5: 0,351; dia 1 e tratamento 5: 0,419; dia 2 e tratamento 5: 0,501; dia 3 e tratamento 5: 0,543; dia 4 e tratamento 5: 0,57; dia 5 e tratamento 5: 0,622; dia 6 e tratamento 5: 0,652; dia 7 e tratamento 5: 0,668; dia 8 e tratamento 5: 0,684;
 
-Pode-se perceber que os valores dos comprimentos médios são muito parecidos com o gráfico de perfil médio construído para nanopartículas e com a coluna do comprimento médio da tabela resumo em Anexo.
+Pode-se perceber que os valores dos comprimentos médios são muito parecidos com o gráfico de perfil médio construído para nanopartículas e com a coluna média (do comprimento médio) da tabela resumo 4 em Anexo.
 
 \subsection{Sal de zinco}
 
@@ -738,8 +738,24 @@ A partir da tabela é possível identificar que alguns níveis dos efeitos princ
 \caption{Tabela que destaca as estimativas dos efeitos principais e das interações, seus erros padrões e significância. No intercepto tem-se a referência para o tatamento 0 (controle) e dia 0. Pode-se verificar que, a um nível de significância de 0,05, alguns termos de interação são estatisticamente significativos. Observe que os valores da tabela são aqueles obtidos para o preditor linear.}
 \end{table}
 
+Note pela tabela acima que muitos efeitos principais, níveis referente ao tratamento, são não significativos a um nível de significância de 0,05. Tal característica é bem diferente quando comparada com as nanopartículas, cuja parte inferencial indicou a significância da variável tratamento. Observa-se, entretanto, que como há interações com níveis da variável que são significativas, decide-se manter os efeitos principais. Segue-se, então, as interpretações das estimativas encontradas, assim como feito anteriormente.
 
+Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos médios (em milímetros): dia 0 e tratamento 0 (controle): 0,337; dia 1 e tratamento 0 (controle): 0,431; dia 2 e tratamento 0 (controle): 0,532; dia 3 e tratamento 0 (controle): 0,613; dia 4 e tratamento 0 (controle): 0,626; dia 5 e tratamento 0 (controle): 0,682; dia 6 e tratamento 0 (controle): 0,704; dia 7 e tratamento 0 (controle): 0,716; dia 8 e tratamento 0 (controle): 0,731; dia 0 e tratamento 1: 0,342; dia 1 e tratamento 1: 0,451; dia 2 tratamento 1: 0,510; dia 3 tratamento 1: 0,582; dia 4 tratamento 1: 0,586; dia 5 e tratamento 1: 0,649; dia 6 tratamento 1: 0,668; dia 7 e tratamento 1: 0,674; dia 8 e tratamento 1: 0,679; dia 0 e tratamento 2: 0,334; dia 1 e tratamento 2: 0,416; dia 2 e tratamento 2: 0,487; dia 3 e tratamento 2: 0,567; dia 4 e tratamento 2: 0,575; dia 5 e tratamento 2: 0,607; dia 6 e tratamento 2: 0,632; dia 7 e tratamento 2: 0,652; dia 8 e tratamento 2: 0,666; dia 0 e tratamento 3: 0,330; dia 1 e tratamento 3: 0,411; dia 2 e tratamento 3: 0,513; dia 3 e tratamento 3: 0,592; dia 4 e tratamento 3: 0,590; dia 5 e tratamento 3: 0,647; dia 6 e tratamento 3: 0,653; dia 7 e tratamento 3: 0,664; dia 8 e tratamento 3: 0,679; dia 0 e tratamento 4: 0,322; dia 1 e tratamento 4: 0,419; dia 2 e tratamento 4: 0,511; dia 3 e tratamento 4: 0,588; dia 4 e tratamento 4: 0,594; dia 5 e tratamento 4: 0,637; dia 6 e tratamento 4: 0,651; dia 7 e tratamento 4: 0,660; dia 8 e tratamento 4: 0,667; dia 0 e tratamento 5: 0,332; dia 1 e tratamento 5: 0,414; dia 2 e tratamento 5: 0,504; dia 3 e tratamento 5: 0,572; dia 4 e tratamento 5: 0,603; dia 5 e tratamento 5: 0,647; dia 6 e tratamento 5: 0,668; dia 7 e tratamento 5: 0,681; dia 8 e tratamento 5: 0,696;
+
+
+\subsection{Modelagem para número de ovos e neonatos}
+
+Para a modelagem do número de ovos e neonatos pode-se utilizar a mesma referência de modelagem como na variável comprimento. Entretanto, observa-se pela análise descritiva que não há uma estrutura de dependência entre os dias e as quantidades médias de ovos e neonatos; para estas variáveis, nota-se que a partir do terceiro e quarto dia seus valores médios são diferentes de zero, ou seja, existem muitos valores nulos de número de ovos e neonatos dentro de cada tratamento e para as diferentes replicações.
+
+Pode-se tentar uma outra metodologia também, na qual existe a consideração de muitos valores ("inflacionados" em zero) nulos para cada replicação (microcrustáceo, que representa a característica aleatória) e, consequentemente, para cada tratamento.
+
+```{r modelo_num_ovos_neonatos, echo=FALSE}
+#library(geepack)
+#fit_ovos_nano <- geeglm(Numero_ovos ~ Tratamento*Dia, family = poisson(), id = Repeticao, corstr = "independence", data = data_compact_nano)
+```
 \section{Anexos}
+
+\subsection{Tabelas resumo das informações de comprimento para nanopartículas e sal de zinco}
 
 \begin{table}[H]
 \centering
