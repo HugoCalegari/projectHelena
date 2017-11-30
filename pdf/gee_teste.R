@@ -1,0 +1,15 @@
+gee.testeF.CBM.MLG <- function(glm.fit.model,geese.fit.model,m.C,m.M)
+{
+v.beta <-  cbind(glm.fit.model$coef)
+e.q <- nrow(m.C)
+m.cov.beta <- (geese.fit.model$vbeta)
+e.Q <- t(m.C%*%v.beta-m.M)%*%solve(m.C%*%m.cov.beta%*%t(m.C))%*%(m.C%*%v.beta-m.M)
+e.pvalor <- 1-pchisq(e.Q,e.q)
+cat("Estatistica Q = ",round(e.Q,2),"\n")
+cat("gl = ",e.q,"\n")
+cat("pvalor = ",round(e.pvalor,4),"\n")
+#cat("Matriz C :","\n")
+#print(m.C)
+#cat("Matriz M :","\n")
+#print(m.M)
+}
