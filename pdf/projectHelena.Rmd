@@ -1,28 +1,78 @@
 ---
-title: "Relatório ME710/810"
-author: "Eliane Ramos Siqueira RA:155233, Natália Rodrigues da Silva RA:156831 e Hugo Calegari  RA:155738"
 geometry: textwidth=18cm,textheight=24cm
 header-includes:
+- \usepackage{caption}
 - \usepackage{setspace}
 - \usepackage{indentfirst}
 - \usepackage[utf8]{inputenc}
 - \usepackage{mathptmx}
 - \usepackage{enumerate}
-- \usepackage{float}
 - \usepackage{url}
+- \usepackage{float}
 - \usepackage{lipsum}
-- \usepackage{caption}
+- \usepackage{multirow}
+- \usepackage{booktabs}
+- \usepackage{longtable}
 - \usepackage{subcaption}
 output:
   pdf_document:
     number_sections: yes
-    toc: yes
 mainfont: Times New Roman
 fig_caption: yes
 lang: pt-br
-fontsize: 10bp
+fontsize: 10pt
 ---
 
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+\begin{center}
+\begin{minipage}[s]{1.75cm}
+\includegraphics[width=40pt,height=45pt]{logoUnicamp.png} 
+\end{minipage}\begin{minipage}[s]{11.25cm}\noindent
+{\begin{center} {\Large Universidade Estadual de Campinas}\\
+{Instituto de Matemática, Estatística e Computação Científica}\\
+{\sc Departamento de Estatística}
+\end{center}}
+\end{minipage}
+\begin{minipage}[s]{0.5cm}
+\includegraphics[width=40pt,height=45pt]{logoimecc.png}
+\end{minipage}
+\end{center}
+\end{center}
+\vspace{3cm}
+\font\fontGrande=cmcsc10 scaled 2500
+\font\pessoal=cmr9 scaled 2500
+
+\begin{center}
+\vspace*{3.5cm}
+{\rule[0 ex]{16cm}{0.05cm}}
+{\huge \sc Projeto Helena \\[8pt]
+Relatório Final}
+{\rule[0 ex]{16cm}{0.05cm}}
+\end{center}
+
+\begin{center}
+
+\normalsize \vspace{8mm}
+
+
+\vspace{4cm}
+
+{\sc  Eliane Ramos de Siqueira  RA:155233} \\
+{\sc  Hugo Calegari  RA:155738}\\
+{\sc  Natalia Rodrigues da Silva  RA:156831}
+
+\vspace{0.2cm}
+
+Disciplina: {\bf Acessoria Estatística}\\
+Professor: {\bf Benilton Carvalho}
+\vspace{1cm}
+
+{\footnotesize{Campinas - SP \\ 30 de Novembro de 2017}}
+\end{center}
+\end{titlepage}
 ```{r echo=FALSE}
 #mudando o separador decimal para resultados "printados"
 options(OutDec= ",")
@@ -30,18 +80,28 @@ options(OutDec= ",")
 
 ```{r, echo=FALSE}
 #definindo opções padrões dos chunks
-knitr::opts_chunk$set(fig.width=6, fig.height=3.5, fig.path='Figs/', fig.align='center', echo=FALSE, warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(fig.width=6, fig.height=3.5, fig.path='Figs/', fig.align='center', echo=FALSE, warning=FALSE, message=FALSE,  fig.width=7, fig.height=3.5)
 ```
 
 \newpage
-\section{Introdução}
+
+\setlength{\parindent}{3em}
+\onehalfspacing
+
+\textbf{1. Introdução}
+
+\vspace{0.5cm}
+\doublespacing
 
 A represa do Fazzari, localizada na cidade de São Carlos de clima tropical, teve sua composição natural alterada devido aos dejetos químicos. No processo, nanopartículas de óxido de zinco e sal de zinco são os principais componentes incorporados às águas fluviais.
 
 Um dos componentes da vida no rio são os microcrustáceos, animais que fazem parte do zooplâncton e a principal fonte de alimentação e transferência de energia para os níveis tróficos superiores do ambiente em questão. Em outras palavras, os microcrustáceos são microorganismos que servem como principal fonte de alimentação para outras espécies, que, por sua vez, são a principal fonte de alimentação para outras espécies e, assim, sucessivamente, até que se complete a biodiversidade do rio. 
 
+\vspace{0.5cm}
 
-\section{Objetivo}
+\textbf{2. Objetivo}
+
+\vspace{0.5cm}
 
 Considerada a importância da existência regulada dos microcrustáceos como base da cadeia alimentar, para a sustentabilidade da biodiversidade da represa do Fazzari, o presente trabalho tem por objetivo a análise do impacto das nanopartículas de óxido de zinco e do sal de zinco no:
 
@@ -53,7 +113,9 @@ Considerada a importância da existência regulada dos microcrustáceos como bas
 
 Os impactos serão mensurados e analisados através da comparação entre 6 cenários, caracterizados pela ausência dos componentes destacados na água e outras cinco concentrações dos mesmos. 
 
-\section{Banco de dados}
+\vspace{0.5cm}
+\textbf{3. Banco de dados}
+\vspace{0.5cm}
 
 O banco de dados considerado para as análises contém 1080 observações, de 120 microcrustáceos divididos em 12 grupos - com 10 microcrustáceos em cada - dos quais 6 foram expostos às nanopartículas e 6 ao sal de zinco. Para cada um dos 6 grupos submetidos a um dos materiais foram utilizadas 6 concentrações do mesmo (uma para cada grupo): 0,00 (controle), 0,006mg/L, 0,01mg/L, 0,02mg/L, 0,04mg/L e 0,09mg/L para o sal de zinco e 0,00 (controle), 0,006mg/L, 0,0125mg/L, 0,025mg/L, 0,05mg/L e 0,1mg/L para nanopartículas.
 
@@ -63,8 +125,9 @@ Dados que faziam referência a morte do microcrustáceo foram retirados. Por exe
 
 Além disso, para o sal de zinco, na variável "Tratamento" foram consideradas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,01mg/L, "3" para a concentração 0,02mg/L, "4" para a concentração 0,04mg/L e "5" para a concentração 0,09mg/L. Ideia semelhante foi adotada para nanopartículas: "0" para controle, "1" para a concentração 0,006mg/L, "2" para a concentração 0,0125mg/L, "3" para a concentração 0,025mg/L, "4" para a concentração 0,05mg/L e "5" para a concentração 0,1mg/L.
 
-
-\section{Metodologia}
+\vspace{0.5cm}
+\textbf{4. Metodologia}
+\vspace{0.5cm}
 
 Trata-se de um experimento com medições ao longo do tempo (nove dias, dados longitudinais) para microcrustáceos, das características comprimento, número de ovos e neonatos. Com isso, a teoria de modelos mistos foi utilizada para o entendimento das variáveis em relação ao controle e entre os tratamentos. 
 
@@ -72,14 +135,17 @@ De maneira geral, modelos de efeitos mistos permitem que os coeficientes da regr
 
 As informações ou medidas dos indivíduos (no caso, microcrustáceos) não precisam ser igualmente espaçadas (no caso, tem-se medidas diárias, ou seja, de igual espaçamento) e balanceadas (tem-se a mesma quantidade de observação/replicação para cada tratamento, isto é, dados balanceados) e as análises podem ser conduzidas com os dados de indivíduos que foram perdidos de seguimento (pessoas que abandonaram o estudo, por exemplo) ou que apresentam ausência de informação em algum momento do estudo (no caso, microcrustáceos que morreram em algum dia para algum tratamento).
 
-\section{Análise descritiva e exploratória}
+\vspace{0.5cm}
+\textbf{5. Análise descritiva e exploratória}
+\vspace{0.5cm}
 
 A seguir foram avaliadas as variáveis comprimento, número de ovos e nenonatos, de acordo com as informações dos 9 dias para nanopartículas e sal de zinco.
 
 Conforme a descrição do banco de dados, entre as diferentes concentrações de nanopartículas e sal de zinco, somente uma coincide que é a concentração 0,006mg/L (definida como tratamento 1). Neste caso, uma breve avaliação foi feita em um tópico a parte.
 
-
-\subsection{Comprimento para nanopartículas}
+\newpage
+\textbf{5.1 Comprimento para nanopartículas}
+\vspace{0.5cm}
 
 De acordo com o diagrama de dispersão do comprimento por dia (figura 1) e do gráfico de perfil médio (figura 3), percebe-se que existe uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, nota-se que os comprimentos têm uma característica de crescimento até uma possível estabilização que ocorre nos dias 7 e 8 (a variabilidade dos comprimentos nestes dois dias também é muito próxima).
 
@@ -88,13 +154,14 @@ library(readxl)
 library(dplyr)
 library(ggplot2)
 
-data_compact_nano <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/nanoparticulas_dadosR.xlsx"))
+setwd(choose.dir())
+data_compact_nano <- as.data.frame(read_excel("nanoparticulas_dadosR.xlsx"))
 data_compact_nano$Tratamento <- as.factor(data_compact_nano$Tratamento)
 data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
 data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
 data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 
-data_compact_sal <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/saldezinco_dadosR.xlsx"))
+data_compact_sal <- as.data.frame(read_excel("saldezinco_dadosR.xlsx"))
 data_compact_sal$Tratamento <- as.factor(data_compact_sal$Tratamento)
 data_compact_sal$Comprimento <- as.numeric(data_compact_sal$Comprimento)
 data_compact_sal$Dia <- as.factor(data_compact_sal$Dia)
@@ -115,19 +182,19 @@ fig8 <- "Gráfico do número médio de neonatos para nanopartículas. Assim como
 ```
 
 
-```{r fig.cap=fig1, fig.pos='H', fig.align='center', echo=FALSE}
+```{r fig.cap=fig1, fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=4.0}
 ggplot(data_compact_nano, aes(Dia, Comprimento, group = Dia)) + 
-  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))+theme_classic() +
+  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75))+theme_bw() +
   ggtitle("Diagrama de dispersão do comprimento para cada dia", subtitle = "Nanopartículas") +
   scale_y_continuous("Comprimento (mm)")
 ```
 
 Pela observação dos diagramas de dispersão por dia e tratamento (figura 2) é possível destacar não somente o aumento do comprimento, como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 2, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,1mg/L de nanopartículas).
 
-```{r fig.cap=fig2, fig.pos='H', fig.align='center', echo=FALSE}
+```{r fig.cap=fig2, fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=3.5}
 ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
-  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) + scale_fill_grey() + theme_classic() + ggtitle("Diagramas de dispersão do comprimento para cada nível de tratamento nos dias", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento (mm)")
+  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) + scale_fill_grey() + theme_bw() + ggtitle("Diagramas de dispersão do comprimento para cada nível de tratamento nos dias", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento (mm)")
 #ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
 #  geom_boxplot(colour = "1") + scale_fill_grey() +
 #  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1)
@@ -170,7 +237,7 @@ suporte <- cbind(t, suporte)
 colnames(suporte) <- c("Tratamento", "Dia", "Comprimento médio por dia")
 
 #c("0 = controle", "1 = 0.006mg/L", "2 = 0.0125mg/L", "3 = 0.025mg/L", "4 = 0.05mg/L", "5 = 0.1mg/L")
-ggplot(suporte, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento médio (mm)") +theme_classic()
+ggplot(suporte, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Nanopartículas") + scale_y_continuous("Comprimento médio (mm)") +theme_bw()
 ```
 
 ```{r tabela_medidas_resumo_nanoparticulas, echo=FALSE}
@@ -199,19 +266,21 @@ suporte_ovo_neo <- cbind(t, suporte_ovo_neo)
 colnames(suporte_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "Número médio de neonatos")
 ```
 
-\subsection{Número de ovos e neonatos para nanopartículas}
+\textbf{5.2 Número de ovos e neonatos para nanopartículas}
 
 Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes. Pelos gráficos é possível notar uma característica geral ou tendência de crescimento, com o decorrer dos dias, do número de ovos e neonatos. Apesar disso, não é perceptível uma associação entre os dias e tais variáveis.
 
-```{r grafico_numero_medio_ovos, fig.cap=fig7, fig.pos='H', fig.align='center', echo=FALSE}
-ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de ovos") +theme_classic()
+```{r grafico_numero_medio_ovos, fig.cap=fig7, fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=3.5}
+ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de ovos") +theme_bw()
 ```
 
-```{r grafico_numero_medio_neonatos, fig.cap=fig8, fig.pos='H', fig.align='center', echo=FALSE}
-ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de neonatos") +theme_classic()
+```{r grafico_numero_medio_neonatos, fig.cap=fig8, fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=3.5}
+ggplot(suporte_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Nanopartículas") + scale_y_continuous("Número médio de neonatos") +theme_bw()
 ```
 
-\subsection{Comprimento para sal de zinco}
+\vspace{0.5cm}
+\textbf{5.3 Comprimento para sal de zinco}
+\vspace{0.5cm}
 
 Assim como no caso das nanopartículas, os diagramas de dispersão do comprimento por dia (figura 6) e do gráfico de perfil médio (figura 8), exibem uma associação entre os valores do comprimento com o passar dos dias, ou seja, em geral ao longo dos dias aumenta-se o comprimento dos microcrustáceos. Além disso, também se verifica a característica de crescimento e possível estabilização do comprimento.
 
@@ -226,18 +295,18 @@ fig10 <- " Gráfico do número médio de neonatos por dia para sal de zinco. Mai
 ```
 
 
-```{r graf1,fig.pos='H', fig.cap= fig4, fig.align='center', echo=FALSE}
+```{r graf1,fig.pos='H', fig.cap= fig4, fig.align='center', echo=FALSE, fig.width=7, fig.height=3.5}
 ggplot(data_compact_sal, aes(Dia, Comprimento, group = Dia)) + 
-  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75)) + theme_classic() + ggtitle("Diagrama de dispersão do comprimento para cada dia", subtitle = "Sal de zinco") + scale_y_continuous("Comprimento (mm)")
+  geom_boxplot(outlier.colour = NA) + geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75)) + theme_bw() + ggtitle("Diagrama de dispersão do comprimento para cada dia", subtitle = "Sal de zinco") + scale_y_continuous("Comprimento (mm)")
 ```
 
 Pela observação dos diagramas de dispersão por dia e tratamento (figura 7) é possível destacar não somente o aumento do comprimento como também diferentes taxas de crescimento do comprimento nos diferentes tratamentos. Por exemplo, observa-se pela figura 5, que a maneira pela qual ocorre o aumento do comprimento no tratamento 0 (controle) é maior ao longo dos dias e diferente quando comparado com o tratamento 5 (concentração de 0,09mg/L de sal de zinco).
 
-```{r graf2, fig.pos='H', fig.cap= fig5, fig.align='center', echo=FALSE}
+```{r graf2, fig.pos='H', fig.cap= fig5, fig.align='center', echo=FALSE, fig.width=7, fig.height=4.0}
 ggplot(data_compact_sal, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
   geom_boxplot(colour = "1") + 
   geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 1.3) +
-  scale_fill_grey() + theme_classic() +
+  scale_fill_grey() + theme_bw() +
   ggtitle("Diagramas de dispersão do comprimento para cada nível de tratamento nos dias", subtitle = "Sal de zinco")+
   scale_y_continuous("Comprimento (mm)")
 #ggplot(data_compact_nano, aes(Dia, Comprimento, color = Tratamento, fill = Tratamento)) + 
@@ -245,7 +314,7 @@ ggplot(data_compact_sal, aes(Dia, Comprimento, color = Tratamento, fill = Tratam
 #  geom_point(aes(y=Comprimento, group=Tratamento), position = position_dodge(width=0.75), size = 2, shape = 1)
 ```
 
-```{r calculo_medidas_resumo_salzinco, fig.pos='H', fig.cap=fig6, fig.align='center',echo=FALSE}
+```{r calculo_medidas_resumo_salzinco, fig.pos='H', fig.cap=fig6, fig.align='center',echo=FALSE, fig.width=7, fig.height=3.5}
 lista1_sal <- list(0,0,0,0,0,0) #media
 lista2_sal <- list(0,0,0,0,0,0) #variância
 lista3_sal <- list(0,0,0,0,0,0) #mínimo
@@ -282,8 +351,13 @@ suporte_sal <- cbind(t_sal, suporte_sal)
 colnames(suporte_sal) <- c("Tratamento", "Dia", "Comprimento médio por dia")
 
 #c("0 = controle", "1 = 0.006mg/L", "2 = 0.0125mg/L", "3 = 0.025mg/L", "4 = 0.05mg/L", "5 = 0.1mg/L")
-ggplot(suporte_sal, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Sal de zinco") + scale_y_continuous("Comprimento médio (mm)") +theme_classic()
+
 ```
+
+```{r ,fig.pos='H', fig.cap=fig6, fig.align='center',echo=FALSE, fig.width=7, fig.height=3.5}
+ggplot(suporte_sal, aes(x = Dia, y = `Comprimento médio por dia`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico de perfil médio do comprimento", subtitle = "Sal de zinco") + scale_y_continuous("Comprimento médio (mm)") +theme_bw()
+```
+
 
 ```{r tabela_medidas_resumo_salzinco, echo=FALSE}
 #library(xtable)
@@ -310,22 +384,25 @@ suporte1_ovo_neo <- as.data.frame(cbind(rep(0:8, 6), c(lista11_ovos_neo[[1]], li
 suporte1_ovo_neo <- cbind(t, suporte1_ovo_neo)
 colnames(suporte1_ovo_neo) <- c("Tratamento", "Dia", "Número médio de ovos", "Número médio de neonatos")
 ```
-
-\subsection{Número de ovos e neonatos para sal de zinco}
+\vspace{0.5cm}
+\textbf{5.4 Número de ovos e neonatos para sal de zinco}
+\vspace{0.5cm}
 
 Observe nos gráficos a seguir, que o número médio de ovos e neonatos saem do valor zero nos dias 3 e 4, respectivamente, e passam a variar a partir destes (assim como no caso para nanopartículas). Observe que algo muito parecido acontece com o sal de zinco e nanopartículas. Ou seja, nota-se uma característica geral ou tendência de crescimento, com o decorrer dos dias, do número de ovos e neonatos. Apesar disso, não é perceptível uma associação entre os dias e tais variáveis.
 
 
-```{r grafico_numero_medio_ovos_salzinco, fig.cap=fig9, fig.pos='H', fig.align='center', echo=FALSE}
-ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de ovos") +theme_classic()
+```{r grafico_numero_medio_ovos_salzinco, fig.cap=fig9, fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=3.5}
+ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de ovos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de ovos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de ovos") +theme_bw()
 ```
 
 
-```{r grafico_numero_medio_neonatos_salzinco, fig.cap=fig10, fig.pos='H', fig.align='center', echo=FALSE}
-ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de neonatos") +theme_classic()
+```{r grafico_numero_medio_neonatos_salzinco, fig.cap=fig10, fig.pos='H', fig.align='center', echo=FALSE,  fig.width=7, fig.height=3.5}
+ggplot(suporte1_ovo_neo, aes(x = Dia, y = `Número médio de neonatos`, group = Tratamento)) + geom_line(aes(linetype = Tratamento)) + geom_point(aes(shape = Tratamento)) + ggtitle("Gráfico do número médio de neonatos por dia", subtitle = "Sal de zinco") + scale_y_continuous("Número médio de neonatos") +theme_bw()
 ```
 
-\subsection{Avaliação da concentração 0,006mg/L para nanopatículas e sal de zinco}
+\vspace{0.5cm}
+\textbf{5.5 Avaliação da concentração 0,006mg/L para nanopatículas e sal de zinco}
+\vspace{0.5cm}
 
 Os gráficos a seguir representam os comportamentos diários do comprimento, do comprimento médio (por dia), do número médio de ovos e neonatos para o tratamento 1 (concentração 0,006mg/L) para nanopartículas e sal de zinco. Deseja-se verificar possíveis diferenças e similaridades na mesma concentração para as diferentes partículas.
 
@@ -353,16 +430,16 @@ t1_comp$Indicadora <- as.factor(t1_comp$Indicadora)
 ```
 
 
-```{r grafico_trat1_nano_sal, fig.cap = fig1_t1, fig.pos='H', fig.align='center', echo=FALSE}
+```{r grafico_trat1_nano_sal, fig.cap = fig1_t1, fig.pos='H', fig.align='center', echo=FALSE,  fig.width=7, fig.height=3.5}
 ggplot(t1_comp, aes(Dia, Comprimento, color = Indicadora)) + 
   geom_boxplot(colour = "1", outlier.colour = NA) + 
   geom_point(aes(y=Comprimento, group=Indicadora), position = position_dodge(width=0.75), size = 1.3) +
-  theme_classic() +
+  theme_bw() +
   ggtitle("Diagramas de dispersão do comprimento para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas")+
   scale_y_continuous("Comprimento (mm)") + scale_color_discrete(name = "Nanop./sal", breaks=c("0", "1"), labels=c("Nanopartículas", "Sal de zinco"))
 ```
 
-```{r comprimento_t1, fig.cap=fig2_t1 , fig.pos='H', fig.align='center', echo=FALSE}
+```{r comprimento_t1, fig.cap=fig2_t1 , fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=4.0}
 comp_t1 <- as.data.frame(c(lista1[[2]], lista1_sal[[2]]))
 
 nano <- t(t(rep("Nanopartícula", 9)))
@@ -373,10 +450,10 @@ unir <- rbind(nano, sal)
 comp_t1 <- cbind(as.factor(unir), as.factor(rep(0:8, 2)), comp_t1)
 colnames(comp_t1) <- c("Nanop./sal", "Dia", "Comprimento médio")
 
-ggplot(comp_t1, aes(x = Dia, y = `Comprimento médio`, group = `Nanop./sal`, color = `Nanop./sal`)) + geom_line(aes(linetype = `Nanop./sal`)) + geom_point(aes(shape = `Nanop./sal`)) + ggtitle("Gráfico de perfil médio do comprimento para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas") +theme_classic()+ scale_y_continuous("Comprimento médio (mm)")
+ggplot(comp_t1, aes(x = Dia, y = `Comprimento médio`, group = `Nanop./sal`, color = `Nanop./sal`)) + geom_line(aes(linetype = `Nanop./sal`)) + geom_point(aes(shape = `Nanop./sal`)) + ggtitle("Gráfico de perfil médio do comprimento para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas") +theme_bw()+ scale_y_continuous("Comprimento médio (mm)")
 ```
 
-```{r ovos_neonatos_tratamento1, fig.cap=fig3_t1 , fig.pos='H', fig.align='center', echo=FALSE}
+```{r ovos_neonatos_tratamento1, fig.cap=fig3_t1 , fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=3.5}
 ovo_nanot1 <- as.data.frame(suporte_ovo_neo %>% filter(Tratamento == 1) %>% select(Dia, `Número médio de ovos`))
 ovo_nanot1$Dia <- as.factor(ovo_nanot1$Dia)
 ovo_salt1 <- as.data.frame(suporte1_ovo_neo %>% filter(Tratamento == 1) %>% select(Dia, `Número médio de ovos`))
@@ -386,10 +463,10 @@ ovos <- rbind(ovo_nanot1, ovo_salt1)
 ovos <- cbind(as.factor(unir), ovos)
 colnames(ovos) <- c("Nanop./sal", "Dia", "Número médio de ovos")
 
-ggplot(ovos, aes(x = Dia, y = `Número médio de ovos`, group = `Nanop./sal`, color = `Nanop./sal`)) + geom_line(aes(linetype = `Nanop./sal`)) + geom_point(aes(shape = `Nanop./sal`)) + ggtitle("Gráfico do número médio de ovos por dia para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas") + scale_y_continuous("Número médio de ovos") +theme_classic()
+ggplot(ovos, aes(x = Dia, y = `Número médio de ovos`, group = `Nanop./sal`, color = `Nanop./sal`)) + geom_line(aes(linetype = `Nanop./sal`)) + geom_point(aes(shape = `Nanop./sal`)) + ggtitle("Gráfico do número médio de ovos por dia para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas") + scale_y_continuous("Número médio de ovos") +theme_bw()
 ```
 
-```{r ovos_neonatos_tratamento1_1, fig.cap=fig4_t1 , fig.pos='H', fig.align='center', echo=FALSE}
+```{r ovos_neonatos_tratamento1_1, fig.cap=fig4_t1 , fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=3.5}
 neo_nanot1 <- as.data.frame(suporte_ovo_neo %>% filter(Tratamento == 1) %>% select(Dia, `Número médio de neonatos`))
 neo_nanot1$Dia <- as.factor(neo_nanot1$Dia)
 neo_salt1 <- as.data.frame(suporte1_ovo_neo %>% filter(Tratamento == 1) %>% select(Dia, `Número médio de neonatos`))
@@ -399,17 +476,21 @@ neon <- rbind(neo_nanot1, neo_salt1)
 neon <- cbind(as.factor(unir), neon)
 colnames(neon) <- c("Nanop./sal", "Dia", "Número médio de neonatos")
 
-ggplot(neon, aes(x = Dia, y = `Número médio de neonatos`, group = `Nanop./sal`, color = `Nanop./sal`)) + geom_line(aes(linetype = `Nanop./sal`)) + geom_point(aes(shape = `Nanop./sal`)) + ggtitle("Gráfico do número médio de neonatos por dia para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas") + scale_y_continuous("Número médio de neonatos") +theme_classic()
+ggplot(neon, aes(x = Dia, y = `Número médio de neonatos`, group = `Nanop./sal`, color = `Nanop./sal`)) + geom_line(aes(linetype = `Nanop./sal`)) + geom_point(aes(shape = `Nanop./sal`)) + ggtitle("Gráfico do número médio de neonatos por dia para conc. 0,006mg/L", subtitle = "Sal de zinco e nanopartículas") + scale_y_continuous("Número médio de neonatos") +theme_bw()
 
 ```
+\vspace{0.5cm}
+\textbf{6. Considerações sobre a modelagem}
+\vspace{0.5cm}
 
-\section{Considerações sobre a modelagem}
 
 De acordo com as informações obtidas sobre o projeto, as variáveis dia e concentração (para nanopartículas e sal de zinco) são bem conhecidas, enquanto que as replicações (microcrustáceos) são obtidas de uma maneira aleatória. Com isso, a utilização de modelos mistos, que apresentam tanto fatores de efeitos fixos (dia e concentração) quanto aleatórios (replicações), foi a linha de raciocínio utilizada para o estudo.
 
-\subsection{Modelagem para a variável comprimento}
-
-\subsection{Nanopartículas}
+\vspace{0.5cm}
+\textbf{6.1 Modelagem para a variável comprimento}
+\vspace{0.5cm}
+\textbf{6.2 Nanopartículas}
+\vspace{0.5cm}
 
 Depois de avaliado diferentes propostas de modelos, com diferentes distribuições dos erros, diferentes funções de ligação e estrutura de variância, dois deles foram destacados. Nestes, de acordo com a análise descritiva, consideram a interação entre as variáveis de efeito fixo (dia e tratamento (diferentes concentrações de nanopartículas)) e os erros foram considerados normais com diferentes funções de ligação, a inversa (modelo 1) e a logarítmica (modelo 2). 
 
@@ -428,7 +509,7 @@ leg7 <- "Diagramas de dispersão dos valores residuais para os diferentes tratam
 leg8 <- "Diferentemente do modelo 1, neste caso para os tratamentos 4 e 5 pode-se verificar que não existe pontos extremos. Nos demais casos tais pontos estão presentes, mas em menor quantidade em relação ao modelo 1. Possivelmente isto indica um melhor ajuste do modelo 2."
 ```
 
-```{r modelos_nanoparticulas, fig.cap= leg1, fig.pos='H', fig.align='center', echo=FALSE}
+```{r modelos_nanoparticulas, fig.cap= leg1, fig.pos='H', fig.align='center', echo=FALSE, fig.width=7, fig.height=4.0}
 library(geepack)
 library(lattice)
 library(car)
@@ -501,7 +582,7 @@ qqPlot(fit$residuals,ylab = "Quantil dos resíduos", xlab = "Quantil normal", ma
 ```
 
 
-```{r modelo_com_interecao_link_log, fig.cap= leg2, fig.pos='H', fig.align='center', echo=FALSE}
+```{r modelo_com_interecao_link_log, fig.cap= leg2, fig.pos='H', fig.align='center', echo=FALSE, fig.width=7.0, fig.height=4}
 #fit_new <- geeglm(Comprimento ~ Tratamento + Dia, family = gaussian(link = "log"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
 
 #fit_new <- geeglm(Comprimento ~ Tratamento + Dia, family = gaussian(link = "inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
@@ -518,11 +599,11 @@ Com o objetivo de analisar a variabilidade dos resíduos os gráficos de resídu
 ```
 
 
-```{r ajustados_por_residuos1, fig.cap=leg3 , fig.pos='H', fig.align='center', echo=FALSE}
+```{r ajustados_por_residuos1, fig.cap=leg3 , fig.pos='H', fig.align='center', echo=FALSE, fig.width=7.0, fig.height=4}
 plot(fit$fitted.values, fit$residuals, ylab = "Resíduos modelo 1", xlab = "Valores ajustados", ylim = c(-0.5, 0.7), main = "Resíduos x valores ajustados")
 ```
 
-```{r ajustados_por_residuos2, fig.cap=leg4 , fig.pos='H', fig.align='center', echo=FALSE}
+```{r ajustados_por_residuos2, fig.cap=leg4 , fig.pos='H', fig.align='center', echo=FALSE, fig.width=7.0, fig.height=4}
 plot(fit_log$fitted.values, fit_log$residuals, ylab = "Resíduos modelo 2", xlab = "Valores ajustados", ylim = c(-0.5, 0.7), main = "Resíduos x valores ajustados")
 ```
 
@@ -578,12 +659,12 @@ Pôde-se perceber, através das características residuais, que o modelo 2 (com 
 #summary(fit_log)
 #xtable(coef(summary(fit_log)))
 ```
+\newpage
 
-\begin{table}[H]
-\centering
-\begin{tabular}{rrrrr}
-  \hline
- & Estimativa & Erro padrão & Estatística de Wald & p-valor \\ 
+\begin{center}
+\begin{longtable}{rrrrr}
+  \toprule
+ & Estimativa & Erro padrão & Estatística de Wald & p-valor \\ \midrule
   \hline
 (Intercepto) & -1,00 & 0,01 & 6733,06 & 0,00 \\ 
   Tratamento1 & -0,07 & 0,02 & 10,20 & 0,00 \\ 
@@ -638,12 +719,11 @@ Pôde-se perceber, através das características residuais, que o modelo 2 (com 
   Tratamento2:Dia8 & 0,02 & 0,02 & 0,91 & 0,34 \\ 
   Tratamento3:Dia8 & 0,01 & 0,02 & 0,34 & 0,56 \\ 
   Tratamento4:Dia8 & 0,00 & 0,02 & 0,04 & 0,85 \\ 
-  Tratamento5:Dia8 & -0,06 & 0,03 & 3,95 & 0,05 \\ 
+  Tratamento5:Dia8 & -0,06 & 0,03 & 3,95 & 0,05 \\ \bottomrule
    \hline
-\end{tabular}
 \caption{Tabela que destaca as estimativas dos efeitos principais e das interações, seus erros padrões e significância. No intercepto tem-se a referência para o tatamento 0 (controle) e dia 0. Além disso, é possível destacar que as interações tratamento 5 e dia, e tratamento 3 e dia são as interações que são estatisticamente significantes, a um nível de significância de 0,05. Observe que estes valores são aqueles obtidos para o preditor linear.}
-\end{table}
-
+\end{longtable}
+\end{center}
 
 Os efeitos principais referentes aos tratamentos e dias são estatisticamente significativos, a um nível de significância de 0,05. Com isso existe diferença entre os tratamentos (1,2,3,4,5) e o tratamento 0 (controle) com relação ao dia 0 e entre os diferentes dias (de 1 até 8). Nota-se que muitos termos da interação entre tratamento e dia são não significativos, com exceção do tratamento 5 com alguns dias e tratamento 3 com alguns dias, no entanto foi mantido todas as interações. 
 
@@ -652,7 +732,9 @@ Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos m�
 
 Pode-se perceber que os valores dos comprimentos médios são muito parecidos com o gráfico de perfil médio construído para nanopartículas e com a coluna média (do comprimento médio) da tabela resumo 4 em Anexo.
 
-\subsection{Sal de zinco}
+\vspace{0.5cm}
+\textbf{6.3 Sal de zinco}
+\vspace{0.5cm}
 
 Para sal de zinco, o melhor modelo enontrado foi com distribuição normal do erro, função de ligação logarítmica e estrutura de correlação AR(1). Apesar disso, pelo gráfico de resíduos pode-se observar que muitos valores são superestimados, ou seja, a diferença entre os valores observados e estimados são menores que zero. Observe que muitos dos resíduos estão fora da banda de confiança e distantes da linha de referência no gráfico de quantis. Consequentemente, a cauda à esquerda da distribuição dos resíduos é pesada.
 
@@ -700,17 +782,19 @@ Pela análise residual de diferentes modelos, este foi o que melhor se adequou, 
 
 A partir da tabela é possível identificar que alguns níveis dos efeitos principais são não significativos, mas algumas interações que os envolvem são. Apesar disso, decidiu-se manter todos os parâmetros do modelo.
 
+
 ```{r inferencia_modelo_sal, echo=FALSE}
 #library(xtable)
 #summary(fit_sal)
 #xtable(coef(summary(fit_sal)))
 ```
 
-\begin{table}[H]
-\centering
-\begin{tabular}{rrrrr}
-  \hline
- & Estimativa & Erro padrão & Estatística de Wald & p-valor \\ 
+\newpage
+
+\begin{center}
+\begin{longtable}{rrrrr}
+  \toprule
+ & Estimativa & Erro padrão & Estatística de Wald & p-valor \\ \midrule
   \hline
 (Intercepto) & -1,09 & 0,01 & 9528,77 & 0,00 \\ 
   Tratamento1 & 0,01 & 0,02 & 0,84 & 0,36 \\ 
@@ -765,18 +849,19 @@ A partir da tabela é possível identificar que alguns níveis dos efeitos princ
   Tratamento2:Dia8 & -0,09 & 0,05 & 3,24 & 0,07 \\ 
   Tratamento3:Dia8 & -0,05 & 0,01 & 14,12 & 0,00 \\ 
   Tratamento4:Dia8 & -0,05 & 0,03 & 2,88 & 0,09 \\ 
-  Tratamento5:Dia8 & -0,03 & 0,02 & 2,99 & 0,08 \\ 
+  Tratamento5:Dia8 & -0,03 & 0,02 & 2,99 & 0,08 \\ \bottomrule
    \hline
-\end{tabular}
 \caption{Tabela que destaca as estimativas dos efeitos principais e das interações, seus erros padrões e significância. No intercepto tem-se a referência para o tatamento 0 (controle) e dia 0. Pode-se verificar que, a um nível de significância de 0,05, alguns termos de interação são estatisticamente significativos. Observe que os valores da tabela são aqueles obtidos para o preditor linear.}
-\end{table}
+\end{longtable}
+\end{center}
 
 Note pela tabela acima que muitos efeitos principais, níveis referente ao tratamento, são não significativos a um nível de significância de 0,05. Tal característica é bem diferente quando comparada com as nanopartículas, cuja parte inferencial indicou a significância da variável tratamento. Observa-se, entretanto, que como há interações com níveis da variável que são significativas, decide-se manter os efeitos principais. Segue-se, então, as interpretações das estimativas encontradas, assim como feito anteriormente.
 
 Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos médios (em milímetros): dia 0 e tratamento 0 (controle): 0,337; dia 1 e tratamento 0 (controle): 0,431; dia 2 e tratamento 0 (controle): 0,532; dia 3 e tratamento 0 (controle): 0,613; dia 4 e tratamento 0 (controle): 0,626; dia 5 e tratamento 0 (controle): 0,682; dia 6 e tratamento 0 (controle): 0,704; dia 7 e tratamento 0 (controle): 0,716; dia 8 e tratamento 0 (controle): 0,731; dia 0 e tratamento 1: 0,342; dia 1 e tratamento 1: 0,451; dia 2 tratamento 1: 0,510; dia 3 tratamento 1: 0,582; dia 4 tratamento 1: 0,586; dia 5 e tratamento 1: 0,649; dia 6 tratamento 1: 0,668; dia 7 e tratamento 1: 0,674; dia 8 e tratamento 1: 0,679; dia 0 e tratamento 2: 0,334; dia 1 e tratamento 2: 0,416; dia 2 e tratamento 2: 0,487; dia 3 e tratamento 2: 0,567; dia 4 e tratamento 2: 0,575; dia 5 e tratamento 2: 0,607; dia 6 e tratamento 2: 0,632; dia 7 e tratamento 2: 0,652; dia 8 e tratamento 2: 0,666; dia 0 e tratamento 3: 0,330; dia 1 e tratamento 3: 0,411; dia 2 e tratamento 3: 0,513; dia 3 e tratamento 3: 0,592; dia 4 e tratamento 3: 0,590; dia 5 e tratamento 3: 0,647; dia 6 e tratamento 3: 0,653; dia 7 e tratamento 3: 0,664; dia 8 e tratamento 3: 0,679; dia 0 e tratamento 4: 0,322; dia 1 e tratamento 4: 0,419; dia 2 e tratamento 4: 0,511; dia 3 e tratamento 4: 0,588; dia 4 e tratamento 4: 0,594; dia 5 e tratamento 4: 0,637; dia 6 e tratamento 4: 0,651; dia 7 e tratamento 4: 0,660; dia 8 e tratamento 4: 0,667; dia 0 e tratamento 5: 0,332; dia 1 e tratamento 5: 0,414; dia 2 e tratamento 5: 0,504; dia 3 e tratamento 5: 0,572; dia 4 e tratamento 5: 0,603; dia 5 e tratamento 5: 0,647; dia 6 e tratamento 5: 0,668; dia 7 e tratamento 5: 0,681; dia 8 e tratamento 5: 0,696;
 
-
-\subsection{Considerações sobre a modelagem para número de ovos e neonatos}
+\vspace{0.5cm}
+\textbf{6.4 Considerações sobre a modelagem para número de ovos e neonatos}
+\vspace{0.5cm}
 
 Para a modelagem do número de ovos e neonatos pode-se utilizar a mesma referência de modelagem como na variável comprimento. Entretanto, observa-se pela análise descritiva que não há uma estrutura de dependência entre os dias e as quantidades médias de ovos e neonatos; para estas variáveis, nota-se que a partir do terceiro e quarto dia seus valores médios são diferentes de zero, ou seja, existem muitos valores nulos de número de ovos e neonatos dentro de cada tratamento e para as diferentes replicações.
 
@@ -792,18 +877,20 @@ Pode-se tentar uma outra metodologia, na qual existe a consideração de muitos 
 #teste <- MCMCglmm(Numero_ovos ~ Dia + Tratamento, family = "zipoisson", data = data_compact_nano)
 ```
 
-
-\section{Conclusão}
+\vspace{0.5cm}
+\textbf{7. Conclusão}
+\vspace{0.5cm}
 
 Foi possível perceber que existe diferença nos valores dos comprimentos médios para os diferentes tratamentos em relação ao controle para nanopartículas; no caso de sal de zinco observou-se que muitos dos tratamentos, ao se desconsiderar a relação de tratamento e dia (interação), são não significativos, ou seja, não se percebe diferença nos valores dos comprimentos médios para os diferentes tratamentos e o controle.
 
-\section{Anexos: tabelas resumo das informações de comprimento para nanopartículas e sal de zinco}
+\newpage
 
-\begin{table}[H]
-\centering
-\begin{tabular}{rlrrrrrr}
-  \hline
- Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
+\textbf{8. Anexos:}
+
+\begin{center}
+\begin{longtable}{rlrrrrrr}
+  \toprule
+ Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ \midrule
   \hline
  0 & 0 & 0,34 & 0,0002 & 0,31 & 0,36 & 0,34 \\ 
  0 & 1 & 0,43 & 0,0003 & 0,40 & 0,45 & 0,43 \\ 
@@ -858,17 +945,18 @@ Foi possível perceber que existe diferença nos valores dos comprimentos médio
  5 & 5 & 0,66 & 0,0007 & 0,60 & 0,69 & 0,66 \\ 
  5 & 6 & 0,67 & 0,0004 & 0,66 & 0,72 & 0,67 \\ 
  5 & 7 & 0,69 & 0,0004 & 0,66 & 0,72 & 0,69 \\ 
- 5 & 8 & 0,70 & 0,0005 & 0,67 & 0,72 & 0,70 \\ 
+ 5 & 8 & 0,70 & 0,0005 & 0,67 & 0,72 & 0,70 \\ \bottomrule
    \hline
-\end{tabular}
 \caption{Tabela resumo, para o sal de zinco, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 6.}
-\end{table}
+\end{longtable}
+\end{center}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{rlrrrrrr}
-  \hline
- Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ 
+\newpage
+
+\begin{center}
+\begin{longtable}{rlrrrrrr}
+  \toprule
+ Tratamento & Dia & Média & Variância & Mínimo & Máximo & Mediana \\ \midrule
   \hline
   0 & 0 & 0,37 & 0,0002 & 0,34 & 0,40 & 0,37 \\ 
   0 & 1 & 0,44 & 0,0002 & 0,42 & 0,46 & 0,45 \\ 
@@ -923,8 +1011,8 @@ Foi possível perceber que existe diferença nos valores dos comprimentos médio
   5 & 5 & 0,62 & 0,0015 & 0,55 & 0,67 & 0,64 \\ 
   5 & 6 & 0,65 & 0,0010 & 0,60 & 0,70 & 0,67 \\ 
   5 & 7 & 0,67 & 0,0010 & 0,61 & 0,70 & 0,67 \\ 
-  5 & 8 & 0,68 & 0,0025 & 0,61 & 0,75 & 0,67 \\ 
+  5 & 8 & 0,68 & 0,0025 & 0,61 & 0,75 & 0,67 \\ \bottomrule
    \hline
-\end{tabular}
 \caption{Tabela resumo, para nanopartículas, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 3.}
-\end{table}
+\end{longtable}
+\end{center}
