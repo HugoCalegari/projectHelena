@@ -154,14 +154,14 @@ library(readxl)
 library(dplyr)
 library(ggplot2)
 
-setwd(choose.dir())
-data_compact_nano <- as.data.frame(read_excel("nanoparticulas_dadosR.xlsx"))
+#setwd(choose.dir())
+data_compact_nano <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/nanoparticulas_dadosR.xlsx"))
 data_compact_nano$Tratamento <- as.factor(data_compact_nano$Tratamento)
 data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
 data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
 data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 
-data_compact_sal <- as.data.frame(read_excel("saldezinco_dadosR.xlsx"))
+data_compact_sal <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/saldezinco_dadosR.xlsx"))
 data_compact_sal$Tratamento <- as.factor(data_compact_sal$Tratamento)
 data_compact_sal$Comprimento <- as.numeric(data_compact_sal$Comprimento)
 data_compact_sal$Dia <- as.factor(data_compact_sal$Dia)
@@ -488,8 +488,9 @@ De acordo com as informações obtidas sobre o projeto, as variáveis dia e conc
 
 \vspace{0.5cm}
 \textbf{6.1 Modelagem para a variável comprimento}
+\newline
 \vspace{0.5cm}
-\textbf{6.2 Nanopartículas}
+\textbf{6.1.2 Nanopartículas}
 \vspace{0.5cm}
 
 Depois de avaliado diferentes propostas de modelos, com diferentes distribuições dos erros, diferentes funções de ligação e estrutura de variância, dois deles foram destacados. Nestes, de acordo com a análise descritiva, consideram a interação entre as variáveis de efeito fixo (dia e tratamento (diferentes concentrações de nanopartículas)) e os erros foram considerados normais com diferentes funções de ligação, a inversa (modelo 1) e a logarítmica (modelo 2). 
@@ -701,8 +702,10 @@ Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos m�
 
 Pode-se perceber que os valores dos comprimentos médios são muito parecidos com o gráfico de perfil médio construído para nanopartículas e com a coluna média (do comprimento médio) da tabela resumo 4 em Anexo.
 
-<<<<<<< HEAD
-\subsection{Identificação de igualdade de tratamentos para nanopartículas}
+\vspace{0.5cm}
+\textbf{6.1.3 Identificação de igualdade de tratamentos para nanopartículas}
+\vspace{0.5cm}
+
 
 Pelo modelo 2 e a análise inferencial notou-se que existe evidências amostrais, que de fato indicam diferenças nos comprimentos entre os tratamentos (1,2,3,4 e 5) e o controle (referido como tratamento 0). Entretanto, baseado em testes de hipóteses conjuntos, para avaliar possíveis diferenças nos comprimentos entre tratamentos que não o grupo controle, constatou-se que existe evidências amostrais para não se rejeitar a hipótese de igualdade entre tratamentos (ao se adotar como referência a significância de 0,05). Por exemplo, testou-se a hipótese de igualdade entre os tratamentos 1 e 2, 1 e 3, 1 e 4 e 1 e 5 conjuntamente e, estatisticamente, não houve sua rejeição.
 
@@ -764,12 +767,9 @@ M <- 0
 ```
 
 
-\subsection{Sal de zinco}
-=======
 \vspace{0.5cm}
-\textbf{6.3 Sal de zinco}
+\textbf{6.1.4 Sal de zinco}
 \vspace{0.5cm}
->>>>>>> 4f00ea9ad133cb3d8ccdbd09a948461ca807823e
 
 Para sal de zinco, o melhor modelo enontrado foi com distribuição normal do erro, função de ligação logarítmica e estrutura de correlação AR(1). Apesar disso, pelo gráfico de resíduos pode-se observar que muitos valores são superestimados, ou seja, a diferença entre os valores observados e estimados são menores que zero. Observe que muitos dos resíduos estão fora da banda de confiança e distantes da linha de referência no gráfico de quantis. Consequentemente, a cauda à esquerda da distribuição dos resíduos é pesada.
 
@@ -894,9 +894,9 @@ Note pela tabela acima que muitos efeitos principais, níveis referente ao trata
 
 Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos médios (em milímetros): dia 0 e tratamento 0 (controle): 0,337; dia 1 e tratamento 0 (controle): 0,431; dia 2 e tratamento 0 (controle): 0,532; dia 3 e tratamento 0 (controle): 0,613; dia 4 e tratamento 0 (controle): 0,626; dia 5 e tratamento 0 (controle): 0,682; dia 6 e tratamento 0 (controle): 0,704; dia 7 e tratamento 0 (controle): 0,716; dia 8 e tratamento 0 (controle): 0,731; dia 0 e tratamento 1: 0,342; dia 1 e tratamento 1: 0,451; dia 2 tratamento 1: 0,510; dia 3 tratamento 1: 0,582; dia 4 tratamento 1: 0,586; dia 5 e tratamento 1: 0,649; dia 6 tratamento 1: 0,668; dia 7 e tratamento 1: 0,674; dia 8 e tratamento 1: 0,679; dia 0 e tratamento 2: 0,334; dia 1 e tratamento 2: 0,416; dia 2 e tratamento 2: 0,487; dia 3 e tratamento 2: 0,567; dia 4 e tratamento 2: 0,575; dia 5 e tratamento 2: 0,607; dia 6 e tratamento 2: 0,632; dia 7 e tratamento 2: 0,652; dia 8 e tratamento 2: 0,666; dia 0 e tratamento 3: 0,330; dia 1 e tratamento 3: 0,411; dia 2 e tratamento 3: 0,513; dia 3 e tratamento 3: 0,592; dia 4 e tratamento 3: 0,590; dia 5 e tratamento 3: 0,647; dia 6 e tratamento 3: 0,653; dia 7 e tratamento 3: 0,664; dia 8 e tratamento 3: 0,679; dia 0 e tratamento 4: 0,322; dia 1 e tratamento 4: 0,419; dia 2 e tratamento 4: 0,511; dia 3 e tratamento 4: 0,588; dia 4 e tratamento 4: 0,594; dia 5 e tratamento 4: 0,637; dia 6 e tratamento 4: 0,651; dia 7 e tratamento 4: 0,660; dia 8 e tratamento 4: 0,667; dia 0 e tratamento 5: 0,332; dia 1 e tratamento 5: 0,414; dia 2 e tratamento 5: 0,504; dia 3 e tratamento 5: 0,572; dia 4 e tratamento 5: 0,603; dia 5 e tratamento 5: 0,647; dia 6 e tratamento 5: 0,668; dia 7 e tratamento 5: 0,681; dia 8 e tratamento 5: 0,696;
 
-<<<<<<< HEAD
-
-\subsection{Identificação de igualdade de tratamentos para sal de zinco}
+\vspace{0.5cm}
+\textbf{6.1.5 Identificação de igualdade de tratamentos para sal de zinco}
+\vspace{0.5cm}
 
 Pelo modelo e a análise inferencial notou-se que existe evidências amostrais, que de fato indicam a não diferença nos comprimentos entre os tratamentos (1,2,3,4 e 5) e o controle (referido como tratamento 0). Com base em testes de hipóteses conjuntos, para avaliar possíveis diferenças nos comprimentos entre tratamentos que não o grupo controle, constatou-se que: existe evidências amostrais para se rejeitar a hipótese de igualdade de comprimento entre os tratamentos 1 e 2, 1 e 3, 1 e 4 e 1 e 5. Por meio de testes de hipóteses individuais, de comparação de dois tratamentos, constatou-se que se rejeita a hipótese de igualdade para os tratamentos 1 e 3 e 1 e 4, ao se adotar um nível de significância de 0,05; Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 2 e 3, 2 e 4 e 2 e 5 (para um nível de significância de 0,05); Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 3 e 4 e 3 e 5 (para um nível de significância de 0,05); Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 4 e 5 (para um nível de significância de 0,05).
 
@@ -968,13 +968,10 @@ M <- 0
 ```
 
 
+\vspace{0.5cm}
+\textbf{7. Considerações sobre a modelagem para número de ovos e neonatos}
+\vspace{0.5cm}
 
-\subsection{Considerações sobre a modelagem para número de ovos e neonatos}
-=======
-\vspace{0.5cm}
-\textbf{6.4 Considerações sobre a modelagem para número de ovos e neonatos}
-\vspace{0.5cm}
->>>>>>> 4f00ea9ad133cb3d8ccdbd09a948461ca807823e
 
 Para a modelagem do número de ovos e neonatos pode-se utilizar a mesma referência de modelagem como na variável comprimento. Entretanto, observa-se pela análise descritiva que não há uma estrutura de dependência entre os dias e as quantidades médias de ovos e neonatos; para estas variáveis, nota-se que a partir do terceiro e quarto dia seus valores médios são diferentes de zero, ou seja, existem muitos valores nulos de número de ovos e neonatos dentro de cada tratamento e para as diferentes replicações.
 
@@ -991,20 +988,16 @@ Pode-se tentar uma outra metodologia, na qual existe a consideração de muitos 
 ```
 
 \vspace{0.5cm}
-\textbf{7. Conclusão}
+\textbf{8. Conclusão}
 \vspace{0.5cm}
 
 Foi possível perceber que existe diferença nos valores dos comprimentos médios para os diferentes tratamentos em relação ao controle para nanopartículas; no caso de sal de zinco observou-se que muitos dos tratamentos, ao se desconsiderar a relação de tratamento e dia (interação), são não significativos, ou seja, não se percebe diferença nos valores dos comprimentos médios para os diferentes tratamentos e o controle.
 
-<<<<<<< HEAD
 Como visto nas seções anteriores, não se tem evidências amostrais para se rejeitar a hipótese de igualdade dos comprimentos médios entre os tratamentos (ao se desconsiderar o controle), no caso de nanopartículas. Para o sal de zinco, foi possível identificar que se rejeita a hipótese de igualdade dos comprimentos médios somente para os tratamentos 1 e 3 e 1 e 4.
 
-\section{Anexos: tabelas resumo das informações de comprimento para nanopartículas e sal de zinco}
-=======
 \newpage
->>>>>>> 4f00ea9ad133cb3d8ccdbd09a948461ca807823e
 
-\textbf{8. Anexos:}
+\textbf{9. Anexos:tabelas resumo das informações de comprimento para nanopartículas e sal de zinco}
 
 \begin{center}
 \begin{longtable}{rlrrrrrr}
