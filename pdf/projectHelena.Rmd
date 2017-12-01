@@ -449,38 +449,6 @@ source("gee_teste.R")
 
 fit <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
 
-l <- geese(Comprimento ~ Tratamento*Dia, family = gaussian(link = "inverse"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
-dim(l$vbeta)
-
-l12 <- c(0,1,-1, 0, rep(0,50))
-l13 <- c(0,1,0,-1, rep(0,50))
-l14 <- c(0,1,0,0, -1, rep(0,49))
-l15 <- c(0,1,0,0, 0, -1, rep(0,48))
-
-C <- rbind(l12, l13, l14,l15)
-
-M <- t(t(as.matrix(c(rep(0,4)))))
-
-#gee.testeF.CBM.MLG(fit, l, C, M)
-
-########################################################################################
-m.c <- t(as.matrix( c(0,1,-1, 0, rep(0,50)),c(0,1,0,-1, rep(0,50))) ) #teste para a diferença entre o tratamento 1 e 2
-m.M <- 0
-#gee.testeF.CBM.MLG(fit, l, m.c, m.M)
-
-m.c <- t(as.matrix(c(0,1,0,-1, rep(0,50)))) #teste para a diferença entre o tratamento 1 e 3
-m.M <- 0
-#gee.testeF.CBM.MLG(fit, l, m.c, m.M)
-
-m.c <- t(as.matrix(c(0,1,0,0, -1, rep(0,49)))) #teste para a diferença entre o tratamento 1 e 4
-m.M <- 0
-#gee.testeF.CBM.MLG(fit, l, m.c, m.M)
-
-m.c <- t(as.matrix(c(0,1,0,0, 0, -1, rep(0,48)))) #teste para a diferença entre o tratamento 1 e 5
-m.M <- 0
-#gee.testeF.CBM.MLG(fit, l, m.c, m.M)
-
-
 #bwplot(data_compact_nano$Tratamento ~ fit1$residuals)
 
 #bwplot(data_compact_nano$Dia ~ fit1$residuals)
@@ -511,10 +479,11 @@ fit_log <- geeglm(Comprimento ~ Tratamento*Dia, family = gaussian(link = "log"),
 qqPlot(fit_log$residuals,ylab = "Quantil dos resíduos", xlab = "Quantil normal", main = "Gráfico de quantil residual e quantil teórico normal modelo 2",grid = F)
 ```
 
+
 Com o objetivo de analisar a variabilidade dos resíduos os gráficos de resíduos por valores ajustados foram considerados e pode-se perceber a não uniformidade da variância residual para o modelo 1 (e maior quando comparada com o modelo 2), enquanto que para o modelo 2 a variabilidade do resíduo é uniforme. Verifica-se também a concentração dos resíduos do modelo 1 em um intervalo aproximado de ($-0,4$; $0,4$) e do modelo 2 ($-0,2$;$0,2$).
 
 ```{r inf1_modelo_com_interacao_link_inversa, echo=FALSE}
-#summary(fit)
+#summary(fit_log)
 ```
 
 
@@ -652,6 +621,68 @@ Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos m�
 
 Pode-se perceber que os valores dos comprimentos médios são muito parecidos com o gráfico de perfil médio construído para nanopartículas e com a coluna média (do comprimento médio) da tabela resumo 4 em Anexo.
 
+\subsection{Identificação de igualdade de tratamentos para nanopartículas}
+
+Pelo modelo 2 e a análise inferencial notou-se que existe evidências amostrais, que de fato indicam diferenças nos comprimentos entre os tratamentos (1,2,3,4 e 5) e o controle (referido como tratamento 0). Entretanto, baseado em testes de hipóteses conjuntos, para avaliar possíveis diferenças nos comprimentos entre tratamentos que não o grupo controle, constatou-se que existe evidências amostrais para não se rejeitar a hipótese de igualdade entre tratamentos (ao se adotar como referência a significância de 0,05). Por exemplo, testou-se a hipótese de igualdade entre os tratamentos 1 e 2, 1 e 3, 1 e 4 e 1 e 5 conjuntamente e, estatisticamente, não houve sua rejeição.
+
+Observe que os resultados obtidos foram baseados em um modelo que não se caracterizou como o ideal, mas foi o que melhor se enquadrou dentro do cenário proposto e estudado.
+
+```{r testes_CB, echo=FALSE}
+l <- geese(Comprimento ~ Tratamento*Dia, family = gaussian(link = "log"), id = Repeticao, corstr = "ar1", data = data_compact_nano)
+#dim(l$vbeta)
+
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 1 e 2; 1 e 3; 1 e 4 e 1 e 5
+
+l12 <- c(0,1,-1, 0, rep(0,50))
+l13 <- c(0,1,0,-1, rep(0,50))
+l14 <- c(0,1,0,0, -1, rep(0,49))
+l15 <- c(0,1,0,0, 0, -1, rep(0,48))
+
+C <- rbind(l12, l13, l14,l15)
+
+M <- t(t(as.matrix(c(rep(0,4)))))
+
+#gee.testeF.CBM.MLG(fit_log, l, C, M) 
+#Não existe evidências amostrais para se rejeitar a hipótese nula de igualdade dos tratamentos 1 e 2; 1 e 3; 1 e 4 e 1 e 5.
+
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 2 e 3; 2 e 4 e 2 e 5.
+
+l23 <- c(0,0,1, -1, rep(0,50))
+l24 <- c(0,0,1,0, -1, rep(0,49))
+l25 <- c(0,0,1,0, 0, -1, rep(0,48))
+
+C <- rbind(l23,l24,l25)
+
+M <- t(t(as.matrix(c(rep(0,3)))))
+
+#gee.testeF.CBM.MLG(fit_log, l, C, M) 
+#Não existe evidências amostrais para se rejeitar a hipótese nula de igualdade dos tratamentos 2 e 3; 2 e 4 e 2 e 5.
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 3 e 4; 3 e 5.
+
+l34 <- c(0,0,0, 1, -1, rep(0,49))
+l35 <- c(0,0,0,1, 0, -1, rep(0,48))
+
+C <- rbind(l34,l35)
+
+M <- t(t(as.matrix(c(rep(0,2)))))
+
+#gee.testeF.CBM.MLG(fit_log, l, C, M) 
+#Não existe evidências amostrais para se rejeitar a hipótese nula de igualdade dos tratamentos 3 e 4; 3 e 5.
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 4 e 5.
+
+C <- t(c(0,0,0,0, 1, -1, rep(0,48)))
+
+M <- 0
+
+#gee.testeF.CBM.MLG(fit_log, l, C, M) 
+#Não existe evidências amostrais para se rejeitar a hipótese nula de igualdade dos tratamentos 4 e 5.
+```
+
+
 \subsection{Sal de zinco}
 
 Para sal de zinco, o melhor modelo enontrado foi com distribuição normal do erro, função de ligação logarítmica e estrutura de correlação AR(1). Apesar disso, pelo gráfico de resíduos pode-se observar que muitos valores são superestimados, ou seja, a diferença entre os valores observados e estimados são menores que zero. Observe que muitos dos resíduos estão fora da banda de confiança e distantes da linha de referência no gráfico de quantis. Consequentemente, a cauda à esquerda da distribuição dos resíduos é pesada.
@@ -776,6 +807,79 @@ Note pela tabela acima que muitos efeitos principais, níveis referente ao trata
 Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos médios (em milímetros): dia 0 e tratamento 0 (controle): 0,337; dia 1 e tratamento 0 (controle): 0,431; dia 2 e tratamento 0 (controle): 0,532; dia 3 e tratamento 0 (controle): 0,613; dia 4 e tratamento 0 (controle): 0,626; dia 5 e tratamento 0 (controle): 0,682; dia 6 e tratamento 0 (controle): 0,704; dia 7 e tratamento 0 (controle): 0,716; dia 8 e tratamento 0 (controle): 0,731; dia 0 e tratamento 1: 0,342; dia 1 e tratamento 1: 0,451; dia 2 tratamento 1: 0,510; dia 3 tratamento 1: 0,582; dia 4 tratamento 1: 0,586; dia 5 e tratamento 1: 0,649; dia 6 tratamento 1: 0,668; dia 7 e tratamento 1: 0,674; dia 8 e tratamento 1: 0,679; dia 0 e tratamento 2: 0,334; dia 1 e tratamento 2: 0,416; dia 2 e tratamento 2: 0,487; dia 3 e tratamento 2: 0,567; dia 4 e tratamento 2: 0,575; dia 5 e tratamento 2: 0,607; dia 6 e tratamento 2: 0,632; dia 7 e tratamento 2: 0,652; dia 8 e tratamento 2: 0,666; dia 0 e tratamento 3: 0,330; dia 1 e tratamento 3: 0,411; dia 2 e tratamento 3: 0,513; dia 3 e tratamento 3: 0,592; dia 4 e tratamento 3: 0,590; dia 5 e tratamento 3: 0,647; dia 6 e tratamento 3: 0,653; dia 7 e tratamento 3: 0,664; dia 8 e tratamento 3: 0,679; dia 0 e tratamento 4: 0,322; dia 1 e tratamento 4: 0,419; dia 2 e tratamento 4: 0,511; dia 3 e tratamento 4: 0,588; dia 4 e tratamento 4: 0,594; dia 5 e tratamento 4: 0,637; dia 6 e tratamento 4: 0,651; dia 7 e tratamento 4: 0,660; dia 8 e tratamento 4: 0,667; dia 0 e tratamento 5: 0,332; dia 1 e tratamento 5: 0,414; dia 2 e tratamento 5: 0,504; dia 3 e tratamento 5: 0,572; dia 4 e tratamento 5: 0,603; dia 5 e tratamento 5: 0,647; dia 6 e tratamento 5: 0,668; dia 7 e tratamento 5: 0,681; dia 8 e tratamento 5: 0,696;
 
 
+\subsection{Identificação de igualdade de tratamentos para sal de zinco}
+
+Pelo modelo e a análise inferencial notou-se que existe evidências amostrais, que de fato indicam a não diferença nos comprimentos entre os tratamentos (1,2,3,4 e 5) e o controle (referido como tratamento 0). Com base em testes de hipóteses conjuntos, para avaliar possíveis diferenças nos comprimentos entre tratamentos que não o grupo controle, constatou-se que: existe evidências amostrais para se rejeitar a hipótese de igualdade de comprimento entre os tratamentos 1 e 2, 1 e 3, 1 e 4 e 1 e 5. Por meio de testes de hipóteses individuais, de comparação de dois tratamentos, constatou-se que se rejeita a hipótese de igualdade para os tratamentos 1 e 3 e 1 e 4, ao se adotar um nível de significância de 0,05; Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 2 e 3, 2 e 4 e 2 e 5 (para um nível de significância de 0,05); Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 3 e 4 e 3 e 5 (para um nível de significância de 0,05); Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 4 e 5 (para um nível de significância de 0,05).
+
+Observe que os resultados obtidos foram baseados em um modelo que não se caracterizou como o ideal, mas foi o que melhor se enquadrou dentro do cenário proposto e estudado.
+
+
+```{r testes_CB_sal_zinco, echo=FALSE}
+l <- geese(Comprimento ~ Tratamento*Dia, family = gaussian(link = "log"), id = Repetição, corstr = "ar1", data = data_compact_sal)
+#dim(l$vbeta)
+
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 1 e 2; 1 e 3; 1 e 4 e 1 e 5
+
+l12 <- c(0,1,-1, 0, rep(0,50))
+l13 <- c(0,1,0,-1, rep(0,50))
+l14 <- c(0,1,0,0, -1, rep(0,49))
+l15 <- c(0,1,0,0, 0, -1, rep(0,48))
+
+C <- rbind(l12, l13, l14,l15)
+
+M <- t(t(as.matrix(c(rep(0,4)))))
+
+#gee.testeF.CBM.MLG(fit_sal, l, C, M) 
+#Existe evidências amostrais para não se rejeitar a hipótese nula de igualdade dos tratamentos 1 e 2; 1 e 3; 1 e 4 e 1 e 5.
+
+l12 <- t(c(0,1,-1, 0, rep(0,50))) #não se rej a hipótese de igualdade
+l13 <- t(c(0,1,0,-1, rep(0,50))) #se rej a hipótese de igualdade, para alfa = 0,05;não se rej para alfa = 0,01
+l14 <- t(c(0,1,0,0, -1, rep(0,49)))#se rej a hipótese de igualdade, para alfa = 0,05;se rej para alfa = 0,01
+l15 <- t(c(0,1,0,0, 0, -1, rep(0,48))) #não se rej a hipótese de igualdade
+M <- 0
+#gee.testeF.CBM.MLG(fit_sal, l, l12, M) 
+#gee.testeF.CBM.MLG(fit_sal, l, l13, M) 
+#gee.testeF.CBM.MLG(fit_sal, l, l14, M) 
+#gee.testeF.CBM.MLG(fit_sal, l, l15, M)
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 2 e 3; 2 e 4 e 2 e 5.
+
+l23 <- c(0,0,1, -1, rep(0,50))
+l24 <- c(0,0,1,0, -1, rep(0,49))
+l25 <- c(0,0,1,0, 0, -1, rep(0,48))
+
+C <- rbind(l23,l24,l25)
+
+M <- t(t(as.matrix(c(rep(0,3)))))
+
+#gee.testeF.CBM.MLG(fit_sal, l, C, M) 
+#Não existe evidências amostrais para se rejeitar a hipótese nula de igualdade dos tratamentos 2 e 3; 2 e 4 e 2 e 5.
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 3 e 4; 3 e 5.
+
+l34 <- c(0,0,0, 1, -1, rep(0,49))
+l35 <- c(0,0,0,1, 0, -1, rep(0,48))
+
+C <- rbind(l34,l35)
+
+M <- t(t(as.matrix(c(rep(0,2)))))
+
+#gee.testeF.CBM.MLG(fit_log, l, C, M) 
+#Não existe evidências amostrais para se rejeitar a hipótese nula de igualdade dos tratamentos 3 e 4; 3 e 5.
+########################################################################################
+#Teste conjunto para a diferença entre os tratamentos 4 e 5.
+
+C <- t(c(0,0,0,0, 1, -1, rep(0,48)))
+
+M <- 0
+
+#gee.testeF.CBM.MLG(fit_log, l, C, M) 
+#Não existe evidências amostrais para se rejeitar a hipótese nula de igualdade dos tratamentos 4 e 5.
+```
+
+
+
 \subsection{Considerações sobre a modelagem para número de ovos e neonatos}
 
 Para a modelagem do número de ovos e neonatos pode-se utilizar a mesma referência de modelagem como na variável comprimento. Entretanto, observa-se pela análise descritiva que não há uma estrutura de dependência entre os dias e as quantidades médias de ovos e neonatos; para estas variáveis, nota-se que a partir do terceiro e quarto dia seus valores médios são diferentes de zero, ou seja, existem muitos valores nulos de número de ovos e neonatos dentro de cada tratamento e para as diferentes replicações.
@@ -796,6 +900,8 @@ Pode-se tentar uma outra metodologia, na qual existe a consideração de muitos 
 \section{Conclusão}
 
 Foi possível perceber que existe diferença nos valores dos comprimentos médios para os diferentes tratamentos em relação ao controle para nanopartículas; no caso de sal de zinco observou-se que muitos dos tratamentos, ao se desconsiderar a relação de tratamento e dia (interação), são não significativos, ou seja, não se percebe diferença nos valores dos comprimentos médios para os diferentes tratamentos e o controle.
+
+Como visto nas seções anteriores, não se tem evidências amostrais para se rejeitar a hipótese de igualdade dos comprimentos médios entre os tratamentos (ao se desconsiderar o controle), no caso de nanopartículas. Para o sal de zinco, foi possível identificar que se rejeita a hipótese de igualdade dos comprimentos médios somente para os tratamentos 1 e 3 e 1 e 4.
 
 \section{Anexos: tabelas resumo das informações de comprimento para nanopartículas e sal de zinco}
 
