@@ -160,8 +160,8 @@ data_compact_nano$Tratamento <- as.factor(data_compact_nano$Tratamento)
 data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
 data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
 data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
-
-data_compact_sal <- as.data.frame(read_excel("/dados/saldezinco_dadosR.xlsx"))
+#/home/hugo/Documentos/ME810/HELENA/projectHelena/
+data_compact_sal <- as.data.frame(read_excel("dados/saldezinco_dadosR.xlsx"))
 data_compact_sal$Tratamento <- as.factor(data_compact_sal$Tratamento)
 data_compact_sal$Comprimento <- as.numeric(data_compact_sal$Comprimento)
 data_compact_sal$Dia <- as.factor(data_compact_sal$Dia)
@@ -1001,7 +1001,7 @@ Como visto nas seções anteriores, não se tem evidências amostrais para se re
 
 \newpage
 
-\textbf{9. Anexos:tabelas resumo das informações de comprimento para nanopartículas e sal de zinco}
+\textbf{9. Anexos:tabelas resumo das informações de comprimento para nanopartículas e sal de zinco e função para o teste conjunto}
 
 \begin{center}
 \begin{longtable}{rlrrrrrr}
@@ -1132,3 +1132,18 @@ Como visto nas seções anteriores, não se tem evidências amostrais para se re
 \caption{Tabela resumo, para nanopartículas, dos valores do comprimento para os dias nos diferentes tratamentos. Note que o comportamento do comprimento médio ao longo dos dias pode ser visualizado pelo gráfico de perfil médio, na figura 3.}
 \end{longtable}
 \end{center}
+
+```{r funcao_teste_conjunto, echo=TRUE}
+gee.testeF.CBM.MLG <- function(glm.fit.model,geese.fit.model,m.C,m.M)
+{
+v.beta <-  cbind(glm.fit.model$coef)
+e.q <- nrow(m.C)
+m.cov.beta <- (geese.fit.model$vbeta)
+e.Q <- t(m.C%*%v.beta-m.M)%*%solve(m.C%*%m.cov.beta%*%t(m.C))%*%(m.C%*%v.beta-m.M)
+e.pvalor <- 1-pchisq(e.Q,e.q)
+cat("Estatistica Q = ",round(e.Q,2),"\n")
+cat("gl = ",e.q,"\n")
+cat("pvalor = ",round(e.pvalor,4),"\n")
+}
+```
+
