@@ -154,14 +154,14 @@ library(readxl)
 library(dplyr)
 library(ggplot2)
 
-setwd(choose.dir())
-data_compact_nano <- as.data.frame(read_excel("/dados/nanoparticulas_dadosR.xlsx"))
+#setwd(choose.dir())
+data_compact_nano <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/nanoparticulas_dadosR.xlsx"))
 data_compact_nano$Tratamento <- as.factor(data_compact_nano$Tratamento)
 data_compact_nano$Comprimento <- as.numeric(data_compact_nano$Comprimento)
 data_compact_nano$Dia <- as.factor(data_compact_nano$Dia)
 data_compact_nano$Repeticao <- as.factor(data_compact_nano$Repeticao)
 
-data_compact_sal <- as.data.frame(read_excel("/dados/saldezinco_dadosR.xlsx"))
+data_compact_sal <- as.data.frame(read_excel("/home/hugo/Documentos/ME810/HELENA/projectHelena/dados/saldezinco_dadosR.xlsx"))
 data_compact_sal$Tratamento <- as.factor(data_compact_sal$Tratamento)
 data_compact_sal$Comprimento <- as.numeric(data_compact_sal$Comprimento)
 data_compact_sal$Dia <- as.factor(data_compact_sal$Dia)
@@ -709,6 +709,8 @@ Pode-se perceber que os valores dos comprimentos médios são muito parecidos co
 
 Pelo modelo 2 e a análise inferencial notou-se que existe evidências amostrais, que de fato indicam diferenças nos comprimentos entre os tratamentos (1,2,3,4 e 5) e o controle (referido como tratamento 0). Entretanto, baseado em testes de hipóteses conjuntos, para avaliar possíveis diferenças nos comprimentos entre tratamentos que não o grupo controle, constatou-se que existe evidências amostrais para não se rejeitar a hipótese de igualdade entre tratamentos (ao se adotar como referência a significância de 0,05). Por exemplo, testou-se a hipótese de igualdade entre os tratamentos 1 e 2, 1 e 3, 1 e 4 e 1 e 5 conjuntamente e, estatisticamente, não houve sua rejeição.
 
+Ao se comparar as características descritivas (gráfico de perfil médio do comprimento), com os resultados dos testes de hipóteses realizados, nota-se que: existe de fato diferença entre os diferentes tratamentos e o controle (tratamento 0); embora pelo teste de hipótese conjunto não se rejeita a hipótese de igualdade dos tratamentos 1 e 2, 1 e 3, 1 e 4 e 1 e 5, descritivamente, observa-se que a partir do quinto dia existe um comportamento diferente para os tratamentos em relação ao tratmento 1; situação semelhante ocorre com teste conjunto de igualdade entre os tratmentos 2 e 3, 2 e 4 e 2 e 5; para o teste conjunto de igualdade entre os tratamentos 3 e 4, 3 e 5 e 4 e 5, pode-se notar que existe certa concordância com o comportamento dos comprimentos médios.
+
 Observe que os resultados obtidos foram baseados em um modelo que não se caracterizou como o ideal, mas foi o que melhor se enquadrou dentro do cenário proposto e estudado.
 
 ```{r testes_CB, echo=FALSE}
@@ -899,6 +901,8 @@ Baseado na tabela acima, tem-se as seguintes estimativas para os comprimentos m�
 \vspace{0.5cm}
 
 Pelo modelo e a análise inferencial notou-se que existe evidências amostrais, que de fato indicam a não diferença nos comprimentos entre os tratamentos (1,2,3,4 e 5) e o controle (referido como tratamento 0). Com base em testes de hipóteses conjuntos, para avaliar possíveis diferenças nos comprimentos entre tratamentos que não o grupo controle, constatou-se que: existe evidências amostrais para se rejeitar a hipótese de igualdade de comprimento entre os tratamentos 1 e 2, 1 e 3, 1 e 4 e 1 e 5. Por meio de testes de hipóteses individuais, de comparação de dois tratamentos, constatou-se que se rejeita a hipótese de igualdade para os tratamentos 1 e 3 e 1 e 4, ao se adotar um nível de significância de 0,05; Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 2 e 3, 2 e 4 e 2 e 5 (para um nível de significância de 0,05); Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 3 e 4 e 3 e 5 (para um nível de significância de 0,05); Não existe evidências amostrais para se rejeitar a hipótese de igualdade para os tratamentos 4 e 5 (para um nível de significância de 0,05).
+
+Ao se comparar as características descritivas (gráfico de perfil médio do comprimento), com os resultados dos testes de hipóteses realizados, nota-se que: o tratamento 1, de maneira geral, difere mais do tratamento 2 a partir do quinto dia, enquanto que em relação aos demais tratamentos observa-se que as medidas dos comprimentos são muito próximas; pelo gráfico de perfil médio verifica-se que o tratamento 2 difere mais substancialmente do tratamento 5 do que em relação aos tratmentos 3 e 4, característica não compatível com o teste de hipótese (muito provavelmente pelo ajuste); os tratamentos 3 e 4 possuem comprimentos médios muito próximos ao longo dos dias e pouca diferença é notável quando se compara os tratamentos 3 e 5 (característica compatível com o teste de hipótese); fato semelhante ocorre ao se avaliar os tratamentos 4 e 5.
 
 Observe que os resultados obtidos foram baseados em um modelo que não se caracterizou como o ideal, mas foi o que melhor se enquadrou dentro do cenário proposto e estudado.
 
